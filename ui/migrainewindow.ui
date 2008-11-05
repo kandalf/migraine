@@ -1,0 +1,168 @@
+<ui version="4.0" >
+ <class>MigraineWindow</class>
+ <widget class="QMainWindow" name="MigraineWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Migraine - DB Migration Tool</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QGridLayout" name="gridLayout_2" >
+    <item row="0" column="0" >
+     <widget class="QSplitter" name="splitter_2" >
+      <property name="orientation" >
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QSplitter" name="splitter" >
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <widget class="QWidget" name="layoutWidget" >
+        <layout class="QVBoxLayout" name="verticalLayout_2" >
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout" >
+           <item>
+            <widget class="QLabel" name="label" >
+             <property name="text" >
+              <string>&amp;Connections</string>
+             </property>
+             <property name="buddy" >
+              <cstring>dbSrcConnCombo</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="dbSrcConnCombo" />
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout" >
+           <item>
+            <widget class="QLabel" name="label_3" >
+             <property name="text" >
+              <string>&amp;Databases</string>
+             </property>
+             <property name="buddy" >
+              <cstring>sourceDbView</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QListView" name="sourceDbView" />
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="layoutWidget_2" >
+        <layout class="QVBoxLayout" name="verticalLayout_3" >
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3" >
+           <item>
+            <widget class="QLabel" name="label_2" >
+             <property name="text" >
+              <string>&amp;Connections</string>
+             </property>
+             <property name="buddy" >
+              <cstring>dbSrcConnCombo</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="dbDestConnCombo" />
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_4" >
+           <item>
+            <widget class="QLabel" name="label_4" >
+             <property name="text" >
+              <string>&amp;Databases</string>
+             </property>
+             <property name="buddy" >
+              <cstring>sourceDbView</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QListView" name="destDbView" />
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QTabWidget" name="notifyTabWidget" >
+       <property name="currentIndex" >
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab" >
+        <attribute name="title" >
+         <string>Tab 1</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout" >
+         <item row="0" column="0" >
+          <widget class="QTextEdit" name="logTextEdit" />
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_File" >
+    <property name="title" >
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionConnections" />
+   </widget>
+   <addaction name="menu_File" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <action name="actionConnections" >
+   <property name="text" >
+    <string>Connections</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionConnections</sender>
+   <signal>activated()</signal>
+   <receiver>MigraineWindow</receiver>
+   <slot>showConnectionDialog()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>showConnectionDialog()</slot>
+ </slots>
+</ui>
