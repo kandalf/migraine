@@ -1,5 +1,6 @@
+#include <QSettings>
+#include "migrainemainwindow.h"
 #include "connectiondialog.h"
-
 
 
 ConnectionDialog::ConnectionDialog(QWidget *parent, Qt::WFlags f) : QDialog(parent, f)
@@ -8,6 +9,7 @@ ConnectionDialog::ConnectionDialog(QWidget *parent, Qt::WFlags f) : QDialog(pare
 	this->saved = false;
 	driversComboBox->addItems(QSqlDatabase::drivers());
 	splitter->setStretchFactor(0, 1);
+	connect( this, SIGNAL(accepted()), this, SLOT(writeSettings()) );
 }
 
 void ConnectionDialog::checkConnectionFields()
@@ -24,21 +26,50 @@ void ConnectionDialog::addConnection()
 		QString connectionName(hostLineEdit->text() + "-" + databaseLineEdit->text());
 		QString driverName(driversComboBox->itemText(driversComboBox->currentIndex()));
 		
-	 	connectionHash[connectionName] = QSqlDatabase::addDatabase(
+	 	QSqlDatabase db = QSqlDatabase::addDatabase(
 			driverName,
 			connectionName
 	);
 	
 	if (driverName.contains("ODBC")) {
 		QString dbName = "DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=%1";
-		connectionHash[connectionName].setDatabaseName(dbName.arg(databaseLineEdit->text()));
+		db.setDatabaseName(dbName.arg(databaseLineEdit->text()));
 	} else {
-		connectionHash[connectionName].setDatabaseName(databaseLineEdit->text());
-		connectionHash[connectionName].setHostName(hostLineEdit->text());
-		connectionHash[connectionName].setUserName(userLineEdit->text());
-		connectionHash[connectionName].setPassword(passwordLineEdit->text());
+		db.setDatabaseName(databaseLineEdit->text());
+		db.setHostName(hostLineEdit->text());
+		db.setUserName(userLineEdit->text());
+		db.setPassword(passwordLineEdit->text());
 	}
 	
 	connListWidget->addItem(new QListWidgetItem(hostLineEdit->text() + "-" + databaseLineEdit->text(), connListWidget, QListWidgetItem::Type));
 }
-// place your code here
+
+
+void ConnectionDialog::readSettings()
+{
+	
+}
+
+void ConnectionDialog::writeSettings()
+{
+	QSettings settings("conf/settings.ini", QSettings::IniFormat);
+	
+	settings.beginGroup("Connections");
+	
+	for (int i = 0; i < QSqlDatabase::connectionNames().size(); i++)
+	{
+		QSqlDatabase db = QSqlDatabase::database(QSqlDatabase::connectionNames().at(i));
+		settings.beginGroup("Connections/" + db.connectionName());
+		//settings.setValue("name", db.connectionName());
+		settings.setValue("hostname", db.hostName());
+		settings.setValue("username", db.userName());
+		settings.setValue("password", db.password());
+		settings.setValue("driver", db.driverName());
+		settings.endGroup();
+	}
+	
+	settings.endGroup();
+	
+	settings.sync();
+	emit(settingsWritten());
+}

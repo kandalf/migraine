@@ -1,6 +1,7 @@
 #include <QSqlDatabase>
 #include <QStringListModel>
 #include <QSqlError>
+#include <QSettings>
 
 #include "migrainemainwindow.h"
 #include "connectiondialog.h"
@@ -8,20 +9,19 @@
 MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f) 
 	: QMainWindow(parent, f)
 {
+	QCoreApplication::setApplicationName("Migraine");
+	QCoreApplication::setOrganizationDomain("snichaos.com");
+	QCoreApplication::setOrganizationName("SNI");
+	
 	setupUi(this);
 	setupObjectConnections();
 	refreshConnections();
 	hSplitter->setStretchFactor(0,1);
+	vSplitter->setStretchFactor(1,1);
 	connDialog = 0;
-	/*
-	QFile file("data/Database1.mdb");
-	if (file.open(QIODevice::ReadOnly)) {
-		logTextEdit->setText("Data file readable");
-		file.close();
-	} else {
-		logTextEdit->setText("Cannot open data file");
-		logTextEdit->append(file.errorString());
-	}*/
+	
+	_settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
+	readSettings();
 }
 
 MigraineMainWindow::~MigraineMainWindow()
@@ -43,19 +43,10 @@ void MigraineMainWindow::showConnectionDialog()
 	if (!connDialog) {
 		connDialog = new ConnectionDialog(this);
 		connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
+		connect( connDialog, SIGNAL(settingsWritten()), this, SLOT(readSettings()) );
 	}
 		
 	connDialog->show();
-	/*
-	QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-	db.setDatabaseName("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=data/Database1.mdb");
-	db.open();
-	if (db.isOpen())
-		logTextEdit->setText("Open");
-	else
-		logTextEdit->setText("Canot open db");
-	
-	db.close();*/
 }
 
 void MigraineMainWindow::refreshConnections()
@@ -75,8 +66,24 @@ void MigraineMainWindow::connectionSelected(const QString &name)
 	if (!db.isOpen())
 	{
 		logTextEdit->append("Cannot Open Database: " + db.lastError().text());
+		return;
 	}
 		
 	QStringListModel *model = new QStringListModel(db.tables(QSql::Tables), connTablesView);
 	connTablesView->setModel(model);
+}
+
+void MigraineMainWindow::readSettings()
+{
+	// do some read task here
+}
+
+void MigraineMainWindow::writeSettings()
+{
+	// do some write task here
+}
+
+QSettings* MigraineMainWindow::settings()
+{
+	return _settings;
 }

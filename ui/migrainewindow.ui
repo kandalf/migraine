@@ -55,7 +55,14 @@
             </widget>
            </item>
            <item>
-            <widget class="QListView" name="connTablesView" />
+            <widget class="QListView" name="connTablesView" >
+             <property name="alternatingRowColors" >
+              <bool>true</bool>
+             </property>
+             <property name="viewMode" >
+              <enum>QListView::ListMode</enum>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -74,7 +81,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QListView" name="fieldListView" />
+          <widget class="QListView" name="fieldListView" >
+           <property name="alternatingRowColors" >
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
