@@ -5,6 +5,11 @@
 #include <QSqlDatabase>
 #include <QHash>
 #include "ui_connectiondialog.h"
+#include "types.h"
+
+#ifndef CONFIG_FILE_PATH
+#define CONFIG_FILE_PATH "conf/settings.ini"
+#endif
 
 class ConnectionDialog : 
 	public QDialog, Ui::ConnectionDialog
@@ -23,8 +28,11 @@ class ConnectionDialog :
 	private slots:
 		void checkConnectionFields();
 		void addConnection();
+		void itemConnectionSelected(ConnectionSettings*);
 		
 	private:
+		void setupObjectConnections();
+		
 		QHash<QString, QSqlDatabase>connectionHash;
 		bool saved;
 };

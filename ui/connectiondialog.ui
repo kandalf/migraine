@@ -173,6 +173,7 @@
   <tabstop>driversComboBox</tabstop>
   <tabstop>databaseLineEdit</tabstop>
   <tabstop>hostLineEdit</tabstop>
+  <tabstop>portLineEdit</tabstop>
   <tabstop>userLineEdit</tabstop>
   <tabstop>passwordLineEdit</tabstop>
   <tabstop>addConnectionButton</tabstop>
