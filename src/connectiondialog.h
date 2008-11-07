@@ -2,6 +2,8 @@
 #define __CONNECTIONDIALOG_H__
 
 #include <QDialog>
+#include <QSqlDatabase>
+#include <QHash>
 #include "ui_connectiondialog.h"
 
 class ConnectionDialog : 
@@ -16,6 +18,7 @@ class ConnectionDialog :
 		void addConnection();
 		
 	private:
+		QHash<QString, QSqlDatabase>connectionHash;
 		bool saved;
 };
 

@@ -47,70 +47,62 @@
            <item>
             <widget class="QLabel" name="label_3" >
              <property name="text" >
-              <string>&amp;Databases</string>
+              <string>Tables</string>
              </property>
              <property name="buddy" >
-              <cstring>sourceDbView</cstring>
+              <cstring>connTablesView</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QListView" name="sourceDbView" />
+            <widget class="QListView" name="connTablesView" />
            </item>
           </layout>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="layoutWidget_2" >
+       <widget class="QWidget" name="" >
         <layout class="QVBoxLayout" name="verticalLayout_3" >
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3" >
-           <item>
-            <widget class="QLabel" name="label_2" >
-             <property name="text" >
-              <string>&amp;Connections</string>
-             </property>
-             <property name="buddy" >
-              <cstring>dbSrcConnCombo</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="dbDestConnCombo" />
-           </item>
-          </layout>
+          <widget class="QLabel" name="label_2" >
+           <property name="text" >
+            <string>&amp;Fields</string>
+           </property>
+           <property name="buddy" >
+            <cstring>fieldListView</cstring>
+           </property>
+          </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_4" >
-           <item>
-            <widget class="QLabel" name="label_4" >
-             <property name="text" >
-              <string>&amp;Databases</string>
-             </property>
-             <property name="buddy" >
-              <cstring>sourceDbView</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListView" name="destDbView" />
-           </item>
-          </layout>
+          <widget class="QListView" name="fieldListView" />
          </item>
         </layout>
        </widget>
       </widget>
       <widget class="QTabWidget" name="notifyTabWidget" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="currentIndex" >
         <number>0</number>
        </property>
        <widget class="QWidget" name="tab" >
         <attribute name="title" >
-         <string>Tab 1</string>
+         <string>&amp;Output</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout" >
          <item row="0" column="0" >
-          <widget class="QTextEdit" name="logTextEdit" />
+          <widget class="QTextEdit" name="logTextEdit" >
+           <property name="tabChangesFocus" >
+            <bool>true</bool>
+           </property>
+           <property name="readOnly" >
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -125,7 +117,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File" >

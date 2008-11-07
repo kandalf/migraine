@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>571</width>
-    <height>249</height>
+    <height>276</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -18,7 +18,7 @@
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="" >
+     <widget class="QWidget" name="layoutWidget" >
       <layout class="QVBoxLayout" name="verticalLayout_2" >
        <item>
         <layout class="QFormLayout" name="formLayout" >
@@ -49,7 +49,11 @@
           </widget>
          </item>
          <item row="1" column="1" >
-          <widget class="QLineEdit" name="databaseLineEdit" />
+          <widget class="QLineEdit" name="databaseLineEdit" >
+           <property name="text" >
+            <string/>
+           </property>
+          </widget>
          </item>
          <item row="2" column="0" >
           <widget class="QLabel" name="label_2" >
@@ -62,9 +66,13 @@
           </widget>
          </item>
          <item row="2" column="1" >
-          <widget class="QLineEdit" name="hostLineEdit" />
+          <widget class="QLineEdit" name="hostLineEdit" >
+           <property name="text" >
+            <string>localhost</string>
+           </property>
+          </widget>
          </item>
-         <item row="3" column="0" >
+         <item row="4" column="0" >
           <widget class="QLabel" name="label_4" >
            <property name="text" >
             <string>&amp;Username</string>
@@ -74,10 +82,10 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="1" >
+         <item row="4" column="1" >
           <widget class="QLineEdit" name="userLineEdit" />
          </item>
-         <item row="4" column="0" >
+         <item row="5" column="0" >
           <widget class="QLabel" name="label_5" >
            <property name="text" >
             <string>&amp;Password</string>
@@ -87,16 +95,29 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="1" >
+         <item row="5" column="1" >
           <widget class="QLineEdit" name="passwordLineEdit" />
          </item>
-         <item row="5" column="1" >
+         <item row="6" column="1" >
           <widget class="QPushButton" name="addConnectionButton" >
            <property name="enabled" >
             <bool>false</bool>
            </property>
            <property name="text" >
             <string>&amp;Add</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1" >
+          <widget class="QLineEdit" name="portLineEdit" />
+         </item>
+         <item row="3" column="0" >
+          <widget class="QLabel" name="label_7" >
+           <property name="text" >
+            <string>&amp;Port</string>
+           </property>
+           <property name="buddy" >
+            <cstring>portLineEdit</cstring>
            </property>
           </widget>
          </item>
@@ -148,24 +169,18 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>driversComboBox</tabstop>
+  <tabstop>databaseLineEdit</tabstop>
+  <tabstop>hostLineEdit</tabstop>
+  <tabstop>userLineEdit</tabstop>
+  <tabstop>passwordLineEdit</tabstop>
+  <tabstop>addConnectionButton</tabstop>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>connListWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>ConnectionDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
@@ -271,6 +286,22 @@
     <hint type="sourcelabel" >
      <x>186</x>
      <y>18</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>285</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>138</x>
+     <y>231</y>
     </hint>
     <hint type="destinationlabel" >
      <x>285</x>
