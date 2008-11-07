@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>487</width>
-    <height>241</height>
+    <width>571</width>
+    <height>249</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -22,18 +22,21 @@
       <layout class="QVBoxLayout" name="verticalLayout_2" >
        <item>
         <layout class="QFormLayout" name="formLayout" >
+         <property name="fieldGrowthPolicy" >
+          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+         </property>
          <item row="0" column="0" >
-          <widget class="QLabel" name="label_2" >
+          <widget class="QLabel" name="label" >
            <property name="text" >
-            <string>&amp;Hostname</string>
+            <string>&amp;Driver</string>
            </property>
            <property name="buddy" >
-            <cstring>hostLineEdit</cstring>
+            <cstring>driversComboBox</cstring>
            </property>
           </widget>
          </item>
          <item row="0" column="1" >
-          <widget class="QLineEdit" name="hostLineEdit" />
+          <widget class="QComboBox" name="driversComboBox" />
          </item>
          <item row="1" column="0" >
           <widget class="QLabel" name="label_3" >
@@ -49,17 +52,17 @@
           <widget class="QLineEdit" name="databaseLineEdit" />
          </item>
          <item row="2" column="0" >
-          <widget class="QLabel" name="label" >
+          <widget class="QLabel" name="label_2" >
            <property name="text" >
-            <string>&amp;Driver</string>
+            <string>&amp;Hostname</string>
            </property>
            <property name="buddy" >
-            <cstring>driversComboBox</cstring>
+            <cstring>hostLineEdit</cstring>
            </property>
           </widget>
          </item>
          <item row="2" column="1" >
-          <widget class="QComboBox" name="driversComboBox" />
+          <widget class="QLineEdit" name="hostLineEdit" />
          </item>
          <item row="3" column="0" >
           <widget class="QLabel" name="label_4" >
@@ -86,6 +89,16 @@
          </item>
          <item row="4" column="1" >
           <widget class="QLineEdit" name="passwordLineEdit" />
+         </item>
+         <item row="5" column="1" >
+          <widget class="QPushButton" name="addConnectionButton" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>&amp;Add</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -114,7 +127,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="" >
+     <widget class="QWidget" name="layoutWidget" >
       <layout class="QVBoxLayout" name="verticalLayout" >
        <item>
         <widget class="QLabel" name="label_6" >
@@ -169,5 +182,105 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>addConnectionButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>addConnection()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>186</x>
+     <y>172</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>285</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>databaseLineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>186</x>
+     <y>49</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>285</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hostLineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>186</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>285</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>userLineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>186</x>
+     <y>111</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>285</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>passwordLineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>186</x>
+     <y>142</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>285</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>driversComboBox</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>186</x>
+     <y>18</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>285</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>addConnection()</slot>
+  <slot>checkConnectionFields()</slot>
+ </slots>
 </ui>

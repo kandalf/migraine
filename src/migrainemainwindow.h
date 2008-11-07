@@ -9,10 +9,9 @@ class MigraineMainWindow : public QMainWindow, public Ui::MigraineWindow
 Q_OBJECT
 	public:
 		MigraineMainWindow( QWidget * parent = 0, Qt::WFlags f = 0 );
-	public slots:
+	
+	private slots:
 		void showConnectionDialog();
-		private slots:
-
 };
 #endif
 
