@@ -39,8 +39,8 @@ void ConnectionDialog::addConnection()
 			db.setHostName(hostLineEdit->text());
 			db.setUserName(userLineEdit->text());
 			db.setPassword(passwordLineEdit->text());
-	}
-		connListWidget->addConnection(settings);
+		}
+		//connListWidget->addConnection(settings);
 /*		QString connectionName(hostLineEdit->text() + "-" + databaseLineEdit->text());
 		QString driverName(driversComboBox->itemText(driversComboBox->currentIndex()));
 		
@@ -109,7 +109,7 @@ void ConnectionDialog::writeSettings()
 void ConnectionDialog::setupObjectConnections()
 {
 	connect( this, SIGNAL(accepted()), this, SLOT(writeSettings()) );
-	connect( connListWidget, SIGNAL(connectionSelected(ConnectionSettings*)), this, SLOT(itemConnectionSelected(ConnectionSettings*)) );
+//	connect( connListWidget, SIGNAL(connectionSelected(ConnectionSettings*)), this, SLOT(itemConnectionSelected(ConnectionSettings*)) );
 }
 
 void ConnectionDialog::itemConnectionSelected(ConnectionSettings *settings)
