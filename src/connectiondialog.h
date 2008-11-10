@@ -11,6 +11,8 @@
 #define CONFIG_FILE_PATH "conf/settings.ini"
 #endif
 
+class ConnectionListItem;
+
 class ConnectionDialog : 
 	public QDialog, Ui::ConnectionDialog
 {
@@ -28,7 +30,7 @@ class ConnectionDialog :
 	private slots:
 		void checkConnectionFields();
 		void addConnection();
-		void itemConnectionSelected(ConnectionSettings*);
+		void itemConnectionSelected(QListWidgetItem*);
 		
 	private:
 		void setupObjectConnections();

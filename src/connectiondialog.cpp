@@ -2,7 +2,7 @@
 #include "types.h"
 #include "migrainemainwindow.h"
 #include "connectiondialog.h"
-
+#include "connectionlistitem.h"
 
 ConnectionDialog::ConnectionDialog(QWidget *parent, Qt::WFlags f) : QDialog(parent, f)
 {
@@ -40,6 +40,8 @@ void ConnectionDialog::addConnection()
 			db.setUserName(userLineEdit->text());
 			db.setPassword(passwordLineEdit->text());
 		}
+		connListWidget->addItem(new ConnectionListItem(settings, connListWidget));
+		
 		//connListWidget->addConnection(settings);
 /*		QString connectionName(hostLineEdit->text() + "-" + databaseLineEdit->text());
 		QString driverName(driversComboBox->itemText(driversComboBox->currentIndex()));
@@ -109,13 +111,15 @@ void ConnectionDialog::writeSettings()
 void ConnectionDialog::setupObjectConnections()
 {
 	connect( this, SIGNAL(accepted()), this, SLOT(writeSettings()) );
-//	connect( connListWidget, SIGNAL(connectionSelected(ConnectionSettings*)), this, SLOT(itemConnectionSelected(ConnectionSettings*)) );
+	connect( connListWidget, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(itemConnectionSelected(QListWidgetItem*)) );
 }
 
-void ConnectionDialog::itemConnectionSelected(ConnectionSettings *settings)
+void ConnectionDialog::itemConnectionSelected(QListWidgetItem *settingsItem)
 {
-	databaseLineEdit->setText(settings->database);
-	hostLineEdit->setText(settings->host);
-	userLineEdit->setText(settings->user);
-	passwordLineEdit->setText(settings->password);
+	ConnectionListItem *settings = (ConnectionListItem*)settingsItem;
+	
+	databaseLineEdit->setText(settings->database());
+	hostLineEdit->setText(settings->host());
+	userLineEdit->setText(settings->user());
+	passwordLineEdit->setText(settings->password());
 }
