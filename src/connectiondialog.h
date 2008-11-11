@@ -30,7 +30,10 @@ class ConnectionDialog :
 	private slots:
 		void checkConnectionFields();
 		void addConnection();
+		void saveConnection();
+		void deleteConnection();
 		void itemConnectionSelected(QListWidgetItem*);
+		void addDbConnection(ConnectionSettings*);
 		
 	private:
 		void setupObjectConnections();

@@ -161,6 +161,43 @@
         </widget>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout" >
+         <item>
+          <spacer name="horizontalSpacer" >
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0" >
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="saveConnectionButton" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>&amp;Save</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="deleteConnectionButton" >
+           <property name="enabled" >
+            <bool>false</bool>
+           </property>
+           <property name="text" >
+            <string>&amp;Delete</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QListWidget" name="connListWidget" />
        </item>
       </layout>
@@ -310,9 +347,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>saveConnectionButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>saveConnection()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>462</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>285</x>
+     <y>137</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>addConnection()</slot>
   <slot>checkConnectionFields()</slot>
+  <slot>saveConnection()</slot>
+  <slot>deleteConnection()</slot>
  </slots>
 </ui>

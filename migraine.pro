@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT = gui core sql xml
+QT = core sql xml gui
 CONFIG += qt \
  debug \
  warn_on \

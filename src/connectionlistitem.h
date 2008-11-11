@@ -21,6 +21,15 @@ class ConnectionListItem
 		QString database();
 		qint16 port();
 		ConnectionSettings *settings();
+		
+		void setHost(const QString&);
+		void setName(const QString&);
+		void setDriver(const QString&);
+		void setUser(const QString&);
+		void setPassword(const QString&);
+		void setDatabase(const QString&);
+		void setPort(qint16);
+		
 	private:
 		ConnectionSettings *_settings;
 };

@@ -27,38 +27,15 @@ void ConnectionDialog::addConnection()
 {
 		ConnectionSettings *settings = new ConnectionSettings();
 		
-		settings->name = hostLineEdit->text() + "-" + databaseLineEdit->text();
-		settings->driver = driversComboBox->itemText(driversComboBox->currentIndex());
-		QSqlDatabase db = QSqlDatabase::addDatabase(	settings->driver,	settings->name);
+		settings->name = hostLineEdit->text() + "-" + databaseLineEdit->text() + ": " + driversComboBox->currentText();
+		if (settings->driver.contains("ODBC"))
+			settings->driver = QString("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=%1").arg(databaseLineEdit->text());
+		else
+			settings->driver = driversComboBox->itemText(driversComboBox->currentIndex());
 		
-		if (settings->driver.contains("ODBC")) {
-			QString dbName = "DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=%1";
-			db.setDatabaseName(dbName.arg(databaseLineEdit->text()));
-		} else {
-			db.setDatabaseName(databaseLineEdit->text());
-			db.setHostName(hostLineEdit->text());
-			db.setUserName(userLineEdit->text());
-			db.setPassword(passwordLineEdit->text());
-		}
+		addDbConnection(settings);
 		connListWidget->addItem(new ConnectionListItem(settings, connListWidget));
 		
-		//connListWidget->addConnection(settings);
-/*		QString connectionName(hostLineEdit->text() + "-" + databaseLineEdit->text());
-		QString driverName(driversComboBox->itemText(driversComboBox->currentIndex()));
-		
-	 	QSqlDatabase db = QSqlDatabase::addDatabase(	driverName,	connectionName);
-	
-		if (driverName.contains("ODBC")) {
-			QString dbName = "DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=%1";
-			db.setDatabaseName(dbName.arg(databaseLineEdit->text()));
-		} else {
-			db.setDatabaseName(databaseLineEdit->text());
-			db.setHostName(hostLineEdit->text());
-			db.setUserName(userLineEdit->text());
-			db.setPassword(passwordLineEdit->text());
-	}
-	
-	connListWidget->addItem(new QListWidgetItem(hostLineEdit->text() + "-" + databaseLineEdit->text(), connListWidget, QListWidgetItem::Type));*/
 }
 
 void ConnectionDialog::readSettings()
@@ -71,13 +48,19 @@ void ConnectionDialog::readSettings()
 	for (int i = 0; i < connections.size(); i++)
 	{
 		settings.beginGroup(connections.at(i));
-		QString driverName = settings.value("driver").toString();
-		QSqlDatabase db = QSqlDatabase::addDatabase(driverName, connections.at(i));
-		db.setDatabaseName(settings.value("databasename").toString());
-		db.setHostName(settings.value("hostname").toString());
-		db.setUserName(settings.value("username").toString());
-		db.setPassword(settings.value("password").toString());
-		connListWidget->addItem(new QListWidgetItem(db.hostName() + "-" + db.databaseName(), connListWidget, QListWidgetItem::Type));
+	
+		ConnectionSettings *connSettings = new ConnectionSettings();
+		connSettings->name = connections.at(i);
+		connSettings->driver = settings.value("driver").toString();
+		connSettings->database =  settings.value("databasename").toString();
+		connSettings->host = settings.value("hostname").toString();
+		connSettings->port = settings.value("port").toInt();
+		connSettings->user = settings.value("username").toString();
+		connSettings->password = settings.value("password").toString();
+		
+		addDbConnection(connSettings);
+	
+		connListWidget->addItem(new ConnectionListItem(connSettings, connListWidget));
 		settings.endGroup();
 	}
 	
@@ -103,7 +86,6 @@ void ConnectionDialog::writeSettings()
 	}
 	
 	settings.endGroup();
-	
 	settings.sync();
 	emit(settingsWritten());
 }
@@ -112,14 +94,55 @@ void ConnectionDialog::setupObjectConnections()
 {
 	connect( this, SIGNAL(accepted()), this, SLOT(writeSettings()) );
 	connect( connListWidget, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(itemConnectionSelected(QListWidgetItem*)) );
+	connect( connListWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(itemConnectionSelected(QListWidgetItem*)) );
 }
 
 void ConnectionDialog::itemConnectionSelected(QListWidgetItem *settingsItem)
 {
 	ConnectionListItem *settings = (ConnectionListItem*)settingsItem;
 	
+	driversComboBox->setCurrentIndex(driversComboBox->findText(settings->driver()));
 	databaseLineEdit->setText(settings->database());
 	hostLineEdit->setText(settings->host());
+	if (settings->port())
+		portLineEdit->setText(QString::number(settings->port()));
 	userLineEdit->setText(settings->user());
 	passwordLineEdit->setText(settings->password());
+	
+	deleteConnectionButton->setEnabled(true);
+	saveConnectionButton->setEnabled(true);
+}
+
+void ConnectionDialog::saveConnection()
+{
+	ConnectionListItem *item = (ConnectionListItem *)connListWidget->currentItem();
+	item->setHost(hostLineEdit->text());
+	item->setDatabase(databaseLineEdit->text());
+	item->setPort(portLineEdit->text().toInt());
+	item->setUser(userLineEdit->text());
+	item->setPassword(passwordLineEdit->text());
+	item->setDriver(driversComboBox->currentText());
+	
+	addDbConnection(item->settings());
+	writeSettings();
+}
+
+void ConnectionDialog::deleteConnection()
+{
+	
+}
+
+void ConnectionDialog::addDbConnection(ConnectionSettings *settings)
+{
+	QSqlDatabase db;
+	if (QSqlDatabase::contains(settings->name))
+		db = QSqlDatabase::database(settings->name);
+	else
+		db = QSqlDatabase::addDatabase(settings->driver, settings->name);
+		
+	db.setDatabaseName(settings->database);
+	db.setHostName(settings->host);
+	db.setUserName(settings->user);
+	db.setPassword(settings->password);
+	writeSettings();
 }
