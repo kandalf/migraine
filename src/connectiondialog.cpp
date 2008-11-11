@@ -28,11 +28,11 @@ void ConnectionDialog::addConnection()
 		ConnectionSettings *settings = new ConnectionSettings();
 		
 		settings->name = hostLineEdit->text() + "-" + databaseLineEdit->text() + ": " + driversComboBox->currentText();
-		if (settings->driver.contains("ODBC"))
+		if (driversComboBox->currentText().contains("ODBC"))
 			settings->driver = QString("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=%1").arg(databaseLineEdit->text());
 		else
 			settings->driver = driversComboBox->itemText(driversComboBox->currentIndex());
-		
+		qDebug(settings->driver.toAscii());
 		addDbConnection(settings);
 		connListWidget->addItem(new ConnectionListItem(settings, connListWidget));
 		
