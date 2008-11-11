@@ -137,11 +137,11 @@ void ConnectionDialog::addDbConnection(ConnectionSettings *settings)
 {
 	QSqlDatabase db = QSqlDatabase::addDatabase(settings->driver, settings->name);
 	
-	/*if (QSqlDatabase::contains(settings->name))
+	if (QSqlDatabase::contains(settings->name))
 		db = QSqlDatabase::database(settings->name);
 	else
 		db = QSqlDatabase::addDatabase(settings->driver, settings->name);
-		*/
+
 	db.setDatabaseName(settings->database);
 	db.setHostName(settings->host);
 	db.setUserName(settings->user);
