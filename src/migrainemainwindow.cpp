@@ -14,14 +14,15 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f)
 	QCoreApplication::setOrganizationName("SNI");
 	
 	setupUi(this);
-	setupObjectConnections();
-	refreshConnections();
+	
 	hSplitter->setStretchFactor(0,1);
 	vSplitter->setStretchFactor(1,1);
-	connDialog = 0;
+	connDialog = new ConnectionDialog(this);
 	
 	_settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
 	readSettings();
+	setupObjectConnections();
+	refreshConnections();
 }
 
 MigraineMainWindow::~MigraineMainWindow()
@@ -36,18 +37,16 @@ MigraineMainWindow::~MigraineMainWindow()
 void MigraineMainWindow::setupObjectConnections()
 {
 	connect( dbSrcConnCombo, SIGNAL(activated(const QString &)), this, SLOT(connectionSelected(const QString&)) );
+	connect( actionConnections, SIGNAL(activated()), connDialog, SLOT(show()) );
+	connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
+	connect( connDialog, SIGNAL(settingsWritten()), this, SLOT(readSettings()) );
+	
 }
 
-void MigraineMainWindow::showConnectionDialog()
+/*void MigraineMainWindow::showConnectionDialog()
 {
-	if (!connDialog) {
-		connDialog = new ConnectionDialog(this);
-		connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
-		connect( connDialog, SIGNAL(settingsWritten()), this, SLOT(readSettings()) );
-	}
-		
 	connDialog->show();
-}
+}*/
 
 void MigraineMainWindow::refreshConnections()
 {

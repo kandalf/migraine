@@ -86,7 +86,6 @@ void ConnectionListItem::setUser(const QString &user)
 void ConnectionListItem::setPassword(const QString &password)
 {
 	_settings->password = password;
-	qDebug(_settings->password.toAscii());
 }
 
 void ConnectionListItem::setDatabase(const QString &database)

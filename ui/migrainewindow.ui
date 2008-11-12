@@ -68,7 +68,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="" >
+       <widget class="QWidget" name="layoutWidget" >
         <layout class="QVBoxLayout" name="verticalLayout_3" >
          <item>
           <widget class="QLabel" name="label_2" >
@@ -147,24 +147,7 @@
   </action>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>actionConnections</sender>
-   <signal>activated()</signal>
-   <receiver>MigraineWindow</receiver>
-   <slot>showConnectionDialog()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>showConnectionDialog()</slot>
  </slots>

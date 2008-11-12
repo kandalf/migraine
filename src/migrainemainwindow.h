@@ -22,7 +22,6 @@ Q_OBJECT
 		void writeSettings();
 		
 	private slots:
-		void showConnectionDialog();
 		void connectionSelected(const QString&);
 		
 	private:

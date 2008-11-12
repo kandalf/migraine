@@ -41,7 +41,6 @@ void ConnectionDialog::addConnection()
 		
 		addDbConnection(settings);
 		connListWidget->addItem(new ConnectionListItem(settings, connListWidget));
-		
 }
 
 void ConnectionDialog::readSettings()
@@ -110,8 +109,10 @@ void ConnectionDialog::itemConnectionSelected(QListWidgetItem *settingsItem)
 	driversComboBox->setCurrentIndex(driversComboBox->findText(settings->driver()));
 	databaseLineEdit->setText(settings->database());
 	hostLineEdit->setText(settings->host());
+	
 	if (settings->port())
 		portLineEdit->setText(QString::number(settings->port()));
+		
 	userLineEdit->setText(settings->user());
 	passwordLineEdit->setText(settings->password());
 	
@@ -152,10 +153,4 @@ void ConnectionDialog::addDbConnection(ConnectionSettings *settings)
 	db.setUserName(settings->user);
 	db.setPassword(settings->password);
 	writeSettings();
-}
-
-void ConnectionDialog::addAccessConnection()
-{
-	QSqlDatabase db = QSqlDatabase::addDatabase("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=data/Database1.mdb", "access-db");
-	
 }
