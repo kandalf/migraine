@@ -363,6 +363,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>deleteConnectionButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>deleteConnection()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>530</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>285</x>
+     <y>137</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>addConnection()</slot>

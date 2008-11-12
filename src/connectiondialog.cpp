@@ -27,7 +27,7 @@ void ConnectionDialog::addConnection()
 {
 		ConnectionSettings *settings = new ConnectionSettings();
 		
-		settings->name = hostLineEdit->text() + "-" + databaseLineEdit->text() + " - " + driversComboBox->currentText();
+		settings->name = hostLineEdit->text() + "-" + databaseLineEdit->text() + "_" + driversComboBox->currentText();
 		settings->driver = driversComboBox->currentText();
 		
 		if (driversComboBox->currentText().contains("ODBC"))
@@ -136,7 +136,17 @@ void ConnectionDialog::saveConnection()
 
 void ConnectionDialog::deleteConnection()
 {
+	QSettings settings(CONFIG_FILE_PATH);
 	
+	ConnectionListItem *item = (ConnectionListItem*)connListWidget->currentItem();
+	
+	QSqlDatabase::removeDatabase(item->name());
+	connListWidget->takeItem(connListWidget->currentRow());
+	
+	settings.remove(QString("Connections").arg(item->name()));
+	
+	settings.sync();
+	emit(settingsWritten());
 }
 
 void ConnectionDialog::addDbConnection(ConnectionSettings *settings)

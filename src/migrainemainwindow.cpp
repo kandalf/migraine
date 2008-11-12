@@ -43,11 +43,6 @@ void MigraineMainWindow::setupObjectConnections()
 	
 }
 
-/*void MigraineMainWindow::showConnectionDialog()
-{
-	connDialog->show();
-}*/
-
 void MigraineMainWindow::refreshConnections()
 {
 	for (int i = 0; i < dbSrcConnCombo->count(); i++)

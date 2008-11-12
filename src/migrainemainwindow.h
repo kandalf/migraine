@@ -1,8 +1,14 @@
 #ifndef MIGRAINEMAINWINDOW_H
 #define MIGRAINEMAINWINDOW_H
-//
+
+#ifndef CONFIG_FILE_PATH
+#define CONFIG_FILE_PATH "conf/settings.ini"
+#endif
+
 #include <QMainWindow>
 #include "ui_migrainewindow.h"
+
+
 
 class ConnectionDialog;
 class QSettings;
