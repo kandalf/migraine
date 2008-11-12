@@ -34,6 +34,7 @@ class ConnectionDialog :
 		void deleteConnection();
 		void itemConnectionSelected(QListWidgetItem*);
 		void addDbConnection(ConnectionSettings*);
+		void addAccessConnection();
 		
 	private:
 		void setupObjectConnections();

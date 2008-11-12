@@ -28,12 +28,17 @@ void ConnectionDialog::addConnection()
 		ConnectionSettings *settings = new ConnectionSettings();
 		
 		settings->name = hostLineEdit->text() + "-" + databaseLineEdit->text() + " - " + driversComboBox->currentText();
+		settings->driver = driversComboBox->currentText();
+		
 		if (driversComboBox->currentText().contains("ODBC"))
-			settings->driver = QString("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=%1").arg(databaseLineEdit->text());
+			settings->database = QString("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=%1").arg(databaseLineEdit->text());
 		else
-			settings->driver = driversComboBox->itemText(driversComboBox->currentIndex());
+			settings->database = databaseLineEdit->text();
 			
-		qDebug(settings->driver.toAscii());
+		settings->host = hostLineEdit->text();
+		settings->user = userLineEdit->text();
+		settings->password = passwordLineEdit->text();
+		
 		addDbConnection(settings);
 		connListWidget->addItem(new ConnectionListItem(settings, connListWidget));
 		
@@ -147,4 +152,10 @@ void ConnectionDialog::addDbConnection(ConnectionSettings *settings)
 	db.setUserName(settings->user);
 	db.setPassword(settings->password);
 	writeSettings();
+}
+
+void ConnectionDialog::addAccessConnection()
+{
+	QSqlDatabase db = QSqlDatabase::addDatabase("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=data/Database1.mdb", "access-db");
+	
 }
