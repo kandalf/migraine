@@ -15,10 +15,14 @@ HEADERS = src/migrainemainwindow.h \
  src/types.h \
  src/connectionlistitem.h \
  src/treeitem.h \
- src/treemodel.h
+ src/treemodel.h \
+ src/tableinfo.h \
+ src/tableinfomodel.h
 SOURCES = src/migrainemainwindow.cpp \
  src/main.cpp \
  src/connectiondialog.cpp \
  src/connectionlistitem.cpp \
  src/treeitem.cpp \
- src/treemodel.cpp
+ src/treemodel.cpp \
+ src/tableinfo.cpp \
+ src/tableinfomodel.cpp

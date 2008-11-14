@@ -1,10 +1,12 @@
-#include <QSqlDatabase>
 #include <QStringListModel>
 #include <QSqlError>
+#include <QSqlDriver>
 #include <QSettings>
 
 #include "migrainemainwindow.h"
 #include "connectiondialog.h"
+#include "tableinfo.h"
+#include "tableinfomodel.h"
 
 MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f) 
 	: QMainWindow(parent, f)
@@ -63,8 +65,9 @@ void MigraineMainWindow::connectionSelected(const QString &name)
 		return;
 	}
 		
-	QStringListModel *model = new QStringListModel(db.tables(QSql::Tables), connTablesView);
-	connTablesView->setModel(model);
+	/*QStringListModel *model = new QStringListModel(db.tables(QSql::Tables), connTablesView);
+	connTablesView->setModel(model);*/
+	buildTreeModel(db);
 }
 
 void MigraineMainWindow::readSettings()
@@ -80,4 +83,19 @@ void MigraineMainWindow::writeSettings()
 QSettings* MigraineMainWindow::settings()
 {
 	return _settings;
+}
+
+void MigraineMainWindow::buildTreeModel(QSqlDatabase db)
+{
+	QList<TableInfo*> data;
+	QSqlDriver *driver = db.driver();
+	QStringList tables = db.tables(QSql::Tables);
+	
+	for(int i = 0; i < tables.count(); i++)
+	{
+		data << new TableInfo(tables.at(i), driver->record(tables.at(i)));
+	}
+	
+	TableInfoModel *model = new TableInfoModel(data);
+	connTreeView->setModel(model);
 }

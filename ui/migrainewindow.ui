@@ -49,20 +49,10 @@
              <property name="text" >
               <string>Tables</string>
              </property>
-             <property name="buddy" >
-              <cstring>connTablesView</cstring>
-             </property>
             </widget>
            </item>
            <item>
-            <widget class="QListView" name="connTablesView" >
-             <property name="alternatingRowColors" >
-              <bool>true</bool>
-             </property>
-             <property name="viewMode" >
-              <enum>QListView::ListMode</enum>
-             </property>
-            </widget>
+            <widget class="QTreeView" name="connTreeView" />
            </item>
           </layout>
          </item>
@@ -128,7 +118,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_File" >
@@ -147,24 +137,7 @@
   </action>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>connTablesView</sender>
-   <signal>clicked(QModelIndex)</signal>
-   <receiver>MigraineWindow</receiver>
-   <slot>showTableFields()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>201</x>
-     <y>192</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>399</x>
-     <y>299</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>showTableFields()</slot>
  </slots>

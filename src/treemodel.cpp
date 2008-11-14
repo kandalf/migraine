@@ -13,6 +13,9 @@ TreeModel::TreeModel(const QString &data, QObject *parent)
 	setupModelData(data.split(QString("\n")), rootItem);
 }
 
+TreeModel::TreeModel(QObject *parent)
+		:QAbstractItemModel(parent) {}
+
 TreeModel::~TreeModel()
 {
 	delete rootItem;

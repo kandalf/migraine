@@ -10,6 +10,7 @@ class TreeModel : public QAbstractItemModel
 	Q_OBJECT
 	public:
 		TreeModel(const QString &data, QObject *parent = 0);
+		TreeModel(QObject *parent);
 		~TreeModel();
 		
 		QVariant data(const QModelIndex &index, int role) const;

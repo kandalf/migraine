@@ -6,6 +6,7 @@
 #endif
 
 #include <QMainWindow>
+#include <QSqlDatabase>
 #include "ui_migrainewindow.h"
 
 
@@ -32,7 +33,8 @@ Q_OBJECT
 		
 	private:
 		void setupObjectConnections();
-	
+		void buildTreeModel(QSqlDatabase db);
+		
 		ConnectionDialog *connDialog;
 		QSettings *_settings;
 };
