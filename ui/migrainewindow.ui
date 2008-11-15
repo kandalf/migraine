@@ -30,7 +30,7 @@
            <item>
             <widget class="QLabel" name="label" >
              <property name="text" >
-              <string>&amp;Connections</string>
+              <string>&amp;Source Database</string>
              </property>
              <property name="buddy" >
               <cstring>dbSrcConnCombo</cstring>
@@ -47,12 +47,25 @@
            <item>
             <widget class="QLabel" name="label_3" >
              <property name="text" >
-              <string>Tables</string>
+              <string>&amp;Tables</string>
+             </property>
+             <property name="buddy" >
+              <cstring>connTreeView</cstring>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QTreeView" name="connTreeView" />
+            <widget class="QTreeView" name="connTreeView" >
+             <property name="tabKeyNavigation" >
+              <bool>true</bool>
+             </property>
+             <property name="alternatingRowColors" >
+              <bool>true</bool>
+             </property>
+             <property name="selectionMode" >
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>

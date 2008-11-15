@@ -21,6 +21,11 @@ int TreeItem::childCount() const
 	return childItems.count();
 }
 
+void TreeItem::appendChild(TreeItem *item)
+{
+	childItems.append(item);
+}
+
 int TreeItem::row() const 
 {
 	if (parentItem)
