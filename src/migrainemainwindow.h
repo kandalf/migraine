@@ -13,6 +13,7 @@
 
 class ConnectionDialog;
 class QSettings;
+class TableInfoModel;
 
 class MigraineMainWindow : public QMainWindow, public Ui::MigraineWindow
 {
@@ -29,11 +30,12 @@ Q_OBJECT
 		void writeSettings();
 		
 	private slots:
-		void connectionSelected(const QString&);
+		void srcConnectionSelected(const QString&);
+		void tgtConnectionSelected(const QString&);
 		
 	private:
 		void setupObjectConnections();
-		void buildTreeModel(QSqlDatabase db);
+		TableInfoModel* buildTreeModel(QSqlDatabase db);
 		
 		ConnectionDialog *connDialog;
 		QSettings *_settings;

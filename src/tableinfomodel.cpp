@@ -21,12 +21,11 @@ void TableInfoModel::setupModelData(const QList<TableInfo*> &data, TreeItem *par
 	for (int i = 0; i < data.count(); i++)
 	{
 		QList<QVariant> itemData;
-		itemData << data.at(i)->name();
+		itemData << data.at(i)->name() << "Hello";
 		TreeItem *tableItem = new TreeItem(itemData, parent);
 		for (int j = 0; j < static_cast<TableInfo*>(data.at(i))->fieldNames().count(); j++)
 		{
 			QList<QVariant> field;
-			//qDebug(data.at(i)->fieldTypes().at(j).toAscii());
 			field << data.at(i)->fieldNames().at(j) << data.at(i)->fieldTypes().at(j);
 			tableItem->appendChild(new TreeItem(field, tableItem));
 		}

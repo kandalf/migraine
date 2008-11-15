@@ -17,8 +17,8 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f)
 	
 	setupUi(this);
 	
-	hSplitter->setStretchFactor(0,1);
-	vSplitter->setStretchFactor(1,1);
+//	hSplitter->setStretchFactor(0,1);
+	//vSplitter->setStretchFactor(1,1);
 	connDialog = new ConnectionDialog(this);
 	
 	_settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
@@ -38,7 +38,8 @@ MigraineMainWindow::~MigraineMainWindow()
 
 void MigraineMainWindow::setupObjectConnections()
 {
-	connect( dbSrcConnCombo, SIGNAL(activated(const QString &)), this, SLOT(connectionSelected(const QString&)) );
+	connect( dbSrcConnCombo, SIGNAL(activated(const QString &)), this, SLOT(srcConnectionSelected(const QString&)) );
+	connect( dbTargetConnCombo, SIGNAL(activated(const QString &)), this, SLOT(tgtConnectionSelected(const QString&)) );
 	connect( actionConnections, SIGNAL(activated()), connDialog, SLOT(show()) );
 	connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
 	connect( connDialog, SIGNAL(settingsWritten()), this, SLOT(readSettings()) );
@@ -48,15 +49,25 @@ void MigraineMainWindow::setupObjectConnections()
 void MigraineMainWindow::refreshConnections()
 {
 	for (int i = 0; i < dbSrcConnCombo->count(); i++)
+	{
 		dbSrcConnCombo->removeItem(i);
-	dbSrcConnCombo->addItem("Select a connection");
+		dbTargetConnCombo->removeItem(i);
+	}
+	QString emptyOption(tr("Select a connection"));
+	dbSrcConnCombo->addItem(emptyOption);
+	dbTargetConnCombo->addItem(emptyOption);
+	
 	dbSrcConnCombo->addItems(QSqlDatabase::connectionNames());
+	dbTargetConnCombo->addItems(QSqlDatabase::connectionNames());
 	
 	if (dbSrcConnCombo->count() > 1)
 		dbSrcConnCombo->showPopup();
+		
+	if (dbTargetConnCombo->count() > 1)
+		dbTargetConnCombo->showPopup();
 }
 
-void MigraineMainWindow::connectionSelected(const QString &name)
+void MigraineMainWindow::srcConnectionSelected(const QString &name)
 {
 	QSqlDatabase db = QSqlDatabase::database(name, true);
 	if (!db.isOpen())
@@ -65,9 +76,19 @@ void MigraineMainWindow::connectionSelected(const QString &name)
 		return;
 	}
 		
-	/*QStringListModel *model = new QStringListModel(db.tables(QSql::Tables), connTablesView);
-	connTablesView->setModel(model);*/
-	buildTreeModel(db);
+	srcDbTreeView->setModel(buildTreeModel(db));
+}
+
+void MigraineMainWindow::tgtConnectionSelected(const QString &name)
+{
+	QSqlDatabase db = QSqlDatabase::database(name, true);
+	if (!db.isOpen())
+	{
+		logTextEdit->append("Cannot Open Database: " + db.lastError().text());
+		return;
+	}
+		
+	targetDbTreeView->setModel(buildTreeModel(db));
 }
 
 void MigraineMainWindow::readSettings()
@@ -85,7 +106,7 @@ QSettings* MigraineMainWindow::settings()
 	return _settings;
 }
 
-void MigraineMainWindow::buildTreeModel(QSqlDatabase db)
+TableInfoModel* MigraineMainWindow::buildTreeModel(QSqlDatabase db)
 {
 	QList<TableInfo*> data;
 	QSqlDriver *driver = db.driver();
@@ -96,6 +117,7 @@ void MigraineMainWindow::buildTreeModel(QSqlDatabase db)
 		data << new TableInfo(tables.at(i), driver->record(tables.at(i)));
 	}
 	
-	TableInfoModel *model = new TableInfoModel(data);
-	connTreeView->setModel(model);
+	//TableInfoModel *model = new TableInfoModel(data);
+	//srcDbTreeView->setModel(model);
+	return new TableInfoModel(data);
 }
