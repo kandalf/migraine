@@ -117,7 +117,5 @@ TableInfoModel* MigraineMainWindow::buildTreeModel(QSqlDatabase db)
 		data << new TableInfo(tables.at(i), driver->record(tables.at(i)));
 	}
 	
-	//TableInfoModel *model = new TableInfoModel(data);
-	//srcDbTreeView->setModel(model);
-	return new TableInfoModel(data);
+    return new TableInfoModel(data);
 }

@@ -13,101 +13,185 @@
    <string>Migraine - DB Migration Tool</string>
   </property>
   <widget class="QWidget" name="centralwidget" >
-   <layout class="QGridLayout" name="gridLayout_4" >
+   <layout class="QGridLayout" name="gridLayout_5" >
     <item row="0" column="0" >
-     <widget class="QSplitter" name="splitter" >
-      <property name="orientation" >
-       <enum>Qt::Horizontal</enum>
+     <widget class="QTabWidget" name="tabWidget" >
+      <property name="enabled" >
+       <bool>true</bool>
       </property>
-      <widget class="QFrame" name="frame" >
-       <property name="frameShape" >
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Raised</enum>
-       </property>
-       <layout class="QGridLayout" name="gridLayout" >
+      <property name="currentIndex" >
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="startupTab" >
+       <attribute name="title" >
+        <string>&amp;Startup</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_4" >
         <item row="0" column="0" >
-         <layout class="QVBoxLayout" name="verticalLayout_2" >
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout" >
-            <item>
-             <widget class="QLabel" name="label" >
-              <property name="text" >
-               <string>&amp;Source Database</string>
-              </property>
-              <property name="buddy" >
-               <cstring>dbSrcConnCombo</cstring>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="dbSrcConnCombo" />
+         <widget class="QSplitter" name="splitter" >
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <widget class="QFrame" name="frame" >
+           <property name="frameShape" >
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow" >
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout" >
+            <item row="0" column="0" >
+             <layout class="QVBoxLayout" name="verticalLayout_2" >
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout" >
+                <item>
+                 <widget class="QLabel" name="label" >
+                  <property name="text" >
+                   <string>&amp;Source Database</string>
+                  </property>
+                  <property name="buddy" >
+                   <cstring>dbSrcConnCombo</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="dbSrcConnCombo" />
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout" >
+                <item>
+                 <widget class="QTreeView" name="srcDbTreeView" >
+                  <property name="tabKeyNavigation" >
+                   <bool>true</bool>
+                  </property>
+                  <property name="dragEnabled" >
+                   <bool>true</bool>
+                  </property>
+                  <property name="alternatingRowColors" >
+                   <bool>true</bool>
+                  </property>
+                  <property name="selectionMode" >
+                   <enum>QAbstractItemView::SingleSelection</enum>
+                  </property>
+                  <property name="sortingEnabled" >
+                   <bool>false</bool>
+                  </property>
+                  <property name="animated" >
+                   <bool>true</bool>
+                  </property>
+                  <property name="allColumnsShowFocus" >
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </item>
            </layout>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout" >
-            <item>
-             <widget class="QTreeView" name="srcDbTreeView" >
-              <property name="tabKeyNavigation" >
-               <bool>true</bool>
-              </property>
-              <property name="dragEnabled" >
-               <bool>true</bool>
-              </property>
-              <property name="alternatingRowColors" >
-               <bool>true</bool>
-              </property>
-              <property name="selectionMode" >
-               <enum>QAbstractItemView::SingleSelection</enum>
-              </property>
-              <property name="sortingEnabled" >
-               <bool>false</bool>
-              </property>
-              <property name="animated" >
-               <bool>true</bool>
-              </property>
-              <property name="allColumnsShowFocus" >
-               <bool>true</bool>
-              </property>
-             </widget>
+          </widget>
+          <widget class="QFrame" name="frame_2" >
+           <property name="frameShape" >
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow" >
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_2" >
+            <item row="0" column="0" >
+             <layout class="QVBoxLayout" name="verticalLayout_3" >
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_2" >
+                <item>
+                 <widget class="QLabel" name="label_2" >
+                  <property name="text" >
+                   <string>&amp;Target Database</string>
+                  </property>
+                  <property name="buddy" >
+                   <cstring>dbTargetConnCombo</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="dbTargetConnCombo" />
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QTreeView" name="targetDbTreeView" />
+              </item>
+             </layout>
             </item>
            </layout>
-          </item>
-         </layout>
+          </widget>
+         </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QFrame" name="frame_2" >
-       <property name="frameShape" >
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Raised</enum>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_2" >
+      <widget class="QWidget" name="analyzeTab" >
+       <attribute name="title" >
+        <string>Analy&amp;ze</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_9" >
         <item row="0" column="0" >
-         <layout class="QVBoxLayout" name="verticalLayout_3" >
+         <layout class="QVBoxLayout" name="verticalLayout_4" >
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2" >
+           <layout class="QHBoxLayout" name="horizontalLayout_3" >
             <item>
-             <widget class="QLabel" name="label_2" >
-              <property name="text" >
-               <string>&amp;Target Database</string>
+             <widget class="QGroupBox" name="exactMatchGroupBox" >
+              <property name="title" >
+               <string>E&amp;xact Matches</string>
               </property>
-              <property name="buddy" >
-               <cstring>dbTargetConnCombo</cstring>
-              </property>
+              <layout class="QGridLayout" name="gridLayout_7" >
+               <item row="0" column="0" >
+                <widget class="QListView" name="exactMatchListView" />
+               </item>
+              </layout>
+              <zorder></zorder>
+              <zorder>exactMatchListView</zorder>
+              <zorder>nameMatchGroupBox</zorder>
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="dbTargetConnCombo" />
+             <widget class="QGroupBox" name="nameMatchGroupBox" >
+              <property name="title" >
+               <string>&amp;Name Matches</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_6" >
+               <item row="0" column="0" >
+                <widget class="QListView" name="nameMatchListView" />
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="noMatchGroupBox" >
+              <property name="title" >
+               <string>N&amp;o Matches</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_8" >
+               <item row="0" column="0" >
+                <widget class="QListView" name="noMatchListView" />
+               </item>
+              </layout>
+             </widget>
             </item>
            </layout>
           </item>
           <item>
-           <widget class="QTreeView" name="targetDbTreeView" />
+           <spacer name="verticalSpacer" >
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
@@ -116,6 +200,15 @@
      </widget>
     </item>
    </layout>
+   <zorder>hSplitter</zorder>
+   <zorder>sourceDbWidget</zorder>
+   <zorder>targetDbWidget</zorder>
+   <zorder>outputWidget</zorder>
+   <zorder>vSplitter</zorder>
+   <zorder>frame</zorder>
+   <zorder>widget</zorder>
+   <zorder>frame_2</zorder>
+   <zorder>tabWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar" >
    <property name="geometry" >
@@ -138,7 +231,14 @@
     </property>
     <addaction name="actionOutput" />
    </widget>
+   <widget class="QMenu" name="menuMigration" >
+    <property name="title" >
+     <string>&amp;Migration</string>
+    </property>
+    <addaction name="action_Analyze" />
+   </widget>
    <addaction name="menu_File" />
+   <addaction name="menuMigration" />
    <addaction name="menu_View" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
@@ -170,9 +270,35 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QToolBar" name="toolBar" >
+   <property name="windowTitle" >
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize" >
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea" >
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionConnections" />
+   <addaction name="action_Analyze" />
+  </widget>
   <action name="actionConnections" >
+   <property name="icon" >
+    <iconset resource="../resource/migraine.qrc" >
+     <normaloff>:/icons/db.png</normaloff>:/icons/db.png</iconset>
+   </property>
    <property name="text" >
     <string>Connections</string>
+   </property>
+   <property name="toolTip" >
+    <string>Show Connections Dialog</string>
    </property>
   </action>
   <action name="actionOutput" >
@@ -189,8 +315,28 @@
     <string>Ctrl+Shift+O</string>
    </property>
   </action>
+  <action name="action_Analyze" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../resource/migraine.qrc" >
+     <normaloff>:/icons/analyze.png</normaloff>:/icons/analyze.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Analyze</string>
+   </property>
+   <property name="toolTip" >
+    <string>Analyze Selected Databases</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Shift+A</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resource/migraine.qrc" />
+ </resources>
  <connections>
   <connection>
    <sender>actionOutput</sender>

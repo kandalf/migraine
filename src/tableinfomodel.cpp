@@ -11,7 +11,7 @@ TableInfoModel::TableInfoModel(const QList<TableInfo*> &data, QObject *parent)
 	modelData = data;
 	QList<QVariant> rootData;
 	
-	rootData << tr("Tables");
+    rootData << tr("Tables"); //<< "Fields" << "Field Types";
 	rootItem = new TreeItem(rootData);
 	setupModelData(modelData, rootItem);
 }
@@ -21,14 +21,19 @@ void TableInfoModel::setupModelData(const QList<TableInfo*> &data, TreeItem *par
 	for (int i = 0; i < data.count(); i++)
 	{
 		QList<QVariant> itemData;
-		itemData << data.at(i)->name() << "Hello";
+        itemData << data.at(i)->name();
 		TreeItem *tableItem = new TreeItem(itemData, parent);
 		for (int j = 0; j < static_cast<TableInfo*>(data.at(i))->fieldNames().count(); j++)
 		{
-			QList<QVariant> field;
+            QList<QVariant> field;
 			field << data.at(i)->fieldNames().at(j) << data.at(i)->fieldTypes().at(j);
 			tableItem->appendChild(new TreeItem(field, tableItem));
 		}
 		parent->appendChild(tableItem);
 	}
+}
+
+QList<TableInfo*> TableInfoModel::toTableInfo() const
+{
+    return modelData;
 }

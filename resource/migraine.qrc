@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>icons/add.png</file>
+        <file>icons/analyze.png</file>
+        <file>icons/build.png</file>
+        <file>icons/db.png</file>
+        <file>icons/db_comit.png</file>
+        <file>icons/db_remove.png</file>
+        <file>icons/db_update.png</file>
+        <file>icons/delete.png</file>
+        <file>icons/exit.png</file>
+        <file>icons/filesave.png</file>
+        <file>icons/find.png</file>
+        <file>icons/hibernate.png</file>
+        <file>icons/info.png</file>
+        <file>icons/ok.png</file>
+        <file>icons/reload.png</file>
+        <file>icons/run.png</file>
+        <file>icons/switchuser.png</file>
+        <file>icons/thrash.png</file>
+        <file>icons/warning.png</file>
+    </qresource>
+</RCC>

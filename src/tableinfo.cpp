@@ -28,3 +28,18 @@ QStringList TableInfo::fieldTypes() const
 	
 	return types;
 }
+
+QString TableInfo::fieldName(const int &index) const
+{
+    return tableData.field(index).name();
+}
+
+QString TableInfo::fieldType(const int &index) const
+{
+    return QVariant::typeToName(tableData.field(index).type());
+}
+
+QString TableInfo::fieldType(const QString &name) const
+{
+    return QVariant::typeToName(tableData.field(name).type());
+}

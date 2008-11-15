@@ -12,6 +12,9 @@ class TableInfo
 		QString name() const;
 		QStringList fieldNames() const;
 		QStringList fieldTypes() const;
+		QString fieldName(const int&) const;
+		QString fieldType(const int&) const;
+		QString fieldType(const QString&) const;
 		
 	private:
 		QString tableName;

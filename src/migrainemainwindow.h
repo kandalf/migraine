@@ -2,7 +2,7 @@
 #define MIGRAINEMAINWINDOW_H
 
 #ifndef CONFIG_FILE_PATH
-#define CONFIG_FILE_PATH "conf/settings.ini"
+#define CONFIG_FILE_PATH "/home/leonardo/development/GISWorking/migraine/conf/settings.ini"
 #endif
 
 #include <QMainWindow>
