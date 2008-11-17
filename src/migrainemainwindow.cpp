@@ -2,11 +2,15 @@
 #include <QSqlError>
 #include <QSqlDriver>
 #include <QSettings>
-
+#include <QMessageBox>
+#include <QTableWidgetItem>
 #include "migrainemainwindow.h"
 #include "connectiondialog.h"
 #include "tableinfo.h"
 #include "tableinfomodel.h"
+#include "dbanalyst.h"
+#include "migrationtablematch.h"
+
 
 MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f) 
 	: QMainWindow(parent, f)
@@ -20,9 +24,10 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f)
 //	hSplitter->setStretchFactor(0,1);
 	//vSplitter->setStretchFactor(1,1);
 	connDialog = new ConnectionDialog(this);
-	
-	_settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
-	readSettings();
+    _settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
+    analyst = new DBAnalyst(this);
+
+    readSettings();
 	setupObjectConnections();
 	refreshConnections();
 }
@@ -42,8 +47,12 @@ void MigraineMainWindow::setupObjectConnections()
 	connect( dbTargetConnCombo, SIGNAL(activated(const QString &)), this, SLOT(tgtConnectionSelected(const QString&)) );
 	connect( actionConnections, SIGNAL(activated()), connDialog, SLOT(show()) );
 	connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
-	connect( connDialog, SIGNAL(settingsWritten()), this, SLOT(readSettings()) );
-	
+    connect( connDialog, SIGNAL(settingsWritten()), this, SLOT(readSettings()) );
+    connect( analyst, SIGNAL(nameMatchFound(const QString&)), this, SLOT(matchByName(const QString&)) );
+    connect( analyst, SIGNAL(noMatchFound(const QString&)), this, SLOT(noMatch(const QString&)) );
+
+    connect(nameMatchListView, SIGNAL(pressed(const QModelIndex &)), this, SLOT(nameMatchSelected(const QModelIndex &)));
+
 }
 
 void MigraineMainWindow::refreshConnections()
@@ -72,7 +81,7 @@ void MigraineMainWindow::srcConnectionSelected(const QString &name)
 	QSqlDatabase db = QSqlDatabase::database(name, true);
 	if (!db.isOpen())
 	{
-		logTextEdit->append("Cannot Open Database: " + db.lastError().text());
+        logTextEdit->append(tr("Cannot Open Database: %1").arg(db.lastError().text()));
 		return;
 	}
 		
@@ -88,7 +97,8 @@ void MigraineMainWindow::tgtConnectionSelected(const QString &name)
 		return;
 	}
 		
-	targetDbTreeView->setModel(buildTreeModel(db));
+    targetDbTreeView->setModel(buildTreeModel(db));
+
 }
 
 void MigraineMainWindow::readSettings()
@@ -118,4 +128,103 @@ TableInfoModel* MigraineMainWindow::buildTreeModel(QSqlDatabase db)
 	}
 	
     return new TableInfoModel(data);
+}
+
+void MigraineMainWindow::analyzeDatabases()
+{
+
+    stepsTabWidget->setCurrentIndex(1);
+    analyst->analyzeDatabases(
+            static_cast<TableInfoModel*>(srcDbTreeView->model())->toTableInfo(),
+            static_cast<TableInfoModel*>(targetDbTreeView->model())->toTableInfo()
+    );
+}
+
+
+void MigraineMainWindow::matchByName(const QString &name)
+{
+    QStringList names;
+    QStringListModel *model;
+    if (nameMatchListView->model())
+    {
+        model = static_cast<QStringListModel*>(nameMatchListView->model());
+        names = model->stringList();
+    }
+    else
+    {
+        model = new QStringListModel(nameMatchListView);
+    }
+
+    names << name;
+    model->setStringList(names);
+
+    nameMatchListView->setModel(model);
+}
+
+void MigraineMainWindow::noMatch(const QString &name)
+{
+    QStringList names;
+    QStringListModel *model;
+    if (noMatchListView->model())
+    {
+        model = static_cast<QStringListModel*>(noMatchListView->model());
+        names = model->stringList();
+    }
+    else
+    {
+        model = new QStringListModel(noMatchListView);
+    }
+
+    names << name;
+    model->setStringList(names);
+
+    noMatchListView->setModel(model);
+}
+
+void MigraineMainWindow::nameMatchSelected(const QModelIndex &index)
+{
+    MigrationTableMatch *tableMatch = analyst->getNameMatchTable(index.data(Qt::DisplayRole).toString());
+
+    if(!tableMatch)
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Invalid tables"), QMessageBox::Ok);
+        return;
+    }
+
+    buildColumnsItems(tableMatch->source(), SOURCE_COLUMNS);
+    buildColumnsItems(tableMatch->target(), TARGET_COLUMNS);
+    enableColumnsWidgets();
+}
+
+
+void MigraineMainWindow::buildColumnsItems(TableInfo *info, int type)
+{
+    QTableWidget *tableWidget;
+
+    if (type == SOURCE_COLUMNS)
+        tableWidget = srcColumnsTableWidget;
+    else if(type == TARGET_COLUMNS)
+        tableWidget = tgtColumnsTableWidget;
+
+    for (int i = 0; i < tableWidget->rowCount(); i++)
+        tableWidget->removeRow(i);
+
+    for (int i = 0; i < info->fieldNames().count(); i++)
+    {
+        QTableWidgetItem *fieldName = new QTableWidgetItem(info->fieldName(i), QTableWidgetItem::Type);
+        QTableWidgetItem *fieldType = new QTableWidgetItem(info->fieldType(i), QTableWidgetItem::Type);
+        tableWidget->insertRow(i);
+        tableWidget->setItem(i, 0, fieldName);
+        tableWidget->setItem(i, 1, fieldType);
+    }
+}
+
+
+void MigraineMainWindow::enableColumnsWidgets()
+{
+    srcColumnsFrame->setEnabled(true);
+    tgtColumnsFrame->setEnabled(true);
+    mapColumnsFrame->setEnabled(true);
+    addMapColumnButton->setEnabled(true);
+    delMapColumnButton->setEnabled(true);
 }

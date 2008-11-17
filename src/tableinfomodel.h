@@ -12,6 +12,7 @@ class TableInfoModel : public TreeModel
 	public:
 		TableInfoModel(const QList<TableInfo*> &data, QObject *parent = 0);
         QList<TableInfo*> toTableInfo() const;
+        QHash<QString, TableInfo*> toInfoHash() const;
 
 	protected:
 		void setupModelData(const QList<TableInfo*> &data, TreeItem *parent);

@@ -4,6 +4,8 @@
 #include <QSqlRecord>
 #include <QStringList>
 
+class QSqlField;
+
 class TableInfo
 {
 	public:
@@ -15,7 +17,9 @@ class TableInfo
 		QString fieldName(const int&) const;
 		QString fieldType(const int&) const;
 		QString fieldType(const QString&) const;
-		
+        QSqlField* field(const int&) const;
+        QSqlField* field(const QString&) const;
+
 	private:
 		QString tableName;
 		QSqlRecord tableData;

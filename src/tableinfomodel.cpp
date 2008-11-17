@@ -1,6 +1,6 @@
 #include <QListIterator>
 #include <QVariant>
-
+#include <QHash>
 #include "tableinfomodel.h"
 #include "treeitem.h"
 #include "tableinfo.h"
@@ -36,4 +36,15 @@ void TableInfoModel::setupModelData(const QList<TableInfo*> &data, TreeItem *par
 QList<TableInfo*> TableInfoModel::toTableInfo() const
 {
     return modelData;
+}
+
+
+QHash<QString, TableInfo*> TableInfoModel::toInfoHash() const
+{
+    QHash<QString, TableInfo*> info;
+
+    for( int i = 0; i < modelData.count(); i++)
+        info[modelData.at(i)->name()] = modelData.at(i);
+
+    return info;
 }
