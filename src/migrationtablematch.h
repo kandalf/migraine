@@ -15,12 +15,13 @@ class MigrationTableMatch
         bool setMatch(const QString&, const QString&);
         TableInfo* source() const;
         TableInfo* target() const;
+        QPair<QSqlField, QSqlField> getMatch(const int &) const;
 
     private:
         TableInfo *_source;
         TableInfo *_target;
 
-        QList<QPair<QSqlField*, QSqlField*> > matches;
+        QList<QPair<QSqlField, QSqlField> > matches;
 };
 
 #endif // MIGRATIONTABLEMATCH_H

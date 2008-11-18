@@ -44,12 +44,12 @@ QString TableInfo::fieldType(const QString &name) const
     return QVariant::typeToName(tableData.field(name).type());
 }
 
-QSqlField* TableInfo::field(const int &index) const
+QSqlField TableInfo::field(const int &index) const
 {
-    return &tableData.field(index);
+    return tableData.field(index);
 }
 
-QSqlField* TableInfo::field(const QString &name) const
+QSqlField TableInfo::field(const QString &name) const
 {
-    return &tableData.field(name);
+    return tableData.field(name);
 }

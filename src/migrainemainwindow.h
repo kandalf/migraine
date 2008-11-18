@@ -21,6 +21,7 @@
 
 class ConnectionDialog;
 class QSettings;
+class QTableWidgetItem;
 class TableInfo;
 class TableInfoModel;
 class DBAnalyst;
@@ -48,6 +49,9 @@ Q_OBJECT
         void nameMatchSelected(const QModelIndex &);
         void buildColumnsItems(TableInfo*, int);
         void enableColumnsWidgets();
+        void tgtColumnSelected();
+        void addMapColumn();
+
 	private:
 		void setupObjectConnections();
 		TableInfoModel* buildTreeModel(QSqlDatabase db);

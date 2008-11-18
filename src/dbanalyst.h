@@ -14,6 +14,7 @@ Q_OBJECT
     public:
         DBAnalyst(QObject *parent = 0);
         DBAnalyst(const QList<TableInfo*>&src, const QList<TableInfo*>&tgt, QObject *parent = 0);
+        ~DBAnalyst();
 
     public slots:
         void setSourceList(const QList<TableInfo*>&list);
@@ -21,6 +22,7 @@ Q_OBJECT
         void analyzeDatabases();
         void analyzeDatabases(const QList<TableInfo*>&src, const QList<TableInfo*>&tgt);
         MigrationTableMatch *getNameMatchTable(const QString&name);
+        void setTableMatch(const QString &tableName, const QString &src, const QString &tgt);
 
    signals:
         void exactMatchFound(const QString &name);

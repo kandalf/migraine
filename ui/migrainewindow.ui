@@ -120,7 +120,14 @@
                </layout>
               </item>
               <item>
-               <widget class="QTreeView" name="targetDbTreeView" />
+               <widget class="QTreeView" name="targetDbTreeView" >
+                <property name="alternatingRowColors" >
+                 <bool>true</bool>
+                </property>
+                <property name="animated" >
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -146,7 +153,11 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_7" >
                <item row="0" column="0" >
-                <widget class="QListView" name="exactMatchListView" />
+                <widget class="QListView" name="exactMatchListView" >
+                 <property name="editTriggers" >
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -158,7 +169,11 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_6" >
                <item row="0" column="0" >
-                <widget class="QListView" name="nameMatchListView" />
+                <widget class="QListView" name="nameMatchListView" >
+                 <property name="editTriggers" >
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -170,7 +185,11 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_8" >
                <item row="0" column="0" >
-                <widget class="QListView" name="noMatchListView" />
+                <widget class="QListView" name="noMatchListView" >
+                 <property name="editTriggers" >
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -354,16 +373,20 @@
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QGridLayout" name="gridLayout_12" >
-               <item row="2" column="0" >
-                <widget class="QColumnView" name="mapColumnView" />
-               </item>
                <item row="1" column="0" >
                 <widget class="QLabel" name="label_5" >
                  <property name="text" >
                   <string>Ma&amp;pped Columns</string>
                  </property>
                  <property name="buddy" >
-                  <cstring>mapColumnView</cstring>
+                  <cstring>mapColumnsTreeView</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0" >
+                <widget class="QTreeView" name="mapColumnsTreeView" >
+                 <property name="editTriggers" >
+                  <set>QAbstractItemView::NoEditTriggers</set>
                  </property>
                 </widget>
                </item>
@@ -418,6 +441,12 @@
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
+   </property>
+   <property name="minimumSize" >
+    <size>
+     <width>84</width>
+     <height>104</height>
+    </size>
    </property>
    <property name="floating" >
     <bool>false</bool>

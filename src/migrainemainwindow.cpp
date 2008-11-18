@@ -4,6 +4,7 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <QTableWidgetItem>
+#include <QSqlField>
 #include "migrainemainwindow.h"
 #include "connectiondialog.h"
 #include "tableinfo.h"
@@ -16,8 +17,8 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f)
 	: QMainWindow(parent, f)
 {
 	QCoreApplication::setApplicationName("Migraine");
-	QCoreApplication::setOrganizationDomain("snichaos.com");
-	QCoreApplication::setOrganizationName("SNI");
+    QCoreApplication::setOrganizationDomain("migraine.com");
+    QCoreApplication::setOrganizationName("MIGRAINE");
 	
 	setupUi(this);
 	
@@ -53,6 +54,8 @@ void MigraineMainWindow::setupObjectConnections()
 
     connect(nameMatchListView, SIGNAL(pressed(const QModelIndex &)), this, SLOT(nameMatchSelected(const QModelIndex &)));
 
+    connect(tgtColumnsTableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(tgtColumnSelected()) );
+    connect(addMapColumnButton, SIGNAL(clicked()), this, SLOT(addMapColumn()));
 }
 
 void MigraineMainWindow::refreshConnections()
@@ -194,6 +197,8 @@ void MigraineMainWindow::nameMatchSelected(const QModelIndex &index)
     buildColumnsItems(tableMatch->source(), SOURCE_COLUMNS);
     buildColumnsItems(tableMatch->target(), TARGET_COLUMNS);
     enableColumnsWidgets();
+    addMapColumnButton->setEnabled(false);
+    delMapColumnButton->setEnabled(false);
 }
 
 
@@ -225,6 +230,27 @@ void MigraineMainWindow::enableColumnsWidgets()
     srcColumnsFrame->setEnabled(true);
     tgtColumnsFrame->setEnabled(true);
     mapColumnsFrame->setEnabled(true);
-    addMapColumnButton->setEnabled(true);
-    delMapColumnButton->setEnabled(true);
+}
+
+void MigraineMainWindow::tgtColumnSelected()
+{
+    //QMessageBox::information(this, "Hello", "Hello");
+//    if (!index)
+//        return;
+
+    if (srcColumnsTableWidget->currentItem())
+        addMapColumnButton->setEnabled(true);
+}
+
+void MigraineMainWindow::addMapColumn()
+{
+    /*MigrationTableMatch *matchTable = analyst->getNameMatchTable(nameMatchListView->currentIndex().data(Qt::DisplayRole).toString());
+    QString src = srcColumnsTableWidget->item(srcColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString();
+    QString tgt = srcColumnsTableWidget->item(tgtColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString();*/
+    analyst->setTableMatch(
+                nameMatchListView->currentIndex().data(Qt::DisplayRole).toString(),
+                srcColumnsTableWidget->item(srcColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString(),
+                srcColumnsTableWidget->item(tgtColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString()
+                );
+//    QMessageBox::information(this, "Info", matchTable->getMatch(0).first.name() +" to "+ matchTable->getMatch(0).second.name());
 }

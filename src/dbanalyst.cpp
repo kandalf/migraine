@@ -1,4 +1,6 @@
 #include <QHash>
+#include <QPair>
+#include <QSqlField>
 #include "dbanalyst.h"
 #include "tableinfo.h"
 #include "migrationtablematch.h"
@@ -11,6 +13,17 @@ DBAnalyst::DBAnalyst(const QList<TableInfo*>&src, const QList<TableInfo*>&tgt, Q
 {
     srcList = src;
     tgtList = tgt;
+}
+
+DBAnalyst::~DBAnalyst()
+{
+    MigrationTableMatch *current;
+    for (int i = 0; i < nameMatches.keys().count(); i++)
+    {
+        current = static_cast<MigrationTableMatch*>(nameMatches.take(nameMatches.keys().at(i)));
+        if (current)
+            delete current;
+    }
 }
 
 void DBAnalyst::setSourceList(const QList<TableInfo*> &list)
@@ -55,5 +68,10 @@ void DBAnalyst::analyzeDatabases(const QList<TableInfo*> &src, const QList<Table
 
 MigrationTableMatch* DBAnalyst::getNameMatchTable(const QString &name)
 {
-    return nameMatches[name];
+    return nameMatches.value(name);
+}
+
+void DBAnalyst::setTableMatch(const QString &tableName, const QString &src, const QString &tgt)
+{
+    getNameMatchTable(tableName)->setMatch(src, tgt);
 }
