@@ -16,6 +16,7 @@ class MigrationTableMatch
         TableInfo* source() const;
         TableInfo* target() const;
         QPair<QSqlField, QSqlField> getMatch(const int &) const;
+        int count() const;
 
     private:
         TableInfo *_source;

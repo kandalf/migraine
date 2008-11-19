@@ -9,8 +9,8 @@ TreeModel::TreeModel(const QString &data, QObject *parent)
 {
 	QList<QVariant> rootData;
 	rootData << "Title" << "Summary";
-	rootItem = new TreeItem(rootData);
-	setupModelData(data.split(QString("\n")), rootItem);
+    /*rootItem = new TreeItem(rootData);
+    setupModelData(data.split(QString("\n")), rootItem);*/
 }
 
 TreeModel::TreeModel(QObject *parent)

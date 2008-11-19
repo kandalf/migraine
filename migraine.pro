@@ -23,7 +23,8 @@ HEADERS = src/connectiondialog.h \
     src/tableinfomodel.h \
     src/dbanalyst.h \
     src/migrationtablematch.h \
-    src/migrainemainwindow.h
+    src/migrainemainwindow.h \
+    src/maptablenamematchmodel.h
 SOURCES = src/migrainemainwindow.cpp \
     src/main.cpp \
     src/connectiondialog.cpp \
@@ -33,5 +34,6 @@ SOURCES = src/migrainemainwindow.cpp \
     src/tableinfo.cpp \
     src/tableinfomodel.cpp \
     src/dbanalyst.cpp \
-    src/migrationtablematch.cpp
+    src/migrationtablematch.cpp \
+    src/maptablenamematchmodel.cpp
 RESOURCES += resource/migraine.qrc

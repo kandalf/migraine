@@ -51,6 +51,7 @@ Q_OBJECT
         void enableColumnsWidgets();
         void tgtColumnSelected();
         void addMapColumn();
+        void refreshMapView(const QString &tableName);
 
 	private:
 		void setupObjectConnections();

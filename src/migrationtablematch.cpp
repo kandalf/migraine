@@ -37,3 +37,8 @@ QPair<QSqlField, QSqlField> MigrationTableMatch::getMatch(const int &index) cons
 {
     return matches.at(index);
 }
+
+int MigrationTableMatch::count() const
+{
+    return matches.count();
+}

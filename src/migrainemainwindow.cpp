@@ -11,6 +11,7 @@
 #include "tableinfomodel.h"
 #include "dbanalyst.h"
 #include "migrationtablematch.h"
+#include "maptablenamematchmodel.h"
 
 
 MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f) 
@@ -22,8 +23,6 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f)
 	
 	setupUi(this);
 	
-//	hSplitter->setStretchFactor(0,1);
-	//vSplitter->setStretchFactor(1,1);
 	connDialog = new ConnectionDialog(this);
     _settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
     analyst = new DBAnalyst(this);
@@ -224,7 +223,6 @@ void MigraineMainWindow::buildColumnsItems(TableInfo *info, int type)
     }
 }
 
-
 void MigraineMainWindow::enableColumnsWidgets()
 {
     srcColumnsFrame->setEnabled(true);
@@ -234,23 +232,35 @@ void MigraineMainWindow::enableColumnsWidgets()
 
 void MigraineMainWindow::tgtColumnSelected()
 {
-    //QMessageBox::information(this, "Hello", "Hello");
-//    if (!index)
-//        return;
-
     if (srcColumnsTableWidget->currentItem())
         addMapColumnButton->setEnabled(true);
 }
 
 void MigraineMainWindow::addMapColumn()
 {
-    /*MigrationTableMatch *matchTable = analyst->getNameMatchTable(nameMatchListView->currentIndex().data(Qt::DisplayRole).toString());
-    QString src = srcColumnsTableWidget->item(srcColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString();
-    QString tgt = srcColumnsTableWidget->item(tgtColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString();*/
     analyst->setTableMatch(
                 nameMatchListView->currentIndex().data(Qt::DisplayRole).toString(),
                 srcColumnsTableWidget->item(srcColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString(),
                 srcColumnsTableWidget->item(tgtColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString()
                 );
-//    QMessageBox::information(this, "Info", matchTable->getMatch(0).first.name() +" to "+ matchTable->getMatch(0).second.name());
+    refreshMapView(nameMatchListView->currentIndex().data(Qt::DisplayRole).toString());
+}
+
+void MigraineMainWindow::refreshMapView(const QString &tableName)
+{
+    MapTableNameMatchModel *model;
+    MigrationTableMatch *table = analyst->getNameMatchTable(tableName);
+
+    if (mapColumnsTreeView->model())
+    {
+        model = static_cast<MapTableNameMatchModel*>(mapColumnsTreeView->model());
+        model->addOrCreateTableMatch(table);
+    }
+    else
+    {
+        QHash<QString, MigrationTableMatch*> data;
+        data[tableName] = table;
+        model = new MapTableNameMatchModel(data, mapColumnsTreeView);
+        mapColumnsTreeView->setModel(model);
+    }
 }
