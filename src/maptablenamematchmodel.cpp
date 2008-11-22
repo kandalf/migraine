@@ -20,12 +20,7 @@ MapTableNameMatchModel::MapTableNameMatchModel(const QHash<QString, MigrationTab
 void MapTableNameMatchModel::setUpModelData(const QHash<QString, MigrationTableMatch*> &data, TreeItem *parent)
 {
     MigrationTableMatch *current;
-//    if (parent->childCount() > 0)
-//    {
-//        for (int i = 0; i < parent->childCount(); i++)
-//            delete parent->child(i);
-//    }
-    //this->removeRows(0, this->rowCount(createIndex(0,0, rootItem)) - 1, createIndex(0,0, rootItem));
+
     for (int i = 0; i < data.keys().count(); i++)
     {
         current = static_cast<MigrationTableMatch*>(data.value(data.keys().at(i)));
@@ -48,11 +43,13 @@ void MapTableNameMatchModel::setUpModelData(const QHash<QString, MigrationTableM
 
 void MapTableNameMatchModel::addOrCreateTableMatch(MigrationTableMatch *table)
 {
-    //modelData[table->source()->name()] = table;
+    bool tableExists = false;
+
     for (int i = 0; i < rootItem->childCount(); i++)
     {
         if (rootItem->child(i)->data(0).toString() == table->source()->name())
         {
+            tableExists = true;
             for (int j = rootItem->child(i)->childCount(); j < table->count(); j++)
             {
                 QList<QVariant> fieldData;
@@ -62,10 +59,15 @@ void MapTableNameMatchModel::addOrCreateTableMatch(MigrationTableMatch *table)
         }
         else
         {
-            QHash<QString, MigrationTableMatch*> data;
-            data[table->source()->name()] = table;
-            setUpModelData(data, rootItem);
+            tableExists = false;
         }
+    }
+
+    if (!tableExists)
+    {
+        QHash<QString, MigrationTableMatch*> data;
+        data[table->source()->name()] = table;
+        setUpModelData(data, rootItem);
     }
 
 //    setUpModelData(modelData, rootItem);

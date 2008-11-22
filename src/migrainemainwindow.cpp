@@ -26,7 +26,6 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f)
 	connDialog = new ConnectionDialog(this);
     _settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
     analyst = new DBAnalyst(this);
-
     readSettings();
 	setupObjectConnections();
 	refreshConnections();
@@ -82,7 +81,8 @@ void MigraineMainWindow::srcConnectionSelected(const QString &name)
 {
 	QSqlDatabase db = QSqlDatabase::database(name, true);
 	if (!db.isOpen())
-	{
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Cannot Open Database: %1").arg(db.lastError().text()));
         logTextEdit->append(tr("Cannot Open Database: %1").arg(db.lastError().text()));
 		return;
 	}
@@ -94,7 +94,8 @@ void MigraineMainWindow::tgtConnectionSelected(const QString &name)
 {
 	QSqlDatabase db = QSqlDatabase::database(name, true);
 	if (!db.isOpen())
-	{
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Cannot Open Database: %1").arg(db.lastError().text()));
 		logTextEdit->append("Cannot Open Database: " + db.lastError().text());
 		return;
 	}
@@ -244,6 +245,9 @@ void MigraineMainWindow::addMapColumn()
                 srcColumnsTableWidget->item(tgtColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString()
                 );
     refreshMapView(nameMatchListView->currentIndex().data(Qt::DisplayRole).toString());
+    srcColumnsTableWidget->removeRow(srcColumnsTableWidget->currentRow());
+    tgtColumnsTableWidget->removeRow(tgtColumnsTableWidget->currentRow());
+    addMapColumnButton->setEnabled(false);
 }
 
 void MigraineMainWindow::refreshMapView(const QString &tableName)

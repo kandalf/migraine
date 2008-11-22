@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>744</width>
+    <width>738</width>
     <height>600</height>
    </rect>
   </property>
@@ -388,6 +388,18 @@
                  <property name="editTriggers" >
                   <set>QAbstractItemView::NoEditTriggers</set>
                  </property>
+                 <property name="tabKeyNavigation" >
+                  <bool>true</bool>
+                 </property>
+                 <property name="alternatingRowColors" >
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoExpandDelay" >
+                  <number>1</number>
+                 </property>
+                 <property name="animated" >
+                  <bool>true</bool>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -408,7 +420,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>744</width>
+     <width>738</width>
      <height>25</height>
     </rect>
    </property>
@@ -444,8 +456,8 @@
    </property>
    <property name="minimumSize" >
     <size>
-     <width>84</width>
-     <height>104</height>
+     <width>92</width>
+     <height>111</height>
     </size>
    </property>
    <property name="floating" >

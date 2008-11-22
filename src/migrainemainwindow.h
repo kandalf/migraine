@@ -1,9 +1,6 @@
 #ifndef MIGRAINEMAINWINDOW_H
 #define MIGRAINEMAINWINDOW_H
 
-#ifndef CONFIG_FILE_PATH
-#define CONFIG_FILE_PATH "/home/leonardo/development/GISWorking/migraine/conf/settings.ini"
-#endif
 
 #ifndef SOURCE_COLUMNS
 #define SOURCE_COLUMNS 1
@@ -15,8 +12,12 @@
 
 #include <QMainWindow>
 #include <QSqlDatabase>
+#include <QDir>
 #include "ui_migrainewindow.h"
 
+#ifndef CONFIG_FILE_PATH
+#define CONFIG_FILE_PATH QDir::currentPath() + "/conf/settings.ini"
+#endif
 
 
 class ConnectionDialog;

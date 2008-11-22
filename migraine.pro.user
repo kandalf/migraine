@@ -67,14 +67,14 @@
   <valuemap type="QVariantMap" >
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
     <value type="QString" >ALSA_PLUGINS_DIR=/usr/lib/alsa-lib</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-aCUqRV6XIw,guid=1f2c007a0487b175114477a04922215e</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-Dua6eEeVSp,guid=00fff15166abbd64a9cda0c84927451a</value>
     <value type="QString" >DESKTOP_SESSION=default</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
     <value type="QString" >DISPLAY=:0.0</value>
     <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
     <value type="QString" >ECLIPSE_HOME=/usr/share/eclipse</value>
     <value type="QString" >GISBASE=/opt/grass</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-oA3p0q/S.gpg-agent:6402:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-UloE1M/S.gpg-agent:4594:1</value>
     <value type="QString" >GS_LIB=/home/leonardo/.fonts</value>
     <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/leonardo/.gtkrc-2.0:/home/leonardo/.gtkrc-2.0-kde4:/home/leonardo/.kde4/share/config/gtkrc-2.0</value>
     <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/leonardo/.gtkrc::/home/leonardo/.kde4/share/config/gtkrc</value>
@@ -106,11 +106,11 @@
     <value type="QString" >QTDIR=/usr</value>
     <value type="QString" >QT_PLUGIN_PATH=/home/leonardo/.kde4/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
     <value type="QString" >QT_XFT=true</value>
-    <value type="QString" >SESSION_MANAGER=local/kandalf:/tmp/.ICE-unix/6438</value>
+    <value type="QString" >SESSION_MANAGER=local/kandalf:/tmp/.ICE-unix/4630</value>
     <value type="QString" >SHELL=/bin/bash</value>
     <value type="QString" >SHLVL=1</value>
-    <value type="QString" >SSH_AGENT_PID=6405</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-MlUArE6404/agent.6404</value>
+    <value type="QString" >SSH_AGENT_PID=4597</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Ljkjto4596/agent.4596</value>
     <value type="QString" >SVN_EDITOR=vim</value>
     <value type="QString" >USER=leonardo</value>
     <value type="QString" >WINDOWPATH=7</value>
@@ -124,7 +124,7 @@
     <value type="QString" >_=/usr/bin/kdeinit4</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList" >
-    <value type="QString" >/home/leonardo/development/GISWorking/migraine/migraine.pro</value>
+    <value type="QString" >/home/leonardo/development/migraine/migraine.pro</value>
     <value type="QString" >-spec</value>
     <value type="QString" >/usr/share/qt/mkspecs/linux-g++</value>
     <value type="QString" >-r</value>
@@ -135,8 +135,8 @@
     <value type="QString" >QT*=network</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString" >/usr/bin/qmake</value>
-   <value key="abstractProcess.enabled" type="bool" >false</value>
-   <value key="abstractProcess.workingDirectory" type="QString" >/home/leonardo/development/GISWorking/migraine</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/home/leonardo/development/migraine</value>
   </valuemap>
  </data>
  <data>
@@ -144,14 +144,14 @@
   <valuemap type="QVariantMap" >
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
     <value type="QString" >ALSA_PLUGINS_DIR=/usr/lib/alsa-lib</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-aCUqRV6XIw,guid=1f2c007a0487b175114477a04922215e</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-Dua6eEeVSp,guid=00fff15166abbd64a9cda0c84927451a</value>
     <value type="QString" >DESKTOP_SESSION=default</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
     <value type="QString" >DISPLAY=:0.0</value>
     <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
     <value type="QString" >ECLIPSE_HOME=/usr/share/eclipse</value>
     <value type="QString" >GISBASE=/opt/grass</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-oA3p0q/S.gpg-agent:6402:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-UloE1M/S.gpg-agent:4594:1</value>
     <value type="QString" >GS_LIB=/home/leonardo/.fonts</value>
     <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/leonardo/.gtkrc-2.0:/home/leonardo/.gtkrc-2.0-kde4:/home/leonardo/.kde4/share/config/gtkrc-2.0</value>
     <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/leonardo/.gtkrc::/home/leonardo/.kde4/share/config/gtkrc</value>
@@ -183,11 +183,11 @@
     <value type="QString" >QTDIR=/usr</value>
     <value type="QString" >QT_PLUGIN_PATH=/home/leonardo/.kde4/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
     <value type="QString" >QT_XFT=true</value>
-    <value type="QString" >SESSION_MANAGER=local/kandalf:/tmp/.ICE-unix/6438</value>
+    <value type="QString" >SESSION_MANAGER=local/kandalf:/tmp/.ICE-unix/4630</value>
     <value type="QString" >SHELL=/bin/bash</value>
     <value type="QString" >SHLVL=1</value>
-    <value type="QString" >SSH_AGENT_PID=6405</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-MlUArE6404/agent.6404</value>
+    <value type="QString" >SSH_AGENT_PID=4597</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-Ljkjto4596/agent.4596</value>
     <value type="QString" >SVN_EDITOR=vim</value>
     <value type="QString" >USER=leonardo</value>
     <value type="QString" >WINDOWPATH=7</value>
@@ -206,7 +206,7 @@
    </valuelist>
    <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
    <value key="abstractProcess.enabled" type="bool" >true</value>
-   <value key="abstractProcess.workingDirectory" type="QString" >/home/leonardo/development/GISWorking/migraine</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/home/leonardo/development/migraine</value>
    <valuelist key="makeargs" type="QVariantList" >
     <value type="QString" >debug</value>
    </valuelist>
