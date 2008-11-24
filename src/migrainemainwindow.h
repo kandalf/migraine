@@ -45,6 +45,7 @@ Q_OBJECT
 	private slots:
 		void srcConnectionSelected(const QString&);
         void tgtConnectionSelected(const QString&);
+        void exactMatch(const QString&);
         void matchByName(const QString&);
         void noMatch(const QString&);
         void nameMatchSelected(const QModelIndex &);
@@ -53,6 +54,8 @@ Q_OBJECT
         void tgtColumnSelected();
         void addMapColumn();
         void refreshMapView(const QString &tableName);
+        void previewMigration();
+        void resetMigration();
 
 	private:
 		void setupObjectConnections();

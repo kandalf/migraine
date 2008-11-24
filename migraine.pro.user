@@ -26,15 +26,15 @@
  </data>
  <data>
   <variable>RunConfiguration1-Executable</variable>
-  <value type="QString" >/home/leonardo/development/GISWorking/migraine/bin/migraine</value>
+  <value type="QString" >/home/leonardo/development/migraine/bin/migraine</value>
  </data>
  <data>
   <variable>RunConfiguration1-RunConfiguration.name</variable>
-  <value type="QString" >Run /home/leonardo/development/GISWorking/migraine/bin/migraine</value>
+  <value type="QString" >Run /home/leonardo/development/migraine/bin/migraine</value>
  </data>
  <data>
   <variable>RunConfiguration1-WorkingDirectory</variable>
-  <value type="QString" >$BUILDDIR/../</value>
+  <value type="QString" >$BUILDDIR</value>
  </data>
  <data>
   <variable>RunConfiguration1-type</variable>
@@ -135,7 +135,7 @@
     <value type="QString" >QT*=network</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString" >/usr/bin/qmake</value>
-   <value key="abstractProcess.enabled" type="bool" >true</value>
+   <value key="abstractProcess.enabled" type="bool" >false</value>
    <value key="abstractProcess.workingDirectory" type="QString" >/home/leonardo/development/migraine</value>
   </valuemap>
  </data>

@@ -18,9 +18,9 @@ DBAnalyst::DBAnalyst(const QList<TableInfo*>&src, const QList<TableInfo*>&tgt, Q
 DBAnalyst::~DBAnalyst()
 {
     MigrationTableMatch *current;
-    for (int i = 0; i < nameMatches.keys().count(); i++)
+    for (int i = 0; i < _nameMatches.keys().count(); i++)
     {
-        current = static_cast<MigrationTableMatch*>(nameMatches.take(nameMatches.keys().at(i)));
+        current = static_cast<MigrationTableMatch*>(_nameMatches.take(_nameMatches.keys().at(i)));
         if (current)
             delete current;
     }
@@ -49,11 +49,20 @@ void DBAnalyst::analyzeDatabases()
         TableInfo *src = static_cast<TableInfo*>(srcList[srcIndex]);
         if (targetHash.keys().contains(src->name()))
         {
-            nameMatches[src->name()] = new MigrationTableMatch(src, targetHash[src->name()]);
-            emit(nameMatchFound(src->name()));
+            if (isExactMatch(src, targetHash[src->name()]))
+            {
+                _exactMatches[src->name()] = src;
+                emit( exactMatchFound(src->name()) );
+            }
+            else
+            {
+                _nameMatches[src->name()] = new MigrationTableMatch(src, targetHash[src->name()]);
+                emit(nameMatchFound(src->name()));
+            }
         }
         else
         {
+            _noMatches[src->name()] = src;
             emit(noMatchFound(src->name()));
         }
     }
@@ -68,10 +77,64 @@ void DBAnalyst::analyzeDatabases(const QList<TableInfo*> &src, const QList<Table
 
 MigrationTableMatch* DBAnalyst::getNameMatchTable(const QString &name)
 {
-    return nameMatches.value(name);
+    return _nameMatches.value(name);
 }
 
 void DBAnalyst::setTableMatch(const QString &tableName, const QString &src, const QString &tgt)
 {
     getNameMatchTable(tableName)->setMatch(src, tgt);
+}
+
+bool DBAnalyst::isExactMatch(TableInfo *src, TableInfo *tgt)
+{
+    bool matchFound;
+
+    if (src->fieldNames().count() != tgt->fieldNames().count())
+        return false;
+
+    for (int i = 0; i < src->fieldNames().count(); i++)
+    {
+        for (int j = 0; j < tgt->fieldNames().count(); j++)
+        {
+            if (tgt->fieldName(j) == src->fieldName(i) && tgt->fieldType(j) == src->fieldType(i))
+            {
+                matchFound = true;
+                break;
+            }
+            else
+            {
+                matchFound = false;
+            }
+        }
+
+        if (!matchFound)
+            return false;
+    }
+    return true;
+}
+
+bool DBAnalyst::createTables() const
+{
+    return _createTables;
+}
+
+void DBAnalyst::setCreateTables(const bool &create)
+{
+    _createTables = create;
+}
+
+
+QStringList DBAnalyst::nameMatches() const
+{
+    return _nameMatches.keys();
+}
+
+QStringList DBAnalyst::exactMatches() const
+{
+    return _exactMatches.keys();
+}
+
+QStringList DBAnalyst::noMatches() const
+{
+    return _noMatches.keys();
 }

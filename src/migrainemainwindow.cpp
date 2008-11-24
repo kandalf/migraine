@@ -26,6 +26,7 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f)
 	connDialog = new ConnectionDialog(this);
     _settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
     analyst = new DBAnalyst(this);
+    analyst->setCreateTables(true);
     readSettings();
 	setupObjectConnections();
 	refreshConnections();
@@ -47,13 +48,17 @@ void MigraineMainWindow::setupObjectConnections()
 	connect( actionConnections, SIGNAL(activated()), connDialog, SLOT(show()) );
 	connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
     connect( connDialog, SIGNAL(settingsWritten()), this, SLOT(readSettings()) );
+    connect( analyst, SIGNAL(exactMatchFound(const QString&)), this, SLOT(exactMatch(const QString&)) );
     connect( analyst, SIGNAL(nameMatchFound(const QString&)), this, SLOT(matchByName(const QString&)) );
     connect( analyst, SIGNAL(noMatchFound(const QString&)), this, SLOT(noMatch(const QString&)) );
 
-    connect(nameMatchListView, SIGNAL(pressed(const QModelIndex &)), this, SLOT(nameMatchSelected(const QModelIndex &)));
+    connect( nameMatchListView, SIGNAL(pressed(const QModelIndex &)), this, SLOT(nameMatchSelected(const QModelIndex &)) );
 
-    connect(tgtColumnsTableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(tgtColumnSelected()) );
-    connect(addMapColumnButton, SIGNAL(clicked()), this, SLOT(addMapColumn()));
+    connect( tgtColumnsTableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(tgtColumnSelected()) );
+    connect( addMapColumnButton, SIGNAL(clicked()), this, SLOT(addMapColumn()) );
+
+    connect( createTablesCheckbox, SIGNAL(toggled(bool)), analyst, SLOT(setCreateTables(bool)) );
+    connect( previewMigrationButton, SIGNAL(clicked()), this, SLOT(previewMigration()) );
 }
 
 void MigraineMainWindow::refreshConnections()
@@ -143,11 +148,32 @@ void MigraineMainWindow::analyzeDatabases()
     );
 }
 
+void MigraineMainWindow::exactMatch(const QString &name)
+{
+    QStringList names;
+    QStringListModel *model;
+
+    if (exactMatchListView->model())
+    {
+        model = static_cast<QStringListModel*>(exactMatchListView->model());
+        names = model->stringList();
+    }
+    else
+    {
+        model = new QStringListModel(exactMatchListView);
+    }
+
+    names << name;
+    model->setStringList(names);
+
+    exactMatchListView->setModel(model);
+}
 
 void MigraineMainWindow::matchByName(const QString &name)
 {
     QStringList names;
     QStringListModel *model;
+
     if (nameMatchListView->model())
     {
         model = static_cast<QStringListModel*>(nameMatchListView->model());
@@ -267,4 +293,21 @@ void MigraineMainWindow::refreshMapView(const QString &tableName)
         model = new MapTableNameMatchModel(data, mapColumnsTreeView);
         mapColumnsTreeView->setModel(model);
     }
+}
+
+void MigraineMainWindow::previewMigration()
+{
+    QStringListModel *copiedModel = new QStringListModel(analyst->exactMatches(), copiedTablesListView);
+    QStringListModel *migratedModel = new QStringListModel(analyst->nameMatches(), migratedTablesListView);
+    QStringListModel *createdModel = new QStringListModel(analyst->noMatches(), createdTablesListView);
+
+    copiedTablesListView->setModel(copiedModel);
+    migratedTablesListView->setModel(migratedModel);
+    createdTablesListView->setModel(createdModel);
+    stepsTabWidget->setCurrentIndex(2);
+}
+
+void MigraineMainWindow::resetMigration()
+{
+
 }

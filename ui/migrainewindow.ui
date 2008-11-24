@@ -143,19 +143,339 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_11" >
         <item row="0" column="0" >
-         <layout class="QVBoxLayout" name="verticalLayout_5" >
+         <layout class="QHBoxLayout" name="horizontalLayout_4" >
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4" >
+           <widget class="QGroupBox" name="exactMatchGroupBox" >
+            <property name="title" >
+             <string>E&amp;xact Matches</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_7" >
+             <item row="0" column="0" >
+              <widget class="QListView" name="exactMatchListView" >
+               <property name="editTriggers" >
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="nameMatchGroupBox" >
+            <property name="title" >
+             <string>&amp;Name Matches</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_6" >
+             <item row="0" column="0" >
+              <widget class="QListView" name="nameMatchListView" >
+               <property name="editTriggers" >
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="noMatchGroupBox" >
+            <property name="title" >
+             <string>N&amp;o Matches</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_8" >
+             <item row="0" column="0" >
+              <widget class="QListView" name="noMatchListView" >
+               <property name="editTriggers" >
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0" >
+         <layout class="QHBoxLayout" name="horizontalLayout_3" >
+          <item>
+           <widget class="QFrame" name="srcColumnsFrame" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="frameShape" >
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow" >
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_9" >
+             <item row="1" column="0" >
+              <widget class="QTableWidget" name="srcColumnsTableWidget" >
+               <property name="selectionMode" >
+                <enum>QAbstractItemView::ExtendedSelection</enum>
+               </property>
+               <property name="selectionBehavior" >
+                <enum>QAbstractItemView::SelectRows</enum>
+               </property>
+               <property name="sortingEnabled" >
+                <bool>false</bool>
+               </property>
+               <property name="cornerButtonEnabled" >
+                <bool>false</bool>
+               </property>
+               <property name="columnCount" >
+                <number>2</number>
+               </property>
+               <column>
+                <property name="text" >
+                 <string>Field</string>
+                </property>
+               </column>
+               <column>
+                <property name="text" >
+                 <string>Type</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item row="0" column="0" >
+              <widget class="QLabel" name="label_3" >
+               <property name="text" >
+                <string>Sour&amp;ce Columns</string>
+               </property>
+               <property name="buddy" >
+                <cstring>srcColumnsTableWidget</cstring>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="tgtColumnsFrame" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="frameShape" >
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow" >
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_10" >
+             <item row="0" column="0" >
+              <widget class="QLabel" name="label_4" >
+               <property name="text" >
+                <string>&amp;Target Columns</string>
+               </property>
+               <property name="buddy" >
+                <cstring>tgtColumnsTableWidget</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" >
+              <widget class="QTableWidget" name="tgtColumnsTableWidget" >
+               <property name="selectionBehavior" >
+                <enum>QAbstractItemView::SelectRows</enum>
+               </property>
+               <property name="columnCount" >
+                <number>2</number>
+               </property>
+               <column>
+                <property name="text" >
+                 <string>Field</string>
+                </property>
+               </column>
+               <column>
+                <property name="text" >
+                 <string>Type</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4" >
             <item>
-             <widget class="QGroupBox" name="exactMatchGroupBox" >
-              <property name="title" >
-               <string>E&amp;xact Matches</string>
+             <spacer name="verticalSpacer_2" >
+              <property name="orientation" >
+               <enum>Qt::Vertical</enum>
               </property>
-              <layout class="QGridLayout" name="gridLayout_7" >
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QToolButton" name="addMapColumnButton" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
+              <property name="text" >
+               <string>...</string>
+              </property>
+              <property name="icon" >
+               <iconset resource="../resource/migraine.qrc" >
+                <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="delMapColumnButton" >
+              <property name="enabled" >
+               <bool>false</bool>
+              </property>
+              <property name="text" >
+               <string>...</string>
+              </property>
+              <property name="icon" >
+               <iconset resource="../resource/migraine.qrc" >
+                <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+              </property>
+              <property name="iconSize" >
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer" >
+              <property name="orientation" >
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QFrame" name="mapColumnsFrame" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="frameShape" >
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow" >
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_12" >
+             <item row="1" column="0" >
+              <widget class="QLabel" name="label_5" >
+               <property name="text" >
+                <string>Ma&amp;pped Columns</string>
+               </property>
+               <property name="buddy" >
+                <cstring>mapColumnsTreeView</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" >
+              <widget class="QTreeView" name="mapColumnsTreeView" >
+               <property name="editTriggers" >
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <property name="tabKeyNavigation" >
+                <bool>true</bool>
+               </property>
+               <property name="alternatingRowColors" >
+                <bool>true</bool>
+               </property>
+               <property name="autoExpandDelay" >
+                <number>1</number>
+               </property>
+               <property name="animated" >
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0" >
+         <layout class="QHBoxLayout" name="horizontalLayout_7" >
+          <item>
+           <widget class="QPushButton" name="resetMigrationButton" >
+            <property name="text" >
+             <string>&amp;Reset Migration</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="previewMigrationButton" >
+            <property name="text" >
+             <string>&amp;Preview Migration</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="previewTab" >
+       <attribute name="title" >
+        <string>Previe&amp;w</string>
+       </attribute>
+       <attribute name="toolTip" >
+        <string>Migration Preview</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_16" >
+        <item row="0" column="0" >
+         <layout class="QVBoxLayout" name="verticalLayout_6" >
+          <item>
+           <widget class="QCheckBox" name="createTablesCheckbox" >
+            <property name="text" >
+             <string>Create Unmatched Tables</string>
+            </property>
+            <property name="checked" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6" >
+            <item>
+             <widget class="QGroupBox" name="copiedTablesGroupBox" >
+              <property name="title" >
+               <string>These tables will be copied</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_13" >
                <item row="0" column="0" >
-                <widget class="QListView" name="exactMatchListView" >
+                <widget class="QListView" name="copiedTablesListView" >
                  <property name="editTriggers" >
                   <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="showDropIndicator" stdset="0" >
+                  <bool>false</bool>
+                 </property>
+                 <property name="selectionMode" >
+                  <enum>QAbstractItemView::NoSelection</enum>
                  </property>
                 </widget>
                </item>
@@ -163,15 +483,21 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="nameMatchGroupBox" >
+             <widget class="QGroupBox" name="migratedTablesGroupBox" >
               <property name="title" >
-               <string>&amp;Name Matches</string>
+               <string>These tables will be migrated</string>
               </property>
-              <layout class="QGridLayout" name="gridLayout_6" >
+              <layout class="QGridLayout" name="gridLayout_15" >
                <item row="0" column="0" >
-                <widget class="QListView" name="nameMatchListView" >
+                <widget class="QListView" name="migratedTablesListView" >
                  <property name="editTriggers" >
                   <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="showDropIndicator" stdset="0" >
+                  <bool>false</bool>
+                 </property>
+                 <property name="selectionMode" >
+                  <enum>QAbstractItemView::NoSelection</enum>
                  </property>
                 </widget>
                </item>
@@ -179,15 +505,18 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="noMatchGroupBox" >
+             <widget class="QGroupBox" name="createdTablesGroupBox" >
               <property name="title" >
-               <string>N&amp;o Matches</string>
+               <string>These tables will be created</string>
               </property>
-              <layout class="QGridLayout" name="gridLayout_8" >
+              <layout class="QGridLayout" name="gridLayout_14" >
                <item row="0" column="0" >
-                <widget class="QListView" name="noMatchListView" >
+                <widget class="QListView" name="createdTablesListView" >
                  <property name="editTriggers" >
                   <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="selectionMode" >
+                  <enum>QAbstractItemView::NoSelection</enum>
                  </property>
                 </widget>
                </item>
@@ -197,212 +526,25 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3" >
+           <layout class="QHBoxLayout" name="horizontalLayout_5" >
             <item>
-             <widget class="QFrame" name="srcColumnsFrame" >
-              <property name="enabled" >
-               <bool>false</bool>
+             <spacer name="horizontalSpacer" >
+              <property name="orientation" >
+               <enum>Qt::Horizontal</enum>
               </property>
-              <property name="frameShape" >
-               <enum>QFrame::StyledPanel</enum>
+              <property name="sizeHint" stdset="0" >
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
               </property>
-              <property name="frameShadow" >
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_9" >
-               <item row="1" column="0" >
-                <widget class="QTableWidget" name="srcColumnsTableWidget" >
-                 <property name="selectionMode" >
-                  <enum>QAbstractItemView::ExtendedSelection</enum>
-                 </property>
-                 <property name="selectionBehavior" >
-                  <enum>QAbstractItemView::SelectRows</enum>
-                 </property>
-                 <property name="sortingEnabled" >
-                  <bool>false</bool>
-                 </property>
-                 <property name="cornerButtonEnabled" >
-                  <bool>false</bool>
-                 </property>
-                 <property name="columnCount" >
-                  <number>2</number>
-                 </property>
-                 <column>
-                  <property name="text" >
-                   <string>Field</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text" >
-                   <string>Type</string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_3" >
-                 <property name="text" >
-                  <string>Sour&amp;ce Columns</string>
-                 </property>
-                 <property name="buddy" >
-                  <cstring>srcColumnsTableWidget</cstring>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
+             </spacer>
             </item>
             <item>
-             <widget class="QFrame" name="tgtColumnsFrame" >
-              <property name="enabled" >
-               <bool>false</bool>
+             <widget class="QPushButton" name="migratePushButton" >
+              <property name="text" >
+               <string>Mi&amp;grate</string>
               </property>
-              <property name="frameShape" >
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow" >
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_10" >
-               <item row="0" column="0" >
-                <widget class="QLabel" name="label_4" >
-                 <property name="text" >
-                  <string>&amp;Target Columns</string>
-                 </property>
-                 <property name="buddy" >
-                  <cstring>tgtColumnsTableWidget</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0" >
-                <widget class="QTableWidget" name="tgtColumnsTableWidget" >
-                 <property name="selectionBehavior" >
-                  <enum>QAbstractItemView::SelectRows</enum>
-                 </property>
-                 <property name="columnCount" >
-                  <number>2</number>
-                 </property>
-                 <column>
-                  <property name="text" >
-                   <string>Field</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text" >
-                   <string>Type</string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_4" >
-              <item>
-               <spacer name="verticalSpacer_2" >
-                <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0" >
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QToolButton" name="addMapColumnButton" >
-                <property name="enabled" >
-                 <bool>false</bool>
-                </property>
-                <property name="text" >
-                 <string>...</string>
-                </property>
-                <property name="icon" >
-                 <iconset resource="../resource/migraine.qrc" >
-                  <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QToolButton" name="delMapColumnButton" >
-                <property name="enabled" >
-                 <bool>false</bool>
-                </property>
-                <property name="text" >
-                 <string>...</string>
-                </property>
-                <property name="icon" >
-                 <iconset resource="../resource/migraine.qrc" >
-                  <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-                </property>
-                <property name="iconSize" >
-                 <size>
-                  <width>18</width>
-                  <height>18</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer" >
-                <property name="orientation" >
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0" >
-                 <size>
-                  <width>20</width>
-                  <height>40</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QFrame" name="mapColumnsFrame" >
-              <property name="enabled" >
-               <bool>false</bool>
-              </property>
-              <property name="frameShape" >
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow" >
-               <enum>QFrame::Raised</enum>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_12" >
-               <item row="1" column="0" >
-                <widget class="QLabel" name="label_5" >
-                 <property name="text" >
-                  <string>Ma&amp;pped Columns</string>
-                 </property>
-                 <property name="buddy" >
-                  <cstring>mapColumnsTreeView</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0" >
-                <widget class="QTreeView" name="mapColumnsTreeView" >
-                 <property name="editTriggers" >
-                  <set>QAbstractItemView::NoEditTriggers</set>
-                 </property>
-                 <property name="tabKeyNavigation" >
-                  <bool>true</bool>
-                 </property>
-                 <property name="alternatingRowColors" >
-                  <bool>true</bool>
-                 </property>
-                 <property name="autoExpandDelay" >
-                  <number>1</number>
-                 </property>
-                 <property name="animated" >
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
              </widget>
             </item>
            </layout>
@@ -456,8 +598,8 @@
    </property>
    <property name="minimumSize" >
     <size>
-     <width>92</width>
-     <height>111</height>
+     <width>100</width>
+     <height>118</height>
     </size>
    </property>
    <property name="floating" >
@@ -590,9 +732,43 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>createTablesCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>createdTablesListView</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>368</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>606</x>
+     <y>280</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>createTablesCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>createdTablesGroupBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>368</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>606</x>
+     <y>268</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showTableFields()</slot>
   <slot>analyzeDatabases()</slot>
+  <slot>previewMigration()</slot>
+  <slot>resetMigration()</slot>
  </slots>
 </ui>
