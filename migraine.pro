@@ -13,7 +13,8 @@ OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
 FORMS = ui/migrainewindow.ui \
-    ui/connectiondialog.ui
+    ui/connectiondialog.ui \
+    ui/settingsdialog.ui
 HEADERS = src/connectiondialog.h \
     src/types.h \
     src/connectionlistitem.h \
@@ -24,7 +25,8 @@ HEADERS = src/connectiondialog.h \
     src/dbanalyst.h \
     src/migrationtablematch.h \
     src/migrainemainwindow.h \
-    src/maptablenamematchmodel.h
+    src/maptablenamematchmodel.h \
+    settingsdialog.h
 SOURCES = src/migrainemainwindow.cpp \
     src/main.cpp \
     src/connectiondialog.cpp \
@@ -35,5 +37,6 @@ SOURCES = src/migrainemainwindow.cpp \
     src/tableinfomodel.cpp \
     src/dbanalyst.cpp \
     src/migrationtablematch.cpp \
-    src/maptablenamematchmodel.cpp
+    src/maptablenamematchmodel.cpp \
+    settingsdialog.cpp
 RESOURCES += resource/migraine.qrc

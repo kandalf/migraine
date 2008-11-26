@@ -1,4 +1,5 @@
 #include <QHash>
+#include <QHashIterator>
 #include <QPair>
 #include <QSqlField>
 #include "dbanalyst.h"
@@ -137,4 +138,19 @@ QStringList DBAnalyst::exactMatches() const
 QStringList DBAnalyst::noMatches() const
 {
     return _noMatches.keys();
+}
+
+QStringList DBAnalyst::tablesToMigrate() const
+{
+    QStringList tableNames;
+    QHashIterator<QString, MigrationTableMatch*> it(_nameMatches);
+    MigrationTableMatch *current;
+
+    while(it.hasNext())
+    {
+        current = static_cast<MigrationTableMatch *>(it.next().value());
+        if (current->count() > 0)
+            tableNames << current->source()->name();
+    }
+    return tableNames;
 }

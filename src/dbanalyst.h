@@ -20,6 +20,7 @@ Q_PROPERTY(bool createTables READ createTables WRITE setCreateTables);
         QStringList exactMatches() const;
         QStringList nameMatches() const;
         QStringList noMatches() const;
+        QStringList tablesToMigrate() const;
 
     public slots:
         void setSourceList(const QList<TableInfo*>&list);

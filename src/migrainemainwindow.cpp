@@ -7,6 +7,7 @@
 #include <QSqlField>
 #include "migrainemainwindow.h"
 #include "connectiondialog.h"
+//#include "settingsdialog.h"
 #include "tableinfo.h"
 #include "tableinfomodel.h"
 #include "dbanalyst.h"
@@ -23,7 +24,8 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f)
 	
 	setupUi(this);
 	
-	connDialog = new ConnectionDialog(this);
+    connDialog = new ConnectionDialog(this);
+//    connDialog = new SettingsDialog(this);
     _settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
     analyst = new DBAnalyst(this);
     analyst->setCreateTables(true);
@@ -298,7 +300,7 @@ void MigraineMainWindow::refreshMapView(const QString &tableName)
 void MigraineMainWindow::previewMigration()
 {
     QStringListModel *copiedModel = new QStringListModel(analyst->exactMatches(), copiedTablesListView);
-    QStringListModel *migratedModel = new QStringListModel(analyst->nameMatches(), migratedTablesListView);
+    QStringListModel *migratedModel = new QStringListModel(analyst->tablesToMigrate(), migratedTablesListView);
     QStringListModel *createdModel = new QStringListModel(analyst->noMatches(), createdTablesListView);
 
     copiedTablesListView->setModel(copiedModel);

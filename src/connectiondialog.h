@@ -7,10 +7,6 @@
 #include "ui_connectiondialog.h"
 #include "types.h"
 
-/*#ifndef CONFIG_FILE_PATH
-#define CONFIG_FILE_PATH "conf/settings.ini"
-#endif*/
-
 class ConnectionListItem;
 
 class ConnectionDialog : 

@@ -21,6 +21,7 @@
 
 
 class ConnectionDialog;
+//class SettingsDialog;
 class QSettings;
 class QTableWidgetItem;
 class TableInfo;
@@ -60,8 +61,9 @@ Q_OBJECT
 	private:
 		void setupObjectConnections();
 		TableInfoModel* buildTreeModel(QSqlDatabase db);
-		
+
         ConnectionDialog *connDialog;
+//        SettingsDialog *connDialog;
         DBAnalyst *analyst;
 		QSettings *_settings;
 };
