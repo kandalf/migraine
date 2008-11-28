@@ -242,8 +242,8 @@ void MigraineMainWindow::buildColumnsItems(TableInfo *info, int type)
     else if(type == TARGET_COLUMNS)
         tableWidget = tgtColumnsTableWidget;
 
-    for (int i = 0; i < tableWidget->rowCount(); i++)
-        tableWidget->removeRow(i);
+    while (tableWidget->rowCount() > 0)
+        tableWidget->removeRow(0);
 
     for (int i = 0; i < info->fieldNames().count(); i++)
     {
@@ -273,7 +273,7 @@ void MigraineMainWindow::addMapColumn()
     analyst->setTableMatch(
                 nameMatchListView->currentIndex().data(Qt::DisplayRole).toString(),
                 srcColumnsTableWidget->item(srcColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString(),
-                srcColumnsTableWidget->item(tgtColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString()
+                tgtColumnsTableWidget->item(tgtColumnsTableWidget->currentRow(), 0)->data(Qt::DisplayRole).toString()
                 );
     refreshMapView(nameMatchListView->currentIndex().data(Qt::DisplayRole).toString());
     srcColumnsTableWidget->removeRow(srcColumnsTableWidget->currentRow());

@@ -28,6 +28,17 @@ bool MigrationTableMatch::setMatch(const QString &srcField, const QString &tgtFi
     }
     else
     {
+       /* if (!_source->fieldNames().contains(srcField))
+        {
+            QStringList fields = _source->fieldNames();
+            qDebug(QString("Source field %1 is not included").arg(srcField).toAscii());
+        }
+
+
+        if (!_target->fieldNames().contains(tgtField))
+            qDebug("Target field is not included");
+        */
+
         return false;
     }
 }
