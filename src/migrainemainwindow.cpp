@@ -47,12 +47,15 @@ void MigraineMainWindow::setupObjectConnections()
 {
 	connect( dbSrcConnCombo, SIGNAL(activated(const QString &)), this, SLOT(srcConnectionSelected(const QString&)) );
 	connect( dbTargetConnCombo, SIGNAL(activated(const QString &)), this, SLOT(tgtConnectionSelected(const QString&)) );
-	connect( actionConnections, SIGNAL(activated()), connDialog, SLOT(show()) );
+    connect( actionConnections, SIGNAL(activated()), connDialog, SLOT(show()) );
+
 	connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
     connect( connDialog, SIGNAL(settingsWritten()), this, SLOT(readSettings()) );
+
     connect( analyst, SIGNAL(exactMatchFound(const QString&)), this, SLOT(exactMatch(const QString&)) );
     connect( analyst, SIGNAL(nameMatchFound(const QString&)), this, SLOT(matchByName(const QString&)) );
     connect( analyst, SIGNAL(noMatchFound(const QString&)), this, SLOT(noMatch(const QString&)) );
+    connect(analyst, SIGNAL(setMatchError(const QString&)), logTextEdit, SLOT(append(const QString&)));
 
     connect( nameMatchListView, SIGNAL(pressed(const QModelIndex &)), this, SLOT(nameMatchSelected(const QModelIndex &)) );
 

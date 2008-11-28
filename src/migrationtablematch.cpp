@@ -22,9 +22,8 @@ bool MigrationTableMatch::setMatch(const QString &srcField, const QString &tgtFi
 {
     if (_source->fieldNames().contains(srcField) && _target->fieldNames().contains(tgtField))
     {
+        //qDebug(QString("Table: %1\nSource: %2\nTarget: %3").arg(this->source()->name()).arg(srcField).arg(tgtField).toAscii());
         matches.append(qMakePair(_source->field(srcField), _target->field(tgtField)));
-//        qDebug("Params: " + srcField.toAscii() + " - " + tgtField.toAscii());
-//        qDebug("Matches: " + matches.at(0).first.name().toAscii() + " - " + matches.at(0).second.name().toAscii());
         return true;
     }
     else

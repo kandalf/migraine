@@ -83,7 +83,9 @@ MigrationTableMatch* DBAnalyst::getNameMatchTable(const QString &name)
 
 void DBAnalyst::setTableMatch(const QString &tableName, const QString &src, const QString &tgt)
 {
-    getNameMatchTable(tableName)->setMatch(src, tgt);
+    if (!getNameMatchTable(tableName)->setMatch(src, tgt))
+        emit setMatchError(tr("Unable to set match: %1 -> %2 on table %3").arg(src).arg(tgt).arg(tableName));
+
 }
 
 bool DBAnalyst::isExactMatch(TableInfo *src, TableInfo *tgt)

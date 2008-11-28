@@ -36,6 +36,7 @@ Q_PROPERTY(bool createTables READ createTables WRITE setCreateTables);
         void exactMatchFound(const QString &name);
         void nameMatchFound(const QString &name);
         void noMatchFound(const QString &name);
+        void setMatchError(const QString &msg);
 
     private slots:
         bool isExactMatch(TableInfo *src, TableInfo *tgt);
