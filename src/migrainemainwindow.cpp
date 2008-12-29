@@ -11,11 +11,12 @@
 #include "tableinfo.h"
 #include "tableinfomodel.h"
 #include "dbanalyst.h"
+#include "dbmigrator.h"
 #include "migrationtablematch.h"
 #include "maptablenamematchmodel.h"
 
 
-MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f) 
+MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f )
 	: QMainWindow(parent, f)
 {
 	QCoreApplication::setApplicationName("Migraine");
@@ -29,27 +30,28 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f)
     _settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
     analyst = new DBAnalyst(this);
     analyst->setCreateTables(true);
+    migrator = new DBMigrator(this->analyst, this);
     readSettings();
-	setupObjectConnections();
-	refreshConnections();
+    setupObjectConnections();
+    refreshConnections();
 }
 
 MigraineMainWindow::~MigraineMainWindow()
 {
-	for (int i = 0; i < QSqlDatabase::connectionNames().size(); i++)
-	{
-		if (QSqlDatabase::database(QSqlDatabase::connectionNames().at(i)).isOpen())
-			QSqlDatabase::database(QSqlDatabase::connectionNames().at(i)).close();
-	}
+    for (int i = 0; i < QSqlDatabase::connectionNames().size(); i++)
+    {
+        if (QSqlDatabase::database(QSqlDatabase::connectionNames().at(i)).isOpen())
+            QSqlDatabase::database(QSqlDatabase::connectionNames().at(i)).close();
+    }
 }
 
 void MigraineMainWindow::setupObjectConnections()
 {
-	connect( dbSrcConnCombo, SIGNAL(activated(const QString &)), this, SLOT(srcConnectionSelected(const QString&)) );
-	connect( dbTargetConnCombo, SIGNAL(activated(const QString &)), this, SLOT(tgtConnectionSelected(const QString&)) );
+    connect( dbSrcConnCombo, SIGNAL(activated(const QString &)), this, SLOT(srcConnectionSelected(const QString&)) );
+    connect( dbTargetConnCombo, SIGNAL(activated(const QString &)), this, SLOT(tgtConnectionSelected(const QString&)) );
     connect( actionConnections, SIGNAL(activated()), connDialog, SLOT(show()) );
 
-	connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
+    connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
     connect( connDialog, SIGNAL(settingsWritten()), this, SLOT(readSettings()) );
 
     connect( analyst, SIGNAL(exactMatchFound(const QString&)), this, SLOT(exactMatch(const QString&)) );
@@ -64,27 +66,32 @@ void MigraineMainWindow::setupObjectConnections()
 
     connect( createTablesCheckbox, SIGNAL(toggled(bool)), analyst, SLOT(setCreateTables(bool)) );
     connect( previewMigrationButton, SIGNAL(clicked()), this, SLOT(previewMigration()) );
+
+    connect( migratePushButton, SIGNAL(clicked()), this, SLOT(startMigration()) );
+    connect( this->migrator, SIGNAL(migrationError(const QString &)), this, SLOT(showErrorMessage(const QString&)));
+    connect( this->migrator, SIGNAL(tableCopyProgress(const int&, const int&)), this, SLOT(updateProgressBar(const int&,const int&)) );
+
 }
 
 void MigraineMainWindow::refreshConnections()
 {
-	for (int i = 0; i < dbSrcConnCombo->count(); i++)
-	{
-		dbSrcConnCombo->removeItem(i);
-		dbTargetConnCombo->removeItem(i);
-	}
-	QString emptyOption(tr("Select a connection"));
-	dbSrcConnCombo->addItem(emptyOption);
-	dbTargetConnCombo->addItem(emptyOption);
-	
-	dbSrcConnCombo->addItems(QSqlDatabase::connectionNames());
-	dbTargetConnCombo->addItems(QSqlDatabase::connectionNames());
-	
-	if (dbSrcConnCombo->count() > 1)
-		dbSrcConnCombo->showPopup();
-		
-	if (dbTargetConnCombo->count() > 1)
-		dbTargetConnCombo->showPopup();
+    for (int i = 0; i < dbSrcConnCombo->count(); i++)
+    {
+        dbSrcConnCombo->removeItem(i);
+        dbTargetConnCombo->removeItem(i);
+    }
+    QString emptyOption(tr("Select a connection"));
+    dbSrcConnCombo->addItem(emptyOption);
+    dbTargetConnCombo->addItem(emptyOption);
+
+    dbSrcConnCombo->addItems(QSqlDatabase::connectionNames());
+    dbTargetConnCombo->addItems(QSqlDatabase::connectionNames());
+
+    if (dbSrcConnCombo->count() > 1)
+            dbSrcConnCombo->showPopup();
+
+    if (dbTargetConnCombo->count() > 1)
+            dbTargetConnCombo->showPopup();
 }
 
 void MigraineMainWindow::srcConnectionSelected(const QString &name)
@@ -98,20 +105,21 @@ void MigraineMainWindow::srcConnectionSelected(const QString &name)
 	}
 		
 	srcDbTreeView->setModel(buildTreeModel(db));
+        this->migrator->setSourceConnectionName(name);
 }
 
 void MigraineMainWindow::tgtConnectionSelected(const QString &name)
 {
-	QSqlDatabase db = QSqlDatabase::database(name, true);
-	if (!db.isOpen())
+    QSqlDatabase db = QSqlDatabase::database(name, true);
+    if (!db.isOpen())
     {
         QMessageBox::critical(this, tr("Error"), tr("Cannot Open Database: %1").arg(db.lastError().text()));
 		logTextEdit->append("Cannot Open Database: " + db.lastError().text());
 		return;
-	}
+    }
 		
     targetDbTreeView->setModel(buildTreeModel(db));
-
+    this->migrator->setTargetConnectionName(name);
 }
 
 void MigraineMainWindow::readSettings()
@@ -315,4 +323,21 @@ void MigraineMainWindow::previewMigration()
 void MigraineMainWindow::resetMigration()
 {
 
+}
+
+void MigraineMainWindow::startMigration()
+{
+    this->migrator->start();
+}
+
+void MigraineMainWindow::showErrorMessage(const QString &message)
+{
+    logTextEdit->append(message);
+}
+
+void MigraineMainWindow::updateProgressBar(const int &value, const int &total)
+{
+    qDebug(QString("Update %1 of %2").arg(value).arg(total).toAscii());
+    migrationProgressBar->setRange(0, total);
+    migrationProgressBar->setValue(value);
 }

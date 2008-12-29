@@ -551,6 +551,13 @@
           </item>
          </layout>
         </item>
+        <item row="1" column="0" >
+         <widget class="QProgressBar" name="migrationProgressBar" >
+          <property name="value" >
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </widget>
@@ -598,8 +605,8 @@
    </property>
    <property name="minimumSize" >
     <size>
-     <width>100</width>
-     <height>118</height>
+     <width>156</width>
+     <height>167</height>
     </size>
    </property>
    <property name="floating" >

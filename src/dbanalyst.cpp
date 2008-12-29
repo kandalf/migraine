@@ -156,3 +156,8 @@ QStringList DBAnalyst::tablesToMigrate() const
     }
     return tableNames;
 }
+
+TableInfo* DBAnalyst::exactMatch(const QString &tableName) const
+{
+    return _exactMatches.value(tableName);
+}

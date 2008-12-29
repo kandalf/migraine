@@ -27,45 +27,49 @@ class QTableWidgetItem;
 class TableInfo;
 class TableInfoModel;
 class DBAnalyst;
+class DBMigrator;
 
 class MigraineMainWindow : public QMainWindow, public Ui::MigraineWindow
 {
 Q_OBJECT
 
 	public:
-		MigraineMainWindow( QWidget * parent = 0, Qt::WFlags f = 0 );
-		~MigraineMainWindow();
-		QSettings* settings();
+            MigraineMainWindow( QWidget * parent = 0, Qt::WFlags f = 0 );
+            ~MigraineMainWindow();
+            QSettings* settings();
 		
 	public slots:
-		void refreshConnections();
-		void readSettings();
-		void writeSettings();
-        void analyzeDatabases();
+            void refreshConnections();
+            void readSettings();
+            void writeSettings();
+            void analyzeDatabases();
 
 	private slots:
-		void srcConnectionSelected(const QString&);
-        void tgtConnectionSelected(const QString&);
-        void exactMatch(const QString&);
-        void matchByName(const QString&);
-        void noMatch(const QString&);
-        void nameMatchSelected(const QModelIndex &);
-        void buildColumnsItems(TableInfo*, int);
-        void enableColumnsWidgets();
-        void tgtColumnSelected();
-        void addMapColumn();
-        void refreshMapView(const QString &tableName);
-        void previewMigration();
-        void resetMigration();
+            void srcConnectionSelected(const QString&);
+            void tgtConnectionSelected(const QString&);
+            void exactMatch(const QString&);
+            void matchByName(const QString&);
+            void noMatch(const QString&);
+            void nameMatchSelected(const QModelIndex &);
+            void buildColumnsItems(TableInfo*, int);
+            void enableColumnsWidgets();
+            void tgtColumnSelected();
+            void addMapColumn();
+            void refreshMapView(const QString &tableName);
+            void previewMigration();
+            void resetMigration();
+            void startMigration();
+            void showErrorMessage(const QString &error);
+            void updateProgressBar(const int &value, const int &total);
 
 	private:
-		void setupObjectConnections();
-		TableInfoModel* buildTreeModel(QSqlDatabase db);
-
-        ConnectionDialog *connDialog;
-//        SettingsDialog *connDialog;
-        DBAnalyst *analyst;
-		QSettings *_settings;
+            void setupObjectConnections();
+            TableInfoModel* buildTreeModel(QSqlDatabase db);
+            ConnectionDialog *connDialog;
+    //        SettingsDialog *connDialog;
+            DBAnalyst *analyst;
+            DBMigrator *migrator;
+            QSettings *_settings;
 };
 #endif
 
