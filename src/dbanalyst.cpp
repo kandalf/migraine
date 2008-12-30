@@ -161,3 +161,8 @@ TableInfo* DBAnalyst::exactMatch(const QString &tableName) const
 {
     return _exactMatches.value(tableName);
 }
+
+MigrationTableMatch* DBAnalyst::nameMatch(const QString &tableName) const
+{
+    return _nameMatches.value(tableName);
+}

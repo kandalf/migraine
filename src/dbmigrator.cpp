@@ -1,5 +1,6 @@
 #include <QSqlDatabase>
 #include <QSqlError>
+#include <QSqlField>
 #include <QVariant>
 #include "dbmigrator.h"
 #include "tableinfo.h"
@@ -56,6 +57,11 @@ void DBMigrator::migrateDatabase(const QString &srcConnName, const QString &tgtC
     {
         copyTable(analyst->exactMatch(analyst->exactMatches().value(i)));
     }
+
+    for (int i = 0; i < analyst->nameMatches().count(); i++)
+    {
+        migrateTable(analyst->nameMatch(analyst->nameMatches().value(i)));
+    }
 }
 
 void DBMigrator::copyTable(const TableInfo *table)
@@ -67,17 +73,12 @@ void DBMigrator::copyTable(const TableInfo *table)
     QSqlQuery srcQuery = srcDb.exec(constructSrcCopySQL(table));
     QSqlQuery tgtQuery;
 
-    if (srcQuery.isActive() && srcQuery.isSelect())
+    if (srcQuery.isSelect() && srcQuery.isActive())
     {
         srcQuery.seek(0);
         while(srcQuery.next())
         {
-            QString sql = constructTgtCopySQL(table, srcQuery);
-            sqlBatch << sql;
-//            tgtQuery = tgtDb.exec(sql);
-//            if (!tgtQuery.isValid())
-//                emit(migrationError(tr("Error executing: %1 -- %2").arg(sql).arg(tgtDb.lastError().text())));
-//            qDebug(sql.toAscii());
+            sqlBatch << constructTgtCopySQL(table, srcQuery);
         }
         insertTransactionBatch(sqlBatch);
     }
@@ -85,16 +86,50 @@ void DBMigrator::copyTable(const TableInfo *table)
     {
         emit(migrationError(QString("Source DB Error: %1: %2").arg(srcDb.databaseName()).arg(srcDb.lastError().text())));
     }
-    srcDb.close();
-    tgtDb.close();
 }
 
+void DBMigrator::migrateTable(const MigrationTableMatch *migrationTable)
+{
+    QSqlDatabase srcDb = QSqlDatabase::database(_srcConnectionName, true);
+    QSqlDatabase tgtDb = QSqlDatabase::database(_tgtConnectionName, true);
+    QSqlQuery srcQuery = srcDb.exec(constructSrcMigrationSQL(migrationTable));
+    QStringList sqlBatch;
+
+    if (srcQuery.isSelect() && srcQuery.isActive())
+    {
+        while(srcQuery.next())
+        { 
+            sqlBatch << constructTgtMigrationSQL(migrationTable, srcQuery);
+        }
+        insertTransactionBatch(sqlBatch);
+    }
+    else
+    {
+        emit(migrationError(QString("Source DB Error: %1: %2").arg(srcDb.databaseName()).arg(srcDb.lastError().text())));
+    }
+
+}
 
 QString DBMigrator::constructSrcCopySQL(const TableInfo *table) const
 {
     QString query("SELECT %1 FROM %2");
     return query.arg(table->fieldNames().join(",")).arg(table->name());
+}
 
+QString DBMigrator::constructSrcMigrationSQL(const MigrationTableMatch *migrationTable) const
+{
+    QString selectQuery("SELECT %1 FROM %2");
+    QStringList fields;
+    QPair<QSqlField, QSqlField>currentMatch;
+    TableInfo *srcTable = migrationTable->source();
+
+    for (int i = 0; i < migrationTable->count(); i++)
+    {
+        currentMatch = migrationTable->getMatch(i);
+        fields << currentMatch.first.name() + " AS " + currentMatch.second.name();
+    }
+
+    return selectQuery.arg(fields.join(", ")).arg(srcTable->name());
 }
 
 QString DBMigrator::constructTgtCopySQL(const TableInfo *tableInfo, const QSqlQuery &srcQuery) const
@@ -104,24 +139,40 @@ QString DBMigrator::constructTgtCopySQL(const TableInfo *tableInfo, const QSqlQu
 
     for( int i = 0; i < tableInfo->fieldNames().count(); i++)
     {
-//        qDebug("TYPE: " + tableInfo->fieldType(i).toAscii());
-
-        if (tableInfo->fieldType(i) == "QString" )
-        {
-            values << "'" + srcQuery.value(i).toString() + "'";
-        }
-        else if(tableInfo->fieldType(i) == "QDateTime")
-        {
-            values << QString("TIMESTAMP '%1'").arg(srcQuery.value(i).toString());
-        }
-        else
-        {
-            values << srcQuery.value(i).toString();
-        }
+        values << this->fixSqlSyntax(tableInfo->fieldType(i), srcQuery.value(i).toString());
+//        if (tableInfo->fieldType(i) == "QString" )
+//        {
+//            values << "'" + srcQuery.value(i).toString() + "'";
+//        }
+//        else if(tableInfo->fieldType(i) == "QDateTime")
+//        {
+//            values << QString("TIMESTAMP '%1'").arg(srcQuery.value(i).toString());
+//        }
+//        else
+//        {
+//            values << srcQuery.value(i).toString();
+//        }
     }
 
     return insertQuery.arg(tableInfo->name()).arg(tableInfo->fieldNames().join(", ")).arg(values.join(", "));
 }
+
+QString DBMigrator::constructTgtMigrationSQL(const MigrationTableMatch *migrationTable, const QSqlQuery &srcQuery) const
+{
+    QString insertQuery("INSERT INTO %1 (%2) VALUES (%3);");
+    QStringList fieldNames;
+    QStringList values;
+    QPair<QSqlField, QSqlField>currentMatch;
+
+    for( int i = 0; i < migrationTable->count(); i++)
+    {
+        currentMatch = migrationTable->getMatch(i);
+        fieldNames << currentMatch.second.name();
+        values << this->fixSqlSyntax(migrationTable->target()->fieldType(currentMatch.second.name()), srcQuery.value(i).toString());
+    }
+    return insertQuery.arg(migrationTable->target()->name()).arg(fieldNames.join(", ")).arg(values.join(", "));
+}
+
 
 void DBMigrator::insertTransactionBatch(const QStringList &batch)
 {
@@ -135,20 +186,38 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
     {
         query = tgtDb.exec(sentence);
 
-//        emit(migrationError(QString::number(query.numRowsAffected())));
         if (query.numRowsAffected() != 1) {
             emit(migrationError(tr("Target DB %1 Error: %2. Aborted!").arg(tgtDb.databaseName()).arg(tgtDb.lastError().text())));
             emit(migrationError(tr("Error executing: %1").arg(sentence)));
             if (transactionValid)
+            {
                 tgtDb.exec("ROLLBACK");
+                emit(tr("Rolled Back"));
+            }
             return;
         } else {
-            emit(migrationError(QString("Executing: %1").arg(sentence)));
             emit(tableCopyProgress(batch.indexOf(sentence), batch.size()));
         }
     }
     if (transactionValid) {
         tgtDb.exec("COMMIT;");
-        emit(migrationError("Committed"));
     }
+}
+
+
+QString DBMigrator::fixSqlSyntax(const QString &qType, const QString &value) const
+{
+    if (qType == "QString" )
+    {
+        return "'" + value + "'";
+    }
+    else if(qType == "QDateTime")
+    {
+        return QString("TIMESTAMP '%1'").arg(value);
+    }
+    else
+    {
+        return value;
+    }
+
 }

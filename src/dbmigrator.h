@@ -6,6 +6,7 @@
 
 class DBAnalyst;
 class TableInfo;
+class MigrationTableMatch;
 
 class DBMigrator : public QThread
 {
@@ -22,11 +23,15 @@ Q_OBJECT
 
     public slots:
         void copyTable(const TableInfo *table);
+        void migrateTable(const MigrationTableMatch *migrationTable);
 
     protected:
         void run();
         QString constructSrcCopySQL(const TableInfo *table) const;
         QString constructTgtCopySQL(const TableInfo *tableInfo, const QSqlQuery &srcQuery) const;
+        QString constructSrcMigrationSQL(const MigrationTableMatch *migrationTable) const;
+        QString constructTgtMigrationSQL(const MigrationTableMatch *migrationTable, const QSqlQuery &srcQuery) const;
+        QString fixSqlSyntax(const QString &qType, const QString &value) const;
 
     protected slots:
         void insertTransactionBatch(const QStringList &batch);
