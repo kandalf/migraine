@@ -55,11 +55,13 @@ void DBMigrator::migrateDatabase(const QString &srcConnName, const QString &tgtC
 
     for (int i = 0; i < analyst->exactMatches().count(); i++)
     {
+        emit(tableCopyStarted(analyst->exactMatches().value(i), i));
         copyTable(analyst->exactMatch(analyst->exactMatches().value(i)));
     }
 
     for (int i = 0; i < analyst->nameMatches().count(); i++)
     {
+        emit(tableMigrationStarted(analyst->nameMatches().value(i), i));
         migrateTable(analyst->nameMatch(analyst->nameMatches().value(i)));
     }
 }
@@ -140,18 +142,6 @@ QString DBMigrator::constructTgtCopySQL(const TableInfo *tableInfo, const QSqlQu
     for( int i = 0; i < tableInfo->fieldNames().count(); i++)
     {
         values << this->fixSqlSyntax(tableInfo->fieldType(i), srcQuery.value(i).toString());
-//        if (tableInfo->fieldType(i) == "QString" )
-//        {
-//            values << "'" + srcQuery.value(i).toString() + "'";
-//        }
-//        else if(tableInfo->fieldType(i) == "QDateTime")
-//        {
-//            values << QString("TIMESTAMP '%1'").arg(srcQuery.value(i).toString());
-//        }
-//        else
-//        {
-//            values << srcQuery.value(i).toString();
-//        }
     }
 
     return insertQuery.arg(tableInfo->name()).arg(tableInfo->fieldNames().join(", ")).arg(values.join(", "));
@@ -192,11 +182,11 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
             if (transactionValid)
             {
                 tgtDb.exec("ROLLBACK");
-                emit(tr("Rolled Back"));
+                emit(migrationError(tr("Rolled Back")));
             }
             return;
         } else {
-            emit(tableCopyProgress(batch.indexOf(sentence), batch.size()));
+            emit(insertProgress(batch.indexOf(sentence), batch.size()));
         }
     }
     if (transactionValid) {

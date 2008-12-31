@@ -43,7 +43,7 @@ Q_OBJECT
         void tableCreationStarted(const QString &tableName, const int &index);
         void migrationError(const QString &msg);
         void migrationDone(const int &copied, const int &migrated, const int &created);
-        void tableCopyProgress(const int &index, const int &total);
+        void insertProgress(const int &index, const int &total);
 
     private:
         DBAnalyst *_analyst;

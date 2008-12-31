@@ -27,6 +27,7 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f )
 	
     connDialog = new ConnectionDialog(this);
 //    connDialog = new SettingsDialog(this);
+
     _settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
     analyst = new DBAnalyst(this);
     analyst->setCreateTables(true);
@@ -69,7 +70,7 @@ void MigraineMainWindow::setupObjectConnections()
 
     connect( migratePushButton, SIGNAL(clicked()), this, SLOT(startMigration()) );
     connect( this->migrator, SIGNAL(migrationError(const QString &)), this, SLOT(showErrorMessage(const QString&)));
-    connect( this->migrator, SIGNAL(tableCopyProgress(const int&, const int&)), this, SLOT(updateProgressBar(const int&,const int&)) );
+    connect( this->migrator, SIGNAL(insertProgress(const int&, const int&)), this, SLOT(updateProgressBar(const int&,const int&)) );
 
 }
 
