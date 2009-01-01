@@ -1,95 +1,94 @@
 <ui version="4.0" >
  <class>MigrationProgressWidget</class>
- <widget class="QFrame" name="MigrationProgressWidget" >
+ <widget class="QDialog" name="MigrationProgressWidget" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>211</height>
+    <width>452</width>
+    <height>179</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3" >
+  <property name="windowTitle" >
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2" >
    <item row="0" column="0" >
-    <layout class="QGridLayout" name="gridLayout_2" >
-     <item row="0" column="0" >
-      <layout class="QVBoxLayout" name="verticalLayout_2" >
+    <layout class="QVBoxLayout" name="verticalLayout_2" >
+     <item>
+      <layout class="QGridLayout" name="gridLayout" >
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label" >
+         <property name="text" >
+          <string>Copying Tables</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QProgressBar" name="copyTablesProgressBar" >
+         <property name="value" >
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QLabel" name="label_2" >
+         <property name="text" >
+          <string>Migrating Tables</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QProgressBar" name="migrateTablesProgressBar" >
+         <property name="value" >
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string>Creating Tables</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QProgressBar" name="createTablesProgressBar" >
+         <property name="value" >
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer" >
+       <property name="orientation" >
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0" >
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout" >
        <item>
-        <layout class="QGridLayout" name="gridLayout" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label" >
-           <property name="text" >
-            <string>Copying Tables</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1" >
-          <widget class="QProgressBar" name="copyTablesProgressBar" >
-           <property name="value" >
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="label_2" >
-           <property name="text" >
-            <string>Migrating Tables</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1" >
-          <widget class="QProgressBar" name="migrateTablesProgressBar" >
-           <property name="value" >
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0" >
-          <widget class="QLabel" name="label_3" >
-           <property name="text" >
-            <string>Creating Tables</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1" >
-          <widget class="QProgressBar" name="createTablesProgressBar" >
-           <property name="value" >
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QLabel" name="label_4" >
+         <property name="text" >
+          <string>Inserting Records</string>
+         </property>
+        </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer" >
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
+        <widget class="QProgressBar" name="insertProgressBar" >
+         <property name="value" >
+          <number>0</number>
          </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout" >
-         <item>
-          <widget class="QLabel" name="label_4" >
-           <property name="text" >
-            <string>Inserting Records</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QProgressBar" name="insertProgressBar" >
-           <property name="value" >
-            <number>0</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        </widget>
        </item>
       </layout>
      </item>

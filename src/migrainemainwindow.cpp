@@ -14,6 +14,7 @@
 #include "dbmigrator.h"
 #include "migrationtablematch.h"
 #include "maptablenamematchmodel.h"
+#include "migrationprogresswidget.h"
 
 
 MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f )
@@ -32,6 +33,7 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f )
     analyst = new DBAnalyst(this);
     analyst->setCreateTables(true);
     migrator = new DBMigrator(this->analyst, this);
+    progressWidget = new MigrationProgressWidget(this);
     readSettings();
     setupObjectConnections();
     refreshConnections();
@@ -69,9 +71,13 @@ void MigraineMainWindow::setupObjectConnections()
     connect( previewMigrationButton, SIGNAL(clicked()), this, SLOT(previewMigration()) );
 
     connect( migratePushButton, SIGNAL(clicked()), this, SLOT(startMigration()) );
-    connect( this->migrator, SIGNAL(migrationError(const QString &)), this, SLOT(showErrorMessage(const QString&)));
-    connect( this->migrator, SIGNAL(insertProgress(const int&, const int&)), this, SLOT(updateProgressBar(const int&,const int&)) );
-
+    connect( migrator, SIGNAL(migrationError(const QString &)), this, SLOT(showErrorMessage(const QString&)));
+    connect( migrator, SIGNAL(insertProgress(const int&, const int&)), progressWidget, SLOT(setInsertProgress(const int&, const int &)) );
+    connect( migrator, SIGNAL(tablesToCopy(const int&)), progressWidget, SLOT(setCopyProgressTotal(const int&)) );
+    connect( migrator, SIGNAL(tablesToMigrate(const int&)), progressWidget, SLOT(setMigrateProgressTotal(const int&)) );
+    connect( migrator, SIGNAL(tablesToCreate(const int&)), progressWidget, SLOT(setCreateProgressTotal(const int&)) );
+//    connect( migrator, SIGNAL(migrationDone()), progressWidget, SLOT(close()) );
+    connect( migrator, SIGNAL(migrationDone(const int&, const int&, const int&)), this, SLOT(showMigrationStats(const int&, const int&, const int&)) );
 }
 
 void MigraineMainWindow::refreshConnections()
@@ -328,7 +334,8 @@ void MigraineMainWindow::resetMigration()
 
 void MigraineMainWindow::startMigration()
 {
-    this->migrator->start();
+    progressWidget->show();
+    migrator->start();
 }
 
 void MigraineMainWindow::showErrorMessage(const QString &message)
@@ -338,7 +345,15 @@ void MigraineMainWindow::showErrorMessage(const QString &message)
 
 void MigraineMainWindow::updateProgressBar(const int &value, const int &total)
 {
-    qDebug(QString("Update %1 of %2").arg(value).arg(total).toAscii());
-    migrationProgressBar->setRange(0, total);
-    migrationProgressBar->setValue(value);
+//    qDebug(QString("Update %1 of %2").arg(value).arg(total).toAscii());
+//    migrationProgressBar->setRange(0, total);
+//    migrationProgressBar->setValue(value);
+}
+
+void MigraineMainWindow::showMigrationStats(const int &copied, const int &migrated, const int &created)
+{
+    QString msg(tr("Migration Finished\nCopied: %1\nMigrated: %2\nCreated: %3").arg(copied).arg(migrated).arg(created));
+
+    QMessageBox::information(this, tr("Finish"), msg);
+    logTextEdit->append(msg);
 }

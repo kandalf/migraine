@@ -22,6 +22,7 @@
 
 class ConnectionDialog;
 //class SettingsDialog;
+class MigrationProgressWidget;
 class QSettings;
 class QTableWidgetItem;
 class TableInfo;
@@ -61,12 +62,14 @@ Q_OBJECT
             void startMigration();
             void showErrorMessage(const QString &error);
             void updateProgressBar(const int &value, const int &total);
+            void showMigrationStats(const int &copied, const int &migrated, const int &created);
 
 	private:
             void setupObjectConnections();
             TableInfoModel* buildTreeModel(QSqlDatabase db);
             ConnectionDialog *connDialog;
     //        SettingsDialog *connDialog;
+            MigrationProgressWidget *progressWidget;
             DBAnalyst *analyst;
             DBMigrator *migrator;
             QSettings *_settings;

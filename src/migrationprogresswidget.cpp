@@ -1,7 +1,7 @@
 #include "migrationprogresswidget.h"
 
 MigrationProgressWidget::MigrationProgressWidget(QWidget *parent, Qt::WindowFlags f)
-        :QFrame(parent, f)
+        :QDialog(parent, f)
 {
     setupUi(this);
 }
@@ -34,4 +34,10 @@ void MigrationProgressWidget::setCreateProgressTotal(const int &total)
 void MigrationProgressWidget::setCreateProgress(const int &value)
 {
     createTablesProgressBar->setValue(value);
+}
+
+void MigrationProgressWidget::setInsertProgress(const int &total, const int &value)
+{
+    insertProgressBar->setMaximum(total);
+    insertProgressBar->setValue(value);
 }

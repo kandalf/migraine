@@ -52,6 +52,9 @@ void DBMigrator::migrateDatabase(const QString &srcConnName, const QString &tgtC
     _analyst = analyst;
 
     emit (beforeMigrationStart(analyst->exactMatches().count(), analyst->tablesToMigrate().count(), analyst->noMatches().count()));
+    emit (tablesToCopy(analyst->exactMatches().count()));
+    emit (tablesToMigrate(analyst->nameMatches().count()));
+    emit (tablesToCreate(analyst->noMatches().count()));
 
     for (int i = 0; i < analyst->exactMatches().count(); i++)
     {
@@ -64,6 +67,9 @@ void DBMigrator::migrateDatabase(const QString &srcConnName, const QString &tgtC
         emit(tableMigrationStarted(analyst->nameMatches().value(i), i));
         migrateTable(analyst->nameMatch(analyst->nameMatches().value(i)));
     }
+
+    emit(migrationDone(analyst->exactMatches().count(), analyst->nameMatches().count(), analyst->noMatches().count()));
+    emit(migrationDone());
 }
 
 void DBMigrator::copyTable(const TableInfo *table)
@@ -192,6 +198,7 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
     if (transactionValid) {
         tgtDb.exec("COMMIT;");
     }
+    emit(insertProgress(batch.size(), batch.size()));
 }
 
 

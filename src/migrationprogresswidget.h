@@ -1,10 +1,10 @@
 #ifndef MIGRATIONPROGRESSWIDGET_H
 #define MIGRATIONPROGRESSWIDGET_H
 
-#include <QFrame>
+#include <QDialog>
 #include "ui_migrationprogresswidget.h"
 
-class MigrationProgressWidget : public QFrame, public Ui::MigrationProgressWidget
+class MigrationProgressWidget : public QDialog, public Ui::MigrationProgressWidget
 {
 Q_OBJECT
     public:
@@ -17,7 +17,7 @@ Q_OBJECT
         void setMigrateProgress(const int &value);
         void setCreateProgressTotal(const int &total);
         void setCreateProgress(const int &value);
-
+        void setInsertProgress(const int &value, const int &total);
 };
 
 #endif // MIGRATIONPROGRESSWIDGET_H

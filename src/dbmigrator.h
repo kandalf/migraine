@@ -41,8 +41,12 @@ Q_OBJECT
         void tableCopyStarted(const QString &tableName, const int &index);
         void tableMigrationStarted(const QString &tableName, const int &index);
         void tableCreationStarted(const QString &tableName, const int &index);
+        void tablesToCopy(const int &total);
+        void tablesToMigrate(const int &total);
+        void tablesToCreate(const int &total);
         void migrationError(const QString &msg);
         void migrationDone(const int &copied, const int &migrated, const int &created);
+        void migrationDone();
         void insertProgress(const int &index, const int &total);
 
     private:
