@@ -20,16 +20,17 @@
 MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f )
 	: QMainWindow(parent, f)
 {
-	QCoreApplication::setApplicationName("Migraine");
+    QCoreApplication::setApplicationName("Migraine");
     QCoreApplication::setOrganizationDomain("migraine.com");
     QCoreApplication::setOrganizationName("MIGRAINE");
 	
-	setupUi(this);
+    setupUi(this);
 	
     connDialog = new ConnectionDialog(this);
 //    connDialog = new SettingsDialog(this);
 
-    _settings = new QSettings("conf/settings.ini", QSettings::IniFormat, this);
+    _settings = new QSettings(CONFIG_FILE_PATH, QSettings::IniFormat, this);
+
     analyst = new DBAnalyst(this);
     analyst->setCreateTables(true);
     migrator = new DBMigrator(this->analyst, this);
@@ -66,8 +67,6 @@ void MigraineMainWindow::setupObjectConnections()
     connect( analyst, SIGNAL(noMatchFound(const QString&)), this, SLOT(noMatch(const QString&)) );
     connect( analyst, SIGNAL(setMatchError(const QString&)), logTextEdit, SLOT(append(const QString&)));
     connect( analyst, SIGNAL(analysisDone(bool)), actionPre_view_Migration, SLOT(setEnabled(bool)) );
-//    connect( analyst, SIGNAL(analysisDone(bool)), actionMigrate, SLOT(setEnabled(bool)) );
-//    connect( analyst, SIGNAL(analysisDone(bool)), actionReset_Migration, SLOT(setEnabled(bool)) );
 
     connect( actionMigrate, SIGNAL(activated()), this, SLOT(startMigration()) );
 
@@ -76,9 +75,7 @@ void MigraineMainWindow::setupObjectConnections()
     connect( addMapColumnButton, SIGNAL(clicked()), this, SLOT(addMapColumn()) );
 
     connect( createTablesCheckbox, SIGNAL(toggled(bool)), analyst, SLOT(setCreateTables(bool)) );
-    //connect( previewMigrationButton, SIGNAL(clicked()), this, SLOT(previewMigration()) );
 
-//    connect( migrateButton, SIGNAL(clicked()), this, SLOT(startMigration()) );
     connect( migrator, SIGNAL(migrationError(const QString &)), this, SLOT(showErrorMessage(const QString&)));
     connect( migrator, SIGNAL(insertProgress(const int&, const int&)), progressWidget, SLOT(setInsertProgress(const int&, const int &)) );
     connect( migrator, SIGNAL(tablesToCopy(const int&)), progressWidget, SLOT(setCopyProgressTotal(const int&)) );
@@ -89,6 +86,8 @@ void MigraineMainWindow::setupObjectConnections()
     connect( migrator, SIGNAL(tableCopyStarted(const QString&, const int&)), this, SLOT(updateCopyTablesProgress(const QString&, const int&)) );
     connect( migrator, SIGNAL(tableMigrationStarted(const QString&, const int&)), this, SLOT(updateMigrateTablesProgress(const QString&, const int&)) );
     connect( migrator, SIGNAL(tableCreationStarted(const QString&, const int&)), this, SLOT(updateCreateTablesProgress(const QString&, const int&)) );
+
+    connect( actionOutput, SIGNAL(changed()), this, SLOT(writeSettings()) );
 }
 
 void MigraineMainWindow::refreshConnections()
@@ -152,12 +151,18 @@ void MigraineMainWindow::tgtConnectionSelected(const QString &name)
 
 void MigraineMainWindow::readSettings()
 {
-	// do some read task here
+    // do some read task here
+    _settings->beginGroup("MainWindow");
+    actionOutput->setChecked(_settings->value("show_output").toBool());
+    _settings->endGroup();
 }
 
 void MigraineMainWindow::writeSettings()
 {
-	// do some write task here
+    _settings->beginGroup("MainWindow");
+    _settings->setValue("show_output", actionOutput->isChecked());
+    _settings->endGroup();
+    _settings->sync();
 }
 
 QSettings* MigraineMainWindow::settings()

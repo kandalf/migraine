@@ -612,14 +612,14 @@
    </property>
    <property name="minimumSize" >
     <size>
-     <width>260</width>
-     <height>100</height>
+     <width>292</width>
+     <height>128</height>
     </size>
    </property>
    <property name="maximumSize" >
     <size>
      <width>524287</width>
-     <height>258</height>
+     <height>286</height>
     </size>
    </property>
    <property name="floating" >
@@ -674,6 +674,8 @@
    <addaction name="actionPre_view_Migration" />
    <addaction name="actionReset_Migration" />
    <addaction name="actionMigrate" />
+   <addaction name="separator" />
+   <addaction name="actionOutput" />
   </widget>
   <action name="actionConnections" >
    <property name="icon" >
@@ -696,6 +698,10 @@
    </property>
    <property name="checked" >
     <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../resource/migraine.qrc" >
+     <normaloff>:/icons/output.png</normaloff>:/icons/output.png</iconset>
    </property>
    <property name="text" >
     <string>Output</string>
