@@ -76,7 +76,7 @@ void MigraineMainWindow::setupObjectConnections()
     connect( migrator, SIGNAL(tablesToCopy(const int&)), progressWidget, SLOT(setCopyProgressTotal(const int&)) );
     connect( migrator, SIGNAL(tablesToMigrate(const int&)), progressWidget, SLOT(setMigrateProgressTotal(const int&)) );
     connect( migrator, SIGNAL(tablesToCreate(const int&)), progressWidget, SLOT(setCreateProgressTotal(const int&)) );
-//    connect( migrator, SIGNAL(migrationDone()), progressWidget, SLOT(close()) );
+    connect( migrator, SIGNAL(migrationDone()), progressWidget, SLOT(close()) );
     connect( migrator, SIGNAL(migrationDone(const int&, const int&, const int&)), this, SLOT(showMigrationStats(const int&, const int&, const int&)) );
 }
 

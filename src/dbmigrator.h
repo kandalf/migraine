@@ -3,6 +3,7 @@
 
 #include <QThread>
 #include <QSqlQuery>
+#include <QSqlField>
 
 class DBAnalyst;
 class TableInfo;
@@ -24,6 +25,7 @@ Q_OBJECT
     public slots:
         void copyTable(const TableInfo *table);
         void migrateTable(const MigrationTableMatch *migrationTable);
+        void createTable(const TableInfo *table);
 
     protected:
         void run();
@@ -32,6 +34,8 @@ Q_OBJECT
         QString constructSrcMigrationSQL(const MigrationTableMatch *migrationTable) const;
         QString constructTgtMigrationSQL(const MigrationTableMatch *migrationTable, const QSqlQuery &srcQuery) const;
         QString fixSqlSyntax(const QString &qType, const QString &value) const;
+        QString fieldNamesForCreate(const TableInfo *tableInfo) const;
+        QString fieldTypeForCreate(const QSqlField &field) const;
 
     protected slots:
         void insertTransactionBatch(const QStringList &batch);

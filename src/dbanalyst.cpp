@@ -166,3 +166,8 @@ MigrationTableMatch* DBAnalyst::nameMatch(const QString &tableName) const
 {
     return _nameMatches.value(tableName);
 }
+
+TableInfo* DBAnalyst::noMatch(const QString &tableName) const
+{
+    return _noMatches.value(tableName);
+}

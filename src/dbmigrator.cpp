@@ -1,6 +1,5 @@
 #include <QSqlDatabase>
 #include <QSqlError>
-#include <QSqlField>
 #include <QVariant>
 #include "dbmigrator.h"
 #include "tableinfo.h"
@@ -68,6 +67,12 @@ void DBMigrator::migrateDatabase(const QString &srcConnName, const QString &tgtC
         migrateTable(analyst->nameMatch(analyst->nameMatches().value(i)));
     }
 
+    for (int i = 0; i < analyst->noMatches().count(); i++)
+    {
+        emit(tableCreationStarted(analyst->noMatches().value(i), i));
+        createTable(analyst->noMatch(analyst->noMatches().value(i)));
+    }
+
     emit(migrationDone(analyst->exactMatches().count(), analyst->nameMatches().count(), analyst->noMatches().count()));
     emit(migrationDone());
 }
@@ -116,6 +121,55 @@ void DBMigrator::migrateTable(const MigrationTableMatch *migrationTable)
         emit(migrationError(QString("Source DB Error: %1: %2").arg(srcDb.databaseName()).arg(srcDb.lastError().text())));
     }
 
+}
+
+void DBMigrator::createTable(const TableInfo *tableInfo)
+{
+    QSqlDatabase tgtDb = QSqlDatabase::database(_tgtConnectionName);
+    QString query = "CREATE TABLE %1 (%2)";
+
+    tgtDb.exec(query.arg(tableInfo->name()).arg(fieldNamesForCreate(tableInfo)));
+
+    copyTable(tableInfo);
+//    if (tgtDb.lastError().text().isEmpty() || tgtDb.lastError().text().isNull())
+//
+//    else
+//        emit(migrationError(tr("Table creation error: %1: %2").arg(tgtDb.databaseName()).arg(tgtDb.lastError().text())));
+}
+
+
+QString DBMigrator::fieldNamesForCreate(const TableInfo *tableInfo) const
+{
+    QStringList fields;
+
+    foreach (QString fieldName, tableInfo->fieldNames())
+        fields << fieldName.append(" ").append(fieldTypeForCreate(tableInfo->field(fieldName)));
+
+    return fields.join(", ");
+}
+
+QString DBMigrator::fieldTypeForCreate(const QSqlField &field) const
+{
+    QString dbDriver = QSqlDatabase::database(_tgtConnectionName).driverName();
+    switch (field.type())
+    {
+        case QVariant::Bool:
+            return "boolean";
+        case QVariant::Double:
+            if (dbDriver.contains("MYSQL"))
+                return "double";
+            else
+                return "real";
+        case QVariant::Int:
+            return "integer";
+        case QVariant::Date:
+        case QVariant::DateTime:
+        case QVariant::Time:
+            return "timestamp";
+        default:
+            return "text";
+
+    }
 }
 
 QString DBMigrator::constructSrcCopySQL(const TableInfo *table) const
@@ -204,17 +258,19 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
 
 QString DBMigrator::fixSqlSyntax(const QString &qType, const QString &value) const
 {
+    QString sqlValue(value);
+
     if (qType == "QString" )
     {
-        return "'" + value + "'";
+        return "'" + sqlValue.replace("'", "\\'") + "'";
     }
     else if(qType == "QDateTime")
     {
-        return QString("TIMESTAMP '%1'").arg(value);
+        return QString("TIMESTAMP '%1'").arg(sqlValue.replace("'", "\\'"));
     }
     else
     {
-        return value;
+        return sqlValue.replace("'", "\\'");
     }
 
 }

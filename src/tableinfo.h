@@ -8,21 +8,21 @@ class QSqlField;
 
 class TableInfo
 {
-	public:
-		TableInfo(const QString &name, const QSqlRecord &data); 
-	
-		QString name() const;
-		QStringList fieldNames() const;
-		QStringList fieldTypes() const;
-		QString fieldName(const int&) const;
-		QString fieldType(const int&) const;
-		QString fieldType(const QString&) const;
+    public:
+        TableInfo(const QString &name, const QSqlRecord &data);
+
+        QString name() const;
+        QStringList fieldNames() const;
+        QStringList fieldTypes() const;
+        QString fieldName(const int&) const;
+        QString fieldType(const int&) const;
+        QString fieldType(const QString&) const;
         QSqlField field(const int&) const;
         QSqlField field(const QString&) const;
 
-	private:
-		QString tableName;
-		QSqlRecord tableData;
+    private:
+        QString tableName;
+        QSqlRecord tableData;
 };
 
 #endif // __TABLEINFO_H__
