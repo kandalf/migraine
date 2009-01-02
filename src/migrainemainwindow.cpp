@@ -78,6 +78,9 @@ void MigraineMainWindow::setupObjectConnections()
     connect( migrator, SIGNAL(tablesToCreate(const int&)), progressWidget, SLOT(setCreateProgressTotal(const int&)) );
     connect( migrator, SIGNAL(migrationDone()), progressWidget, SLOT(close()) );
     connect( migrator, SIGNAL(migrationDone(const int&, const int&, const int&)), this, SLOT(showMigrationStats(const int&, const int&, const int&)) );
+    connect( migrator, SIGNAL(tableCopyStarted(const QString&, const int&)), this, SLOT(updateCopyTablesProgress(const QString&, const int&)) );
+    connect( migrator, SIGNAL(tableMigrationStarted(const QString&, const int&)), this, SLOT(updateMigrateTablesProgress(const QString&, const int&)) );
+    connect( migrator, SIGNAL(tableCreationStarted(const QString&, const int&)), this, SLOT(updateCreateTablesProgress(const QString&, const int&)) );
 }
 
 void MigraineMainWindow::refreshConnections()
@@ -356,4 +359,22 @@ void MigraineMainWindow::showMigrationStats(const int &copied, const int &migrat
 
     QMessageBox::information(this, tr("Finish"), msg);
     logTextEdit->append(msg);
+}
+
+void MigraineMainWindow::updateCopyTablesProgress(const QString &tableName, const int &index)
+{
+    progressWidget->setWindowTitle(tr("Copying... %1").arg(tableName));
+    progressWidget->setCopyProgress(index);
+}
+
+void MigraineMainWindow::updateMigrateTablesProgress(const QString &tableName, const int &index)
+{
+    progressWidget->setWindowTitle(tr("Migrating... %1").arg(tableName));
+    progressWidget->setMigrateProgress(index);
+}
+
+void MigraineMainWindow::updateCreateTablesProgress(const QString &tableName, const int &index)
+{
+    progressWidget->setWindowTitle(tr("Creating... %1").arg(tableName));
+    progressWidget->setCreateProgress(index);
 }
