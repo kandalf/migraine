@@ -37,6 +37,10 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f )
     readSettings();
     setupObjectConnections();
     refreshConnections();
+
+    previewMigrationButton->addAction(actionPre_view_Migration);
+    resetMigrationButton->addAction(actionReset_Migration);
+    migrateButton->addAction(actionMigrate);
 }
 
 MigraineMainWindow::~MigraineMainWindow()
@@ -60,17 +64,21 @@ void MigraineMainWindow::setupObjectConnections()
     connect( analyst, SIGNAL(exactMatchFound(const QString&)), this, SLOT(exactMatch(const QString&)) );
     connect( analyst, SIGNAL(nameMatchFound(const QString&)), this, SLOT(matchByName(const QString&)) );
     connect( analyst, SIGNAL(noMatchFound(const QString&)), this, SLOT(noMatch(const QString&)) );
-    connect(analyst, SIGNAL(setMatchError(const QString&)), logTextEdit, SLOT(append(const QString&)));
+    connect( analyst, SIGNAL(setMatchError(const QString&)), logTextEdit, SLOT(append(const QString&)));
+    connect( analyst, SIGNAL(analysisDone(bool)), actionPre_view_Migration, SLOT(setEnabled(bool)) );
+//    connect( analyst, SIGNAL(analysisDone(bool)), actionMigrate, SLOT(setEnabled(bool)) );
+//    connect( analyst, SIGNAL(analysisDone(bool)), actionReset_Migration, SLOT(setEnabled(bool)) );
+
+    connect( actionMigrate, SIGNAL(activated()), this, SLOT(startMigration()) );
 
     connect( nameMatchListView, SIGNAL(pressed(const QModelIndex &)), this, SLOT(nameMatchSelected(const QModelIndex &)) );
-
     connect( tgtColumnsTableWidget, SIGNAL(itemSelectionChanged()), this, SLOT(tgtColumnSelected()) );
     connect( addMapColumnButton, SIGNAL(clicked()), this, SLOT(addMapColumn()) );
 
     connect( createTablesCheckbox, SIGNAL(toggled(bool)), analyst, SLOT(setCreateTables(bool)) );
-    connect( previewMigrationButton, SIGNAL(clicked()), this, SLOT(previewMigration()) );
+    //connect( previewMigrationButton, SIGNAL(clicked()), this, SLOT(previewMigration()) );
 
-    connect( migratePushButton, SIGNAL(clicked()), this, SLOT(startMigration()) );
+//    connect( migrateButton, SIGNAL(clicked()), this, SLOT(startMigration()) );
     connect( migrator, SIGNAL(migrationError(const QString &)), this, SLOT(showErrorMessage(const QString&)));
     connect( migrator, SIGNAL(insertProgress(const int&, const int&)), progressWidget, SLOT(setInsertProgress(const int&, const int &)) );
     connect( migrator, SIGNAL(tablesToCopy(const int&)), progressWidget, SLOT(setCopyProgressTotal(const int&)) );
@@ -106,16 +114,21 @@ void MigraineMainWindow::refreshConnections()
 
 void MigraineMainWindow::srcConnectionSelected(const QString &name)
 {
-	QSqlDatabase db = QSqlDatabase::database(name, true);
-	if (!db.isOpen())
+    QSqlDatabase db = QSqlDatabase::database(name, true);
+    if (!db.isOpen())
     {
         QMessageBox::critical(this, tr("Error"), tr("Cannot Open Database: %1").arg(db.lastError().text()));
         logTextEdit->append(tr("Cannot Open Database: %1").arg(db.lastError().text()));
-		return;
-	}
+        action_Analyze->setEnabled(false);
+        return;
+    }
 		
-	srcDbTreeView->setModel(buildTreeModel(db));
-        this->migrator->setSourceConnectionName(name);
+    srcDbTreeView->setModel(buildTreeModel(db));
+    this->migrator->setSourceConnectionName(name);
+    action_Analyze->setEnabled(
+                        !migrator->sourceConnectionName().isEmpty() && !migrator->sourceConnectionName().isNull()
+                        && !migrator->targetConnectionName().isEmpty() && !migrator->targetConnectionName().isNull()
+                        );
 }
 
 void MigraineMainWindow::tgtConnectionSelected(const QString &name)
@@ -125,11 +138,16 @@ void MigraineMainWindow::tgtConnectionSelected(const QString &name)
     {
         QMessageBox::critical(this, tr("Error"), tr("Cannot Open Database: %1").arg(db.lastError().text()));
 		logTextEdit->append("Cannot Open Database: " + db.lastError().text());
+                action_Analyze->setEnabled(false);
 		return;
     }
 		
     targetDbTreeView->setModel(buildTreeModel(db));
     this->migrator->setTargetConnectionName(name);
+    action_Analyze->setEnabled(
+                        !migrator->sourceConnectionName().isEmpty() && !migrator->sourceConnectionName().isNull()
+                        && !migrator->targetConnectionName().isEmpty() && !migrator->targetConnectionName().isNull()
+                        );
 }
 
 void MigraineMainWindow::readSettings()
@@ -328,6 +346,9 @@ void MigraineMainWindow::previewMigration()
     migratedTablesListView->setModel(migratedModel);
     createdTablesListView->setModel(createdModel);
     stepsTabWidget->setCurrentIndex(2);
+    actionMigrate->setEnabled(true);
+    actionReset_Migration->setEnabled(true);
+
 }
 
 void MigraineMainWindow::resetMigration()
@@ -344,13 +365,6 @@ void MigraineMainWindow::startMigration()
 void MigraineMainWindow::showErrorMessage(const QString &message)
 {
     logTextEdit->append(message);
-}
-
-void MigraineMainWindow::updateProgressBar(const int &value, const int &total)
-{
-//    qDebug(QString("Update %1 of %2").arg(value).arg(total).toAscii());
-//    migrationProgressBar->setRange(0, total);
-//    migrationProgressBar->setValue(value);
 }
 
 void MigraineMainWindow::showMigrationStats(const int &copied, const int &migrated, const int &created)

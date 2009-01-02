@@ -67,6 +67,7 @@ void DBAnalyst::analyzeDatabases()
             emit(noMatchFound(src->name()));
         }
     }
+    emit(analysisDone(true));
 }
 
 void DBAnalyst::analyzeDatabases(const QList<TableInfo*> &src, const QList<TableInfo*> &tgt)

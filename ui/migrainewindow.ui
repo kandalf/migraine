@@ -6,15 +6,21 @@
     <x>0</x>
     <y>0</y>
     <width>738</width>
-    <height>600</height>
+    <height>626</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Migraine - DB Migration Tool</string>
   </property>
+  <property name="dockNestingEnabled" >
+   <bool>true</bool>
+  </property>
+  <property name="dockOptions" >
+   <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QGridLayout" name="gridLayout_5" >
-    <item row="0" column="0" >
+    <item row="1" column="0" >
      <widget class="QTabWidget" name="stepsTabWidget" >
       <property name="enabled" >
        <bool>true</bool>
@@ -408,13 +414,6 @@
         <item row="2" column="0" >
          <layout class="QHBoxLayout" name="horizontalLayout_7" >
           <item>
-           <widget class="QPushButton" name="resetMigrationButton" >
-            <property name="text" >
-             <string>&amp;Reset Migration</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <spacer name="horizontalSpacer_2" >
             <property name="orientation" >
              <enum>Qt::Horizontal</enum>
@@ -431,6 +430,9 @@
            <widget class="QPushButton" name="previewMigrationButton" >
             <property name="text" >
              <string>&amp;Preview Migration</string>
+            </property>
+            <property name="flat" >
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -528,6 +530,13 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5" >
             <item>
+             <widget class="QPushButton" name="resetMigrationButton" >
+              <property name="text" >
+               <string>&amp;Reset Migration</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer" >
               <property name="orientation" >
                <enum>Qt::Horizontal</enum>
@@ -541,7 +550,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="migratePushButton" >
+             <widget class="QPushButton" name="migrateButton" >
               <property name="text" >
                <string>Mi&amp;grate</string>
               </property>
@@ -571,6 +580,8 @@
      <string>&amp;File</string>
     </property>
     <addaction name="actionConnections" />
+    <addaction name="separator" />
+    <addaction name="action_Quit" />
    </widget>
    <widget class="QMenu" name="menu_View" >
     <property name="title" >
@@ -583,6 +594,9 @@
      <string>&amp;Migration</string>
     </property>
     <addaction name="action_Analyze" />
+    <addaction name="actionPre_view_Migration" />
+    <addaction name="actionMigrate" />
+    <addaction name="actionReset_Migration" />
    </widget>
    <addaction name="menu_File" />
    <addaction name="menuMigration" />
@@ -591,15 +605,21 @@
   <widget class="QStatusBar" name="statusbar" />
   <widget class="QDockWidget" name="outputWidget" >
    <property name="sizePolicy" >
-    <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+    <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
      <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
+     <verstretch>1</verstretch>
     </sizepolicy>
    </property>
    <property name="minimumSize" >
     <size>
-     <width>204</width>
-     <height>209</height>
+     <width>260</width>
+     <height>100</height>
+    </size>
+   </property>
+   <property name="maximumSize" >
+    <size>
+     <width>524287</width>
+     <height>258</height>
     </size>
    </property>
    <property name="floating" >
@@ -649,7 +669,11 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionConnections" />
+   <addaction name="separator" />
    <addaction name="action_Analyze" />
+   <addaction name="actionPre_view_Migration" />
+   <addaction name="actionReset_Migration" />
+   <addaction name="actionMigrate" />
   </widget>
   <action name="actionConnections" >
    <property name="icon" >
@@ -657,10 +681,13 @@
      <normaloff>:/icons/db.png</normaloff>:/icons/db.png</iconset>
    </property>
    <property name="text" >
-    <string>Connections</string>
+    <string>Co&amp;nnections</string>
    </property>
    <property name="toolTip" >
     <string>Show Connections Dialog</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionOutput" >
@@ -679,7 +706,7 @@
   </action>
   <action name="action_Analyze" >
    <property name="enabled" >
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="icon" >
     <iconset resource="../resource/migraine.qrc" >
@@ -693,6 +720,63 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+Shift+A</string>
+   </property>
+  </action>
+  <action name="actionPre_view_Migration" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../resource/migraine.qrc" >
+     <normaloff>:/icons/preview.png</normaloff>:/icons/preview.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Pre&amp;view Migration</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Shift+P</string>
+   </property>
+  </action>
+  <action name="actionMigrate" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../resource/migraine.qrc" >
+     <normaloff>:/icons/db_comit.png</normaloff>:/icons/db_comit.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Migrate</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Shift+M</string>
+   </property>
+  </action>
+  <action name="actionReset_Migration" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../resource/migraine.qrc" >
+     <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Reset Migration</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Shift+R</string>
+   </property>
+  </action>
+  <action name="action_Quit" >
+   <property name="icon" >
+    <iconset resource="../resource/migraine.qrc" >
+     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Quit</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+Q</string>
    </property>
   </action>
  </widget>
@@ -761,6 +845,54 @@
     <hint type="destinationlabel" >
      <x>606</x>
      <y>268</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPre_view_Migration</sender>
+   <signal>activated()</signal>
+   <receiver>MigraineWindow</receiver>
+   <slot>previewMigration()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>368</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionReset_Migration</sender>
+   <signal>activated()</signal>
+   <receiver>MigraineWindow</receiver>
+   <slot>resetMigration()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>368</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Quit</sender>
+   <signal>activated()</signal>
+   <receiver>MigraineWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>368</x>
+     <y>299</y>
     </hint>
    </hints>
   </connection>

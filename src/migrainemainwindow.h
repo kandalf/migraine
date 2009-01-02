@@ -61,7 +61,6 @@ Q_OBJECT
             void resetMigration();
             void startMigration();
             void showErrorMessage(const QString &error);
-            void updateProgressBar(const int &value, const int &total);
             void showMigrationStats(const int &copied, const int &migrated, const int &created);
             void updateCopyTablesProgress(const QString &tableName, const int &index);
             void updateMigrateTablesProgress(const QString &tableName, const int &index);
