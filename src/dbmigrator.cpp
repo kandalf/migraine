@@ -88,7 +88,7 @@ void DBMigrator::copyTable(const TableInfo *table)
 
     if (srcQuery.isSelect() && srcQuery.isActive())
     {
-        srcQuery.seek(0);
+        srcQuery.seek(-1);
         while(srcQuery.next())
         {
             sqlBatch << constructTgtCopySQL(table, srcQuery);
@@ -110,6 +110,7 @@ void DBMigrator::migrateTable(const MigrationTableMatch *migrationTable)
 
     if (srcQuery.isSelect() && srcQuery.isActive())
     {
+        srcQuery.seek(-1);
         while(srcQuery.next())
         { 
             sqlBatch << constructTgtMigrationSQL(migrationTable, srcQuery);
@@ -155,17 +156,21 @@ QString DBMigrator::fieldTypeForCreate(const QSqlField &field) const
     {
         case QVariant::Bool:
             return "boolean";
+
         case QVariant::Double:
             if (dbDriver.contains("MYSQL"))
                 return "double";
             else
                 return "real";
+
         case QVariant::Int:
             return "integer";
+
         case QVariant::Date:
         case QVariant::DateTime:
         case QVariant::Time:
             return "timestamp";
+
         default:
             return "text";
 
@@ -226,6 +231,7 @@ QString DBMigrator::constructTgtMigrationSQL(const MigrationTableMatch *migratio
 
 void DBMigrator::insertTransactionBatch(const QStringList &batch)
 {
+//    emit(migrationError(QString("BATCH SIZE: %1").arg(batch.size())));
     QSqlDatabase tgtDb = QSqlDatabase::database(_tgtConnectionName, true);
     bool transactionValid = false;
 
