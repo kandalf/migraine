@@ -3,3 +3,6 @@ build
 .gitignore
 Makefile*
 debug/
+release/
+qrc_*
+qtc-*
