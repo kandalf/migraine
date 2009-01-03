@@ -1,0 +1,84 @@
+Migraine - DB Migration Tool
+============================
+Author: Leonardo Mateo <leonardomateo@gmail.com>
+
+DISCLAIMER
+==========
+BY INSTALLING OR DISTRIBUTING MIGRAINE AND RELATED SOFTWARE, YOU AGREE WITH
+THE FOLLOWING DISCLAIMER:
+
+MIGRAINE AND RELATED SOFTWARE IS PROVIDED WITHOUT GUARANTEE OR WARRANTY OF
+ANY KIND. TO THE FULLEST EXTENT ALLOWED BY LAW YOU AGREE THAT THE MIGRAINE
+DEVELOPMENT TEAM MEMBERS, CONTRIBUTERS OR DISTRIBUTORS OF THE SOFTWARE CANNOT
+AND WILL NOT BE HELD LIABLE FOR ANY DIRECT OR INDIRECT DAMAGE OR LOSSES CAUSED
+WHOLLY OR IN PART BY THE SOFTWARE.
+
+IN COUNTRIES WHERE THE ABSENCE OF LIABILITY MAY NOT EXIST OR BE RESTRICTED
+BY LAW, MIGRAINE DEVELOPMENT TEAM MEMBERS, CONTRIBUTORS AND DISTRIBUTORS
+LIABILITY SHALL BE LIMITED TO ONE US DOLLAR
+
+SEE COPYING FOR LICENSE DETAILS.
+
+****************************************************************************************************************************
+* IMPORTANT	  													   *
+* ========														   *
+* THIS IS AN ALPHA RELEASE AND SHOULD NOT BE USED ON A PRODUCTION ENVIRONMENT WITHOUT PROPER DATA BACKUP METHODS.	   *
+* 															   *
+* NEVER USE THIS SOFTWARE WITHOUT DOING A BACKUP OF YOUR DATA FIRST IF YOU CARE ABOUT YOUR DATA. YOU CAN FACE A DATA LOSS. *
+****************************************************************************************************************************
+
+What Migraine is
+================
+Migraine is a tool for database migrations to be a little more painless. It allows you to convert a database from one format to another (E.g. From PostgreSQL to MySQL) or to copy a database in the same format to the same or another host.
+
+The target database must exists before Migraine can do it's job. The program will analyse the source and target databases and will:
+- Copy those tables that are exact matches (same name, same columns with same data types)
+- Allow you to map columns for those tables that have the same name but their columns differ
+- Create those tables that exist on the source DB but not on the target DB.
+
+What Migraine is NOT
+====================
+Migraine is NOT a database front end.
+Migraine is NOT a database query builder.
+
+How to build
+============
+1 - Check you have a sane Qt 4.2 development environment with a few Qt SQL drivers (as plugins or compiled).
+2 - Unpack the source code somewhere you like. I'd recommend somewhere in your home directory (if you're building from source yo know how to do that)
+3 - Run:
+	qmake -o Makefile migraine.pro
+	make
+
+After these steps, if no errors, you should have your executable file bin/migraine
+
+How to use it
+=============
+0 - Backup the related databases (Optional but highly recommendable if you care about your data)
+
+1 - The first thing you need to do is to create the databases connections.
+	Use the File/Connections menu entry, the toolbar button or the keybor shortcut Ctrl+N to open the connections dialog.
+	Fill in the fields for the connection data (Remember that if the database is of SQLite or MS Access type you just need to provide the file name and no other data)
+	Hit the "Add" button to actually add the connection to the list of connections.
+	Repeat these steps to add as many connections as you want (You'll need 2 at least src and tgt :) )
+	Hit the "OK" button to close the Connections dialog.
+
+2 - Select, on Main window, the source and target connections.
+	Check the table names and the field names and types on the trees built with the databases schema data
+
+3 - Analyze selected databases using the Migration/Analayze menu entry, the toolbar button or the keyboard shortcut Ctrl+Shift+A
+	This will analyze source and target databases to find similarities and differences for the selected databases, the will show:
+	a - the tables to be copied (those which are exactly the same on source and target DB's)
+	b - the tables to be migrated (those which have the same name on source and target DB's but their fields differ
+	c - the tables to be created (those which doesn't exist on the target DB)
+
+4 - Map columns from source to target tables
+	If tables to be migrated are found, it will let you map the columns from the source table into the target table. You need to select the table on the list, Then select the column on the source table and then select the column on the target table where the source column will be mapped to, after that you need to click the + button to add that column map to the mapped columns list.
+
+5 - Once the mapping is done (if needed), you need to preview the migration using one of the available methods, which will show a list of all the tasks to be performed.
+
+6 - Migrate the database using one of the available methods.
+
+The program will show a progress dialog and then a migration stats dialog.
+You can show/hide the output view to check the messages in case the result is not what was expected.
+
+
