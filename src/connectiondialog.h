@@ -30,10 +30,14 @@ class ConnectionDialog :
 		void deleteConnection();
 		void itemConnectionSelected(QListWidgetItem*);
 		void addDbConnection(ConnectionSettings*);
+                void checkSelectedDriver(const QString &driverName);
+                void browseFiles();
 		
 	private:
 		void setupObjectConnections();
-		
+                void setupDriversList();
+                void findDriverInList(const QString &driverName);
+
 		QHash<QString, QSqlDatabase>connectionHash;
 		bool saved;
 };

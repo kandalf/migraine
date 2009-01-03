@@ -1,4 +1,7 @@
 #include <QSettings>
+#include <QFileDialog>
+#include <QDir>
+//#include <QMessageBox>
 #include "types.h"
 #include "migrainemainwindow.h"
 #include "connectiondialog.h"
@@ -6,41 +9,43 @@
 
 ConnectionDialog::ConnectionDialog(QWidget *parent, Qt::WFlags f) : QDialog(parent, f)
 {
-	setupUi(this);
-	this->saved = false;
-	driversComboBox->addItems(QSqlDatabase::drivers());
-	splitter->setStretchFactor(0, 1);
-	setupObjectConnections();
-	readSettings();
+    setupUi(this);
+    this->saved = false;
+//    driversComboBox->addItems(QSqlDatabase::drivers());
+    splitter->setStretchFactor(0, 1);
+    setupObjectConnections();
+    setupDriversList();
+    readSettings();
 }
 
 void ConnectionDialog::checkConnectionFields()
 {
-	addConnectionButton->setEnabled(
-			(!hostLineEdit->text().isEmpty() && !hostLineEdit->text().isNull()) &&
-			(!databaseLineEdit->text().isEmpty() && !databaseLineEdit->text().isNull()) &&
-			(!driversComboBox->itemText(driversComboBox->currentIndex()).isEmpty() && !driversComboBox->itemText(driversComboBox->currentIndex()).isNull()) 
-		);
+    addConnectionButton->setEnabled(
+                    (!hostLineEdit->text().isEmpty() && !hostLineEdit->text().isNull()) &&
+                    (!databaseLineEdit->text().isEmpty() && !databaseLineEdit->text().isNull()) &&
+                    (!driversComboBox->itemText(driversComboBox->currentIndex()).isEmpty() && !driversComboBox->itemText(driversComboBox->currentIndex()).isNull())
+            );
 }
 
 void ConnectionDialog::addConnection()
 {
-		ConnectionSettings *settings = new ConnectionSettings();
-		
-		settings->name = hostLineEdit->text() + "-" + databaseLineEdit->text() + "_" + driversComboBox->currentText();
-		settings->driver = driversComboBox->currentText();
-		
-		if (driversComboBox->currentText().contains("ODBC"))
-			settings->database = QString("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=%1").arg(databaseLineEdit->text());
-		else
-			settings->database = databaseLineEdit->text();
-			
-		settings->host = hostLineEdit->text();
-		settings->user = userLineEdit->text();
-		settings->password = passwordLineEdit->text();
-		
-		addDbConnection(settings);
-		connListWidget->addItem(new ConnectionListItem(settings, connListWidget));
+    ConnectionSettings *settings = new ConnectionSettings();
+
+    settings->name = hostLineEdit->text() + "-" + databaseLineEdit->text() + "_" + driversComboBox->itemData(driversComboBox->currentIndex()).toString();
+//    settings->driver = driversComboBox->currentText();
+    settings->driver = driversComboBox->itemData(driversComboBox->currentIndex()).toString();
+
+    if (driversComboBox->currentText().contains("MS Access"))
+            settings->database = QString("DRIVER={Microsoft Access Driver (*.mdb)};FIL={MS Access};DBQ=%1").arg(databaseLineEdit->text());
+    else
+            settings->database = databaseLineEdit->text();
+
+    settings->host = hostLineEdit->text();
+    settings->user = userLineEdit->text();
+    settings->password = passwordLineEdit->text();
+
+    addDbConnection(settings);
+    connListWidget->addItem(new ConnectionListItem(settings, connListWidget));
 }
 
 void ConnectionDialog::readSettings()
@@ -100,14 +105,17 @@ void ConnectionDialog::setupObjectConnections()
 	connect( this, SIGNAL(accepted()), this, SLOT(writeSettings()) );
 	connect( connListWidget, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(itemConnectionSelected(QListWidgetItem*)) );
 	connect( connListWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(itemConnectionSelected(QListWidgetItem*)) );
+        connect( driversComboBox, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(checkSelectedDriver(const QString &)) );
+        connect( browseButton, SIGNAL(clicked()), this, SLOT(browseFiles()));
 }
 
 void ConnectionDialog::itemConnectionSelected(QListWidgetItem *settingsItem)
 {
 	ConnectionListItem *settings = (ConnectionListItem*)settingsItem;
 	
-	driversComboBox->setCurrentIndex(driversComboBox->findText(settings->driver()));
-	databaseLineEdit->setText(settings->database());
+//	driversComboBox->setCurrentIndex(driversComboBox->findText(settings->driver()));
+        findDriverInList(settings->driver());
+        databaseLineEdit->setText(settings->database());
 	hostLineEdit->setText(settings->host());
 	
 	if (settings->port())
@@ -118,6 +126,18 @@ void ConnectionDialog::itemConnectionSelected(QListWidgetItem *settingsItem)
 	
 	deleteConnectionButton->setEnabled(true);
 	saveConnectionButton->setEnabled(true);
+}
+
+void ConnectionDialog::findDriverInList(const QString &driverName)
+{
+    for (int i = 0; i < driversComboBox->count(); i++)
+    {
+        if (driversComboBox->itemData(i).toString() == driverName)
+        {
+            driversComboBox->setCurrentIndex(i);
+            return;
+        }
+    }
 }
 
 void ConnectionDialog::saveConnection()
@@ -152,15 +172,68 @@ void ConnectionDialog::deleteConnection()
 void ConnectionDialog::addDbConnection(ConnectionSettings *settings)
 {
 	QSqlDatabase db = QSqlDatabase::addDatabase(settings->driver, settings->name);
-	
+//        QMessageBox::information(this, "DRIVER", settings->driver);
 	if (QSqlDatabase::contains(settings->name))
-		db = QSqlDatabase::database(settings->name);
+            db = QSqlDatabase::database(settings->name);
 	else
-		db = QSqlDatabase::addDatabase(settings->driver, settings->name);
+            db = QSqlDatabase::addDatabase(settings->driver, settings->name);
 
 	db.setDatabaseName(settings->database);
 	db.setHostName(settings->host);
 	db.setUserName(settings->user);
 	db.setPassword(settings->password);
 	writeSettings();
+}
+
+void ConnectionDialog::setupDriversList()
+{
+    bool odbcSupport = false;
+    foreach(QString driverName, QSqlDatabase::drivers())
+    {
+        QString driverLabel;
+        if (driverName == "QMYSQL")
+            driverLabel = "MySQL >= 4";
+        else if(driverName == "QMYSQL3")
+            driverLabel = "MySQL >= 3";
+        else if(driverName == "QPSQL")
+            driverLabel = "PostgreSQL 8.x";
+        else if(driverName == "QPSQL7")
+            driverLabel = "PostgreSQL 7.x";
+        else if(driverName == "QSQLITE")
+            driverLabel = "SQLite";
+        else if(driverName == "QODBC")
+        {
+            driverLabel = "ODBC";
+            odbcSupport = true;
+        }
+        else if(driverName == "QODBC3")
+            driverLabel = "ODBC 3";
+        else
+            break;
+        driversComboBox->addItem(driverLabel, driverName);
+    }
+
+    if (odbcSupport)
+        driversComboBox->addItem("MS Access 97/2000 File", "QODBC");
+}
+
+void ConnectionDialog::checkSelectedDriver(const QString &driverName)
+{
+    if (driverName.contains("MS Access") || driverName.contains("SQLite"))
+        browseButton->show();
+    else
+        browseButton->hide();
+}
+
+void ConnectionDialog::browseFiles()
+{
+    QString filter;
+    if (driversComboBox->currentText().contains("MS Access"))
+        filter = "*.mdb";
+    else if (driversComboBox->currentText().contains("SQLite"))
+        filter = "*.db";
+    else
+        filter = "*";
+
+    databaseLineEdit->setText(QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath(), filter));
 }
