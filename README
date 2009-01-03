@@ -27,6 +27,10 @@ SEE COPYING FOR LICENSE DETAILS.
 * NEVER USE THIS SOFTWARE WITHOUT DOING A BACKUP OF YOUR DATA FIRST IF YOU CARE ABOUT YOUR DATA. YOU CAN FACE A DATA LOSS. *
 ****************************************************************************************************************************
 
+This program uses icons form Adrix1.1 KDE Icon Theme
+http://www.kde-look.org/content/show.php/AdriX+KDE+Icon+Theme?content=84261
+Thanx to Adrian Antonana for this nice compilation.
+
 What Migraine is
 ================
 Migraine is a tool for database migrations to be a little more painless. It allows you to convert a database from one format to another (E.g. From PostgreSQL to MySQL) or to copy a database in the same format to the same or another host.
