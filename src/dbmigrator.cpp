@@ -67,10 +67,13 @@ void DBMigrator::migrateDatabase(const QString &srcConnName, const QString &tgtC
         migrateTable(analyst->nameMatch(analyst->nameMatches().value(i)));
     }
 
-    for (int i = 0; i < analyst->noMatches().count(); i++)
+    if (analyst->createTables())
     {
-        emit(tableCreationStarted(analyst->noMatches().value(i), i));
-        createTable(analyst->noMatch(analyst->noMatches().value(i)));
+        for (int i = 0; i < analyst->noMatches().count(); i++)
+        {
+            emit(tableCreationStarted(analyst->noMatches().value(i), i));
+            createTable(analyst->noMatch(analyst->noMatches().value(i)));
+        }
     }
 
     emit(migrationDone(analyst->exactMatches().count(), analyst->nameMatches().count(), analyst->noMatches().count()));
