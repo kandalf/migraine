@@ -85,4 +85,12 @@ How to use it
 The program will show a progress dialog and then a migration stats dialog.
 You can show/hide the output view to check the messages in case the result is not what was expected.
 
+BUGS
+====
+Please, report bugs to:
+http://redmine.asylum.homelinux.org/projects/migraine/issues/new
 
+You'll need to register first, but it's a simple and fast process with only a few fields to fill.
+
+Thanx!
+Have a happy Migraine :)
