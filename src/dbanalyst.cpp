@@ -172,3 +172,12 @@ TableInfo* DBAnalyst::noMatch(const QString &tableName) const
 {
     return _noMatches.value(tableName);
 }
+
+void DBAnalyst::reset()
+{
+    srcList.clear();
+    tgtList.clear();
+    _exactMatches.clear();
+    _nameMatches.clear();
+    _noMatches.clear();
+}

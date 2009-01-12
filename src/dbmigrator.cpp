@@ -243,6 +243,7 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
 
     foreach(QString sentence, batch)
     {
+        emit(migrationError(sentence));
         query = tgtDb.exec(sentence);
 
         if (query.numRowsAffected() != 1) {
@@ -275,10 +276,19 @@ QString DBMigrator::fixSqlSyntax(const QString &qType, const QString &value) con
     }
     else if(qType == "QDateTime")
     {
-        return QString("TIMESTAMP '%1'").arg(sqlValue.replace("'", "\\'"));
+        if (sqlValue.isEmpty())
+            return QString("NOW()");
+        else
+            return QString("TIMESTAMP '%1'").arg(sqlValue.replace("'", "\\'"));
+    }
+    else if(qType == "QDate")
+    {
+        return QString("DATE '%1'").arg(sqlValue.replace("'", "\\'"));
     }
     else
     {
+        if (sqlValue.isEmpty())
+            return QString::number(0);
         return sqlValue.replace("'", "\\'");
     }
 

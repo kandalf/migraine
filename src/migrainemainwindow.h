@@ -65,9 +65,11 @@ Q_OBJECT
             void updateCopyTablesProgress(const QString &tableName, const int &index);
             void updateMigrateTablesProgress(const QString &tableName, const int &index);
             void updateCreateTablesProgress(const QString &tableName, const int &index);
+            void resetTableLists();
 
 	private:
             void setupObjectConnections();
+
             TableInfoModel* buildTreeModel(QSqlDatabase db);
             ConnectionDialog *connDialog;
     //        SettingsDialog *connDialog;

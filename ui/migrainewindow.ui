@@ -116,17 +116,17 @@
                    <string>&amp;Target Database</string>
                   </property>
                   <property name="buddy" >
-                   <cstring>dbTargetConnCombo</cstring>
+                   <cstring>dbTgtConnCombo</cstring>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="dbTargetConnCombo" />
+                 <widget class="QComboBox" name="dbTgtConnCombo" />
                 </item>
                </layout>
               </item>
               <item>
-               <widget class="QTreeView" name="targetDbTreeView" >
+               <widget class="QTreeView" name="tgtDbTreeView" >
                 <property name="alternatingRowColors" >
                  <bool>true</bool>
                 </property>
@@ -612,14 +612,14 @@
    </property>
    <property name="minimumSize" >
     <size>
-     <width>292</width>
-     <height>128</height>
+     <width>300</width>
+     <height>135</height>
     </size>
    </property>
    <property name="maximumSize" >
     <size>
      <width>524287</width>
-     <height>286</height>
+     <height>293</height>
     </size>
    </property>
    <property name="floating" >
@@ -899,6 +899,54 @@
     <hint type="destinationlabel" >
      <x>368</x>
      <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>previewMigrationButton</sender>
+   <signal>clicked()</signal>
+   <receiver>actionPre_view_Migration</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>655</x>
+     <y>352</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetMigrationButton</sender>
+   <signal>clicked()</signal>
+   <receiver>actionReset_Migration</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>75</x>
+     <y>351</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>migrateButton</sender>
+   <signal>clicked()</signal>
+   <receiver>actionMigrate</receiver>
+   <slot>trigger()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>685</x>
+     <y>351</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>-1</x>
+     <y>-1</y>
     </hint>
    </hints>
   </connection>

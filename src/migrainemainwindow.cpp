@@ -56,7 +56,7 @@ MigraineMainWindow::~MigraineMainWindow()
 void MigraineMainWindow::setupObjectConnections()
 {
     connect( dbSrcConnCombo, SIGNAL(activated(const QString &)), this, SLOT(srcConnectionSelected(const QString&)) );
-    connect( dbTargetConnCombo, SIGNAL(activated(const QString &)), this, SLOT(tgtConnectionSelected(const QString&)) );
+    connect( dbTgtConnCombo, SIGNAL(activated(const QString &)), this, SLOT(tgtConnectionSelected(const QString&)) );
     connect( actionConnections, SIGNAL(activated()), connDialog, SLOT(show()) );
 
     connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
@@ -95,24 +95,29 @@ void MigraineMainWindow::refreshConnections()
     for (int i = 0; i < dbSrcConnCombo->count(); i++)
     {
         dbSrcConnCombo->removeItem(i);
-        dbTargetConnCombo->removeItem(i);
+        dbTgtConnCombo->removeItem(i);
     }
     QString emptyOption(tr("Select a connection"));
     dbSrcConnCombo->addItem(emptyOption);
-    dbTargetConnCombo->addItem(emptyOption);
+    dbTgtConnCombo->addItem(emptyOption);
 
     dbSrcConnCombo->addItems(QSqlDatabase::connectionNames());
-    dbTargetConnCombo->addItems(QSqlDatabase::connectionNames());
+    dbTgtConnCombo->addItems(QSqlDatabase::connectionNames());
 
     if (dbSrcConnCombo->count() > 1)
             dbSrcConnCombo->showPopup();
 
-    if (dbTargetConnCombo->count() > 1)
-            dbTargetConnCombo->showPopup();
+    if (dbTgtConnCombo->count() > 1)
+            dbTgtConnCombo->showPopup();
 }
 
 void MigraineMainWindow::srcConnectionSelected(const QString &name)
 {
+    if (name.contains(tr("Select a connection")))
+    {
+        srcDbTreeView->setModel(new QStringListModel());
+        return;
+    }
     QSqlDatabase db = QSqlDatabase::database(name, true);
     if (!db.isOpen())
     {
@@ -132,6 +137,11 @@ void MigraineMainWindow::srcConnectionSelected(const QString &name)
 
 void MigraineMainWindow::tgtConnectionSelected(const QString &name)
 {
+    if (name.contains(tr("Select a connection")))
+    {
+        tgtDbTreeView->setModel(new QStringListModel());
+        return;
+    }
     QSqlDatabase db = QSqlDatabase::database(name, true);
     if (!db.isOpen())
     {
@@ -141,7 +151,7 @@ void MigraineMainWindow::tgtConnectionSelected(const QString &name)
 		return;
     }
 		
-    targetDbTreeView->setModel(buildTreeModel(db));
+    tgtDbTreeView->setModel(buildTreeModel(db));
     this->migrator->setTargetConnectionName(name);
     action_Analyze->setEnabled(
                         !migrator->sourceConnectionName().isEmpty() && !migrator->sourceConnectionName().isNull()
@@ -188,9 +198,10 @@ void MigraineMainWindow::analyzeDatabases()
 {
 
     stepsTabWidget->setCurrentIndex(1);
+    resetTableLists();
     analyst->analyzeDatabases(
             static_cast<TableInfoModel*>(srcDbTreeView->model())->toTableInfo(),
-            static_cast<TableInfoModel*>(targetDbTreeView->model())->toTableInfo()
+            static_cast<TableInfoModel*>(tgtDbTreeView->model())->toTableInfo()
     );
 }
 
@@ -358,7 +369,17 @@ void MigraineMainWindow::previewMigration()
 
 void MigraineMainWindow::resetMigration()
 {
-
+    analyst->reset();
+    resetTableLists();
+    stepsTabWidget->setCurrentIndex(0);
+    srcDbTreeView->setModel(new QStringListModel());
+    tgtDbTreeView->setModel(new QStringListModel());
+    action_Analyze->setEnabled(false);
+    actionPre_view_Migration->setEnabled(false);
+    actionMigrate->setEnabled(false);
+    actionReset_Migration->setEnabled(false);
+    dbSrcConnCombo->setCurrentIndex(dbSrcConnCombo->findText(tr("Select a connection")));
+    dbTgtConnCombo->setCurrentIndex(dbTgtConnCombo->findText(tr("Select a connection")));
 }
 
 void MigraineMainWindow::startMigration()
@@ -396,4 +417,14 @@ void MigraineMainWindow::updateCreateTablesProgress(const QString &tableName, co
 {
     progressWidget->setWindowTitle(tr("Creating... %1").arg(tableName));
     progressWidget->setCreateProgress(index);
+}
+
+void MigraineMainWindow::resetTableLists()
+{
+    exactMatchListView->setModel(new QStringListModel());
+    nameMatchListView->setModel(new QStringListModel());
+    noMatchListView->setModel(new QStringListModel());
+    copiedTablesListView->setModel(new QStringListModel());
+    migratedTablesListView->setModel(new QStringListModel());
+    createdTablesListView->setModel(new QStringListModel());
 }
