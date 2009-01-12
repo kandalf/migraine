@@ -5,5 +5,7 @@
 Changelog
 [2009-01-11]
 - Bugfix for migrating empty or null strings on source db
+- Bugfix for migrating dates from source db
+- Bugfix for migrating empty timestamps from source db
 - Analyze tables lists clearead when re-analyze databases happens
 - Reset migration functionallity added
