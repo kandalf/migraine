@@ -1,6 +1,6 @@
 Migraine - DB Migration Tool
 ============================
-Author: Leonardo Mateo <leonardomateo@gmail.com>
+Author: Leonardo Mateo <leonardomateo (at) gmail (dot) com>
 
 DISCLAIMER
 ==========
@@ -87,7 +87,7 @@ You can show/hide the output view to check the messages in case the result is no
 
 BUGS
 ====
-Please, report bugs to:
+Please, report bugs or request features at:
 http://redmine.asylum.homelinux.org/projects/migraine/issues/new
 
 You'll need to register first, but it's a simple and fast process with only a few fields to fill.
