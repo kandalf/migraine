@@ -1,0 +1,9 @@
+#Author: Leonardo Mateo <leonardomateo (at) gmail (dot) com>
+#Created: 2008-01-11
+#Last Update: 2008-01-11 by Leonardo Mateo
+
+Changelog
+[2009-01-11]
+- Bugfix for migrating empty or null strings on source db
+- Analyze tables lists clearead when re-analyze databases happens
+- Reset migration functionallity added
