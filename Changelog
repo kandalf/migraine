@@ -3,6 +3,11 @@
 #Last Update: 2008-01-11 by Leonardo Mateo
 
 Changelog
+
+[2009-01-15]
+- Manage transactions slightly different
+- Debug notification of SQL senteces removed
+
 [2009-01-11]
 - Bugfix for migrating empty or null strings on source db
 - Bugfix for migrating dates from source db

@@ -236,14 +236,13 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
 {
 //    emit(migrationError(QString("BATCH SIZE: %1").arg(batch.size())));
     QSqlDatabase tgtDb = QSqlDatabase::database(_tgtConnectionName, true);
-    bool transactionValid = false;
+    bool transactionValid = tgtDb.transaction();
 
-    QSqlQuery query = tgtDb.exec("BEGIN TRANSACTION;");
-    transactionValid = (query.lastError().type() == QSqlError::NoError);
+    QSqlQuery query; // = tgtDb.exec("BEGIN TRANSACTION;");
+    //transactionValid = (query.lastError().type() == QSqlError::NoError);
 
     foreach(QString sentence, batch)
     {
-        emit(migrationError(sentence));
         query = tgtDb.exec(sentence);
 
         if (query.numRowsAffected() != 1) {
@@ -251,7 +250,7 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
             emit(migrationError(tr("Error executing: %1").arg(sentence)));
             if (transactionValid)
             {
-                tgtDb.exec("ROLLBACK");
+//                tgtDb.exec("ROLLBACK");
                 emit(migrationError(tr("Rolled Back")));
             }
             return;
@@ -260,7 +259,11 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
         }
     }
     if (transactionValid) {
-        tgtDb.exec("COMMIT;");
+        if (query.isActive())
+            query.finish();
+
+        tgtDb.commit();
+//        tgtDb.exec("COMMIT;");
     }
     emit(insertProgress(batch.size(), batch.size()));
 }
