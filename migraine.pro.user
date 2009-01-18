@@ -77,14 +77,14 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
     <value type="QString" >ALSA_PLUGINS_DIR=/usr/lib/alsa-lib</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-vCWDxWUNAk,guid=a169a35f5f3a9115bdaa9fbf496a4c3f</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-VMhmxfud8p,guid=4031cb3f43c1f011d3de6a52496fb4d9</value>
     <value type="QString" >DESKTOP_SESSION=default</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
     <value type="QString" >DISPLAY=:0.0</value>
     <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
     <value type="QString" >EDITOR=vim</value>
     <value type="QString" >GISBASE=/opt/grass</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-QCk6Av/S.gpg-agent:4318:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-JxKp97/S.gpg-agent:4328:1</value>
     <value type="QString" >GS_LIB=/home/leonardo/.fonts</value>
     <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/leonardo/.gtkrc-2.0:/home/leonardo/.gtkrc-2.0-kde4:/home/leonardo/.kde4/share/config/gtkrc-2.0</value>
     <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/leonardo/.gtkrc::/home/leonardo/.kde4/share/config/gtkrc</value>
@@ -102,25 +102,25 @@
     <value type="QString" >KDE_SESSION_UID=1000</value>
     <value type="QString" >KDE_SESSION_VERSION=4</value>
     <value type="QString" >LANG=en_US.utf8</value>
-    <value type="QString" >LANGUAGE=en_US</value>
     <value type="QString" >LC_COLLATE=C</value>
     <value type="QString" >LESS=-R</value>
     <value type="QString" >LOGNAME=leonardo</value>
+    <value type="QString" >MALLOC_CHECK_=2</value>
     <value type="QString" >MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins:/opt/mozilla/lib/plugins</value>
     <value type="QString" >OOO_FORCE_DESKTOP=gnome</value>
     <value type="QString" >PATH=/usr/bin:/home/leonardo/apps/bin:/bin:/usr/bin:/sbin:/usr/sbin:/opt/grass/bin:/opt/kde/bin:/usr/share/netbeans/bin/:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core:/opt/qt/bin</value>
-    <value type="QString" >PKG_CONFIG_PATH=:/opt/kde/lib/pkgconfig:/opt/qt/lib/pkgconfig:/opt/kde/lib/pkgconfig:/opt/qt/lib/pkgconfig</value>
+    <value type="QString" >PKG_CONFIG_PATH=/usr/lib/pkgconfig:/opt/kde/lib/pkgconfig:/opt/qt/lib/pkgconfig</value>
     <value type="QString" >PS3=> </value>
     <value type="QString" >PS4=+ </value>
     <value type="QString" >PWD=/home/leonardo</value>
     <value type="QString" >QTDIR=/usr</value>
     <value type="QString" >QT_PLUGIN_PATH=/home/leonardo/.kde4/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
     <value type="QString" >QT_XFT=true</value>
-    <value type="QString" >SESSION_MANAGER=local/kandalf:/tmp/.ICE-unix/4354</value>
+    <value type="QString" >SESSION_MANAGER=local/kandalf:/tmp/.ICE-unix/4398</value>
     <value type="QString" >SHELL=/bin/bash</value>
     <value type="QString" >SHLVL=1</value>
-    <value type="QString" >SSH_AGENT_PID=4321</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-wbUwFV4320/agent.4320</value>
+    <value type="QString" >SSH_AGENT_PID=4331</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-dcnkbF4330/agent.4330</value>
     <value type="QString" >USER=leonardo</value>
     <value type="QString" >WINDOWPATH=7</value>
     <value type="QString" >XCURSOR_THEME=Macish</value>
@@ -129,7 +129,7 @@
     <value type="QString" >XDG_CONFIG_HOME=/home/leonardo/.config</value>
     <value type="QString" >XDG_DATA_DIRS=/usr/share:/usr/local/share:/usr/share:/usr/local/share:/opt/kde/share:/opt/kde/share</value>
     <value type="QString" >XDG_DATA_HOME=/home/leonardo/.local/share</value>
-    <value type="QString" >XDG_SESSION_COOKIE=3e20b14153162347ba6b8f0046c8f07f-1231703099.973227-399969432</value>
+    <value type="QString" >XDG_SESSION_COOKIE=3e20b14153162347ba6b8f0046c8f07f-1232057558.358593-941638475</value>
     <value type="QString" >XDM_MANAGED=method=classic</value>
     <value type="QString" >_=/usr/bin/kdeinit4</value>
    </valuelist>
@@ -151,14 +151,14 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
     <value type="QString" >ALSA_PLUGINS_DIR=/usr/lib/alsa-lib</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-vCWDxWUNAk,guid=a169a35f5f3a9115bdaa9fbf496a4c3f</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-VMhmxfud8p,guid=4031cb3f43c1f011d3de6a52496fb4d9</value>
     <value type="QString" >DESKTOP_SESSION=default</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
     <value type="QString" >DISPLAY=:0.0</value>
     <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
     <value type="QString" >EDITOR=vim</value>
     <value type="QString" >GISBASE=/opt/grass</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-QCk6Av/S.gpg-agent:4318:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-JxKp97/S.gpg-agent:4328:1</value>
     <value type="QString" >GS_LIB=/home/leonardo/.fonts</value>
     <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/leonardo/.gtkrc-2.0:/home/leonardo/.gtkrc-2.0-kde4:/home/leonardo/.kde4/share/config/gtkrc-2.0</value>
     <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/leonardo/.gtkrc::/home/leonardo/.kde4/share/config/gtkrc</value>
@@ -176,25 +176,25 @@
     <value type="QString" >KDE_SESSION_UID=1000</value>
     <value type="QString" >KDE_SESSION_VERSION=4</value>
     <value type="QString" >LANG=en_US.utf8</value>
-    <value type="QString" >LANGUAGE=en_US</value>
     <value type="QString" >LC_COLLATE=C</value>
     <value type="QString" >LESS=-R</value>
     <value type="QString" >LOGNAME=leonardo</value>
+    <value type="QString" >MALLOC_CHECK_=2</value>
     <value type="QString" >MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins:/opt/mozilla/lib/plugins</value>
     <value type="QString" >OOO_FORCE_DESKTOP=gnome</value>
     <value type="QString" >PATH=/usr/bin:/home/leonardo/apps/bin:/bin:/usr/bin:/sbin:/usr/sbin:/opt/grass/bin:/opt/kde/bin:/usr/share/netbeans/bin/:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core:/opt/qt/bin</value>
-    <value type="QString" >PKG_CONFIG_PATH=:/opt/kde/lib/pkgconfig:/opt/qt/lib/pkgconfig:/opt/kde/lib/pkgconfig:/opt/qt/lib/pkgconfig</value>
+    <value type="QString" >PKG_CONFIG_PATH=/usr/lib/pkgconfig:/opt/kde/lib/pkgconfig:/opt/qt/lib/pkgconfig</value>
     <value type="QString" >PS3=> </value>
     <value type="QString" >PS4=+ </value>
     <value type="QString" >PWD=/home/leonardo</value>
     <value type="QString" >QTDIR=/usr</value>
     <value type="QString" >QT_PLUGIN_PATH=/home/leonardo/.kde4/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
     <value type="QString" >QT_XFT=true</value>
-    <value type="QString" >SESSION_MANAGER=local/kandalf:/tmp/.ICE-unix/4354</value>
+    <value type="QString" >SESSION_MANAGER=local/kandalf:/tmp/.ICE-unix/4398</value>
     <value type="QString" >SHELL=/bin/bash</value>
     <value type="QString" >SHLVL=1</value>
-    <value type="QString" >SSH_AGENT_PID=4321</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-wbUwFV4320/agent.4320</value>
+    <value type="QString" >SSH_AGENT_PID=4331</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-dcnkbF4330/agent.4330</value>
     <value type="QString" >USER=leonardo</value>
     <value type="QString" >WINDOWPATH=7</value>
     <value type="QString" >XCURSOR_THEME=Macish</value>
@@ -203,7 +203,7 @@
     <value type="QString" >XDG_CONFIG_HOME=/home/leonardo/.config</value>
     <value type="QString" >XDG_DATA_DIRS=/usr/share:/usr/local/share:/usr/share:/usr/local/share:/opt/kde/share:/opt/kde/share</value>
     <value type="QString" >XDG_DATA_HOME=/home/leonardo/.local/share</value>
-    <value type="QString" >XDG_SESSION_COOKIE=3e20b14153162347ba6b8f0046c8f07f-1231703099.973227-399969432</value>
+    <value type="QString" >XDG_SESSION_COOKIE=3e20b14153162347ba6b8f0046c8f07f-1232057558.358593-941638475</value>
     <value type="QString" >XDM_MANAGED=method=classic</value>
     <value type="QString" >_=/usr/bin/kdeinit4</value>
    </valuelist>
