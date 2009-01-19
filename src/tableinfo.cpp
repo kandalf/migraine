@@ -24,9 +24,36 @@ QStringList TableInfo::fieldTypes() const
 {
 	QStringList types;
 	for (int i = 0; i < tableData.count(); i++)
-		types << QVariant::typeToName(tableData.field(i).type());
+                types << typeToName(tableData.field(i).type());
 	
 	return types;
+}
+
+QString TableInfo::typeToName(QVariant::Type type) const
+{
+    switch(type)
+    {
+        case QVariant::Bool:
+            return QObject::tr("Boolean");
+        case QVariant::Char:
+            return QObject::tr("Char");
+        case QVariant::Date:
+            return QObject::tr("Date");
+        case QVariant::DateTime:
+            return QObject::tr("DateTime");
+        case QVariant::Double:
+            return QObject::tr("Double");
+        case QVariant::Int:
+            return QObject::tr("Integer");
+        case QVariant::LongLong:
+            return QObject::tr("Long Long");
+        case QVariant::String:
+            return QObject::tr("Text");
+        case QVariant::Time:
+            return QObject::tr("Time");
+        default:
+            return QVariant::typeToName(type);
+    }
 }
 
 QString TableInfo::fieldName(const int &index) const
@@ -36,12 +63,12 @@ QString TableInfo::fieldName(const int &index) const
 
 QString TableInfo::fieldType(const int &index) const
 {
-    return QVariant::typeToName(tableData.field(index).type());
+    return typeToName(tableData.field(index).type());
 }
 
 QString TableInfo::fieldType(const QString &name) const
 {
-    return QVariant::typeToName(tableData.field(name).type());
+    return typeToName(tableData.field(name).type());
 }
 
 QSqlField TableInfo::field(const int &index) const

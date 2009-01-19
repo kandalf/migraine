@@ -41,6 +41,7 @@ void DBAnalyst::setTargetList(const QList<TableInfo*> &list)
 void DBAnalyst::analyzeDatabases()
 {
     QHash<QString, TableInfo*> targetHash;
+    QStringList srcNames;
 
     for (int i = 0; i < tgtList.count(); i++)
         targetHash[tgtList.at(i)->name()] = tgtList.at(i);
@@ -48,6 +49,7 @@ void DBAnalyst::analyzeDatabases()
     for (int srcIndex = 0; srcIndex < srcList.count(); srcIndex++)
     {
         TableInfo *src = static_cast<TableInfo*>(srcList[srcIndex]);
+        srcNames << src->name();
         if (targetHash.keys().contains(src->name()))
         {
             if (isExactMatch(src, targetHash[src->name()]))
@@ -67,6 +69,9 @@ void DBAnalyst::analyzeDatabases()
             emit(noMatchFound(src->name()));
         }
     }
+
+    emit(postGISFoundOnSource(srcNames.contains("geometry_columns") && srcNames.contains("spatial_ref_sys")));
+    emit(postGISFoundOnTarget(targetHash.keys().contains("geometry_columns") && targetHash.keys().contains("spatial_ref_sys")));
     emit(analysisDone(true));
 }
 

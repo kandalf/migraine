@@ -20,6 +20,9 @@ class TableInfo
         QSqlField field(const int&) const;
         QSqlField field(const QString&) const;
 
+    protected:
+        QString typeToName(QVariant::Type type) const;
+
     private:
         QString tableName;
         QSqlRecord tableData;

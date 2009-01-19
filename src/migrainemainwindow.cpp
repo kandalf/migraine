@@ -15,7 +15,7 @@
 #include "migrationtablematch.h"
 #include "maptablenamematchmodel.h"
 #include "migrationprogresswidget.h"
-
+#include "postgisdialog.h"
 
 MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f )
 	: QMainWindow(parent, f)
@@ -27,7 +27,7 @@ MigraineMainWindow::MigraineMainWindow( QWidget * parent, Qt::WFlags f )
     setupUi(this);
 	
     connDialog = new ConnectionDialog(this);
-//    connDialog = new SettingsDialog(this);
+    pgDialog = new PostGISDialog(this);
 
     _settings = new QSettings(CONFIG_FILE_PATH, QSettings::IniFormat, this);
 
@@ -62,11 +62,19 @@ void MigraineMainWindow::setupObjectConnections()
     connect( connDialog, SIGNAL(accepted()), this, SLOT(refreshConnections()) );
     connect( connDialog, SIGNAL(settingsWritten()), this, SLOT(readSettings()) );
 
+    connect( pgDialog, SIGNAL(migrateGeometries(bool)), migrator, SLOT(setMigrateGeometries(bool)) );
+    connect( pgDialog, SIGNAL(migrateAsText(bool)), migrator, SLOT(setMigrateGeometriesAsText(bool)) );
+    connect( pgDialog, SIGNAL(ignoreGeometries(bool)), migrator, SLOT(setIgnoreGeometries(bool)) );
+    connect( pgDialog, SIGNAL(accepted()), progressWidget, SLOT(show()) );
+    connect( pgDialog, SIGNAL(accepted()), migrator, SLOT(start()) );
+
     connect( analyst, SIGNAL(exactMatchFound(const QString&)), this, SLOT(exactMatch(const QString&)) );
     connect( analyst, SIGNAL(nameMatchFound(const QString&)), this, SLOT(matchByName(const QString&)) );
     connect( analyst, SIGNAL(noMatchFound(const QString&)), this, SLOT(noMatch(const QString&)) );
     connect( analyst, SIGNAL(setMatchError(const QString&)), logTextEdit, SLOT(append(const QString&)));
     connect( analyst, SIGNAL(analysisDone(bool)), actionPre_view_Migration, SLOT(setEnabled(bool)) );
+    connect( analyst, SIGNAL(postGISFoundOnSource(bool)), migrator, SLOT(setPostGISOnSource(bool)) );
+    connect( analyst, SIGNAL(postGISFoundOnTarget(bool)), migrator, SLOT(setPostGISOnTarget(bool)) );
 
     connect( actionMigrate, SIGNAL(activated()), this, SLOT(startMigration()) );
 
@@ -384,8 +392,16 @@ void MigraineMainWindow::resetMigration()
 
 void MigraineMainWindow::startMigration()
 {
-    progressWidget->show();
-    migrator->start();
+//    if (migrator->postGISOnSource() && migrator->postGISOnTarget())
+//    {
+//        pgDialog->exec() ;
+//    }
+//    else
+//    {
+        progressWidget->show();
+        migrator->start();
+//    }
+
 }
 
 void MigraineMainWindow::showErrorMessage(const QString &message)

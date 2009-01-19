@@ -5,6 +5,7 @@
 #include "tableinfo.h"
 #include "migrationtablematch.h"
 #include "dbanalyst.h"
+#include "geometrycolumninfo.h"
 
 DBMigrator::DBMigrator(DBAnalyst *analyst, QObject *parent)
         :QThread(parent)
@@ -12,6 +13,17 @@ DBMigrator::DBMigrator(DBAnalyst *analyst, QObject *parent)
     _analyst = analyst;
 }
 
+DBMigrator::~DBMigrator()
+{
+    QString table;
+    GeometryColumnInfo *column;
+
+    foreach(table, geometryColumns.keys())
+    {
+        foreach(column, geometryColumns[table])
+            delete column;
+    }
+}
 
 void DBMigrator::setSourceConnectionName(const QString &name)
 {
@@ -54,6 +66,9 @@ void DBMigrator::migrateDatabase(const QString &srcConnName, const QString &tgtC
     emit (tablesToCopy(analyst->exactMatches().count()));
     emit (tablesToMigrate(analyst->nameMatches().count()));
     emit (tablesToCreate(analyst->noMatches().count()));
+
+    if (migrateGeometries() || migrateGeometriesAsText())
+        findGeometryColumns();
 
     for (int i = 0; i < analyst->exactMatches().count(); i++)
     {
@@ -209,7 +224,7 @@ QString DBMigrator::constructTgtCopySQL(const TableInfo *tableInfo, const QSqlQu
 
     for( int i = 0; i < tableInfo->fieldNames().count(); i++)
     {
-        values << this->fixSqlSyntax(tableInfo->fieldType(i), srcQuery.value(i).toString());
+        values << this->fixSqlSyntax(tableInfo->name(), tableInfo->fieldType(i), srcQuery.value(i).toString());
     }
 
     return insertQuery.arg(tableInfo->name()).arg(tableInfo->fieldNames().join(", ")).arg(values.join(", "));
@@ -226,7 +241,7 @@ QString DBMigrator::constructTgtMigrationSQL(const MigrationTableMatch *migratio
     {
         currentMatch = migrationTable->getMatch(i);
         fieldNames << currentMatch.second.name();
-        values << this->fixSqlSyntax(migrationTable->target()->fieldType(currentMatch.second.name()), srcQuery.value(i).toString());
+        values << this->fixSqlSyntax(migrationTable->target()->name(), migrationTable->target()->fieldType(currentMatch.second.name()), srcQuery.value(i).toString());
     }
     return insertQuery.arg(migrationTable->target()->name()).arg(fieldNames.join(", ")).arg(values.join(", "));
 }
@@ -251,6 +266,7 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
             if (transactionValid)
             {
 //                tgtDb.exec("ROLLBACK");
+                tgtDb.rollback();
                 emit(migrationError(tr("Rolled Back")));
             }
             return;
@@ -269,12 +285,13 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
 }
 
 
-QString DBMigrator::fixSqlSyntax(const QString &qType, const QString &value) const
+QString DBMigrator::fixSqlSyntax(const QString &tableName, const QString &qType, const QString &value) const
 {
     QString sqlValue(value);
 
     if (qType == "QString" )
     {
+        if (migrateGeometries() || migrateGeometriesAsText());
         return "'" + sqlValue.replace("'", "\\'") + "'";
     }
     else if(qType == "QDateTime")
@@ -295,4 +312,83 @@ QString DBMigrator::fixSqlSyntax(const QString &qType, const QString &value) con
         return sqlValue.replace("'", "\\'");
     }
 
+}
+
+void DBMigrator::setPostGISOnSource(const bool &found)
+{
+    this->_postGISOnSource = found;
+}
+
+void DBMigrator::setPostGISOnTarget(const bool &found)
+{
+    this->_postGISOnTarget = found;
+}
+
+bool DBMigrator::postGISOnSource() const
+{
+    return this->_postGISOnSource;
+}
+
+bool DBMigrator::postGISOnTarget() const
+{
+    return this->_postGISOnTarget;
+}
+
+void DBMigrator::setMigrateGeometries(const bool &migrate)
+{
+//    qDebug(QString("Migrate Geometries: %1").arg(migrate).toAscii());
+    this->_migrateGeometries = migrate;
+}
+
+void DBMigrator::setMigrateGeometriesAsText(const bool &migrate)
+{
+//    qDebug(QString("Migrate Geometries As Text: %1").arg(migrate).toAscii());
+    this->_migrateAsText = migrate;
+}
+
+void DBMigrator::setIgnoreGeometries(const bool &ignore)
+{
+//    qDebug(QString("Ignore Geometries: %1").arg(ignore).toAscii());
+    this->_ignoreGeometries = ignore;
+}
+
+bool DBMigrator::migrateGeometries() const
+{
+    return this->_migrateGeometries;
+}
+
+bool DBMigrator::migrateGeometriesAsText() const
+{
+    return this->_migrateAsText;
+}
+
+bool DBMigrator::ignoreGeometries() const
+{
+    return this->_ignoreGeometries;
+}
+
+void DBMigrator::findGeometryColumns()
+{
+    QSqlDatabase srcDb = QSqlDatabase::database(_srcConnectionName);
+    QSqlQuery query(srcDb);
+
+    query.exec("SELECT f_table_name, f_geometry_column, type, srid, coord_dimension FROM geometry_columns");
+
+    if (query.isActive())
+    {
+        query.seek(-1);
+        while(query.next())
+        {
+            this->geometryColumns[query.value(0).toString()].append(
+                                                    new GeometryColumnInfo(
+                                                                        query.value(0).toString(),
+                                                                        query.value(1).toString(),
+                                                                        query.value(2).toString(),
+                                                                        query.value(3).toInt(),
+                                                                        query.value(4).toInt()
+                                                     )
+                                                   );
+
+        }
+    }
 }

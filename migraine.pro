@@ -14,7 +14,8 @@ MOC_DIR = build
 UI_DIR = build
 FORMS = ui/migrainewindow.ui \
     ui/connectiondialog.ui \
-    ui/migrationprogresswidget.ui
+    ui/migrationprogresswidget.ui \
+    ui/postgisdialog.ui
 HEADERS = src/connectiondialog.h \
     src/types.h \
     src/connectionlistitem.h \
@@ -27,7 +28,9 @@ HEADERS = src/connectiondialog.h \
     src/migrainemainwindow.h \
     src/maptablenamematchmodel.h \
     src/dbmigrator.h \
-    src/migrationprogresswidget.h
+    src/migrationprogresswidget.h \
+    src/postgisdialog.h \
+    src/geometrycolumninfo.h
 SOURCES = src/migrainemainwindow.cpp \
     src/main.cpp \
     src/connectiondialog.cpp \
@@ -40,5 +43,7 @@ SOURCES = src/migrainemainwindow.cpp \
     src/migrationtablematch.cpp \
     src/maptablenamematchmodel.cpp \
     src/dbmigrator.cpp \
-    src/migrationprogresswidget.cpp
+    src/migrationprogresswidget.cpp \
+    src/postgisdialog.cpp \
+    src/geometrycolumninfo.cpp
 RESOURCES += resource/migraine.qrc

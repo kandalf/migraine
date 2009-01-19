@@ -4,28 +4,45 @@
 #include <QThread>
 #include <QSqlQuery>
 #include <QSqlField>
+#include <QHash>
 
 class DBAnalyst;
 class TableInfo;
 class MigrationTableMatch;
+class GeometryColumnInfo;
 
 class DBMigrator : public QThread
 {
 Q_OBJECT
-
+Q_PROPERTY(bool postGISOnSource READ postGISOnSource WRITE setPostGISOnSource);
+Q_PROPERTY(bool postGISOnTarget READ postGISOnTarget WRITE setPostGISOnTarget);
+Q_PROPERTY(bool migrateGeometries READ migrateGeometries WRITE setMigrateGeometries);
+Q_PROPERTY(bool migrateGeometriesAsText READ migrateGeometriesAsText WRITE setMigrateGeometriesAsText);
+Q_PROPERTY(bool ignoreGeometries READ ignoreGeometries WRITE setIgnoreGeometries);
     public:
         DBMigrator(DBAnalyst *analyst, QObject *parent = 0);
+        ~DBMigrator();
 
         void migrateDatabase(const QString &srcConnName, const QString &tgtConnName, DBAnalyst*);
         void setSourceConnectionName(const QString &name);
         void setTargetConnectionName(const QString &name);
         QString sourceConnectionName() const;
         QString targetConnectionName() const;
+        bool postGISOnSource() const;
+        bool postGISOnTarget() const;
+        bool migrateGeometries() const;
+        bool migrateGeometriesAsText() const;
+        bool ignoreGeometries() const;
 
     public slots:
         void copyTable(const TableInfo *table);
         void migrateTable(const MigrationTableMatch *migrationTable);
         void createTable(const TableInfo *table);
+        void setPostGISOnSource(const bool &found);
+        void setPostGISOnTarget(const bool &found);
+        void setMigrateGeometries(const bool &migrate);
+        void setMigrateGeometriesAsText(const bool &migrate);
+        void setIgnoreGeometries(const bool &migrate);
 
     protected:
         void run();
@@ -33,12 +50,13 @@ Q_OBJECT
         QString constructTgtCopySQL(const TableInfo *tableInfo, const QSqlQuery &srcQuery) const;
         QString constructSrcMigrationSQL(const MigrationTableMatch *migrationTable) const;
         QString constructTgtMigrationSQL(const MigrationTableMatch *migrationTable, const QSqlQuery &srcQuery) const;
-        QString fixSqlSyntax(const QString &qType, const QString &value) const;
+        QString fixSqlSyntax(const QString &tableName, const QString &qType, const QString &value) const;
         QString fieldNamesForCreate(const TableInfo *tableInfo) const;
         QString fieldTypeForCreate(const QSqlField &field) const;
 
     protected slots:
         void insertTransactionBatch(const QStringList &batch);
+        void findGeometryColumns();
 
     signals:
         void beforeMigrationStart(const int &toCopy, const int &toMigrate, const int &toCreate);
@@ -57,6 +75,12 @@ Q_OBJECT
         DBAnalyst *_analyst;
         QString _srcConnectionName;
         QString _tgtConnectionName;
+        bool _postGISOnSource;
+        bool _postGISOnTarget;
+        bool _migrateGeometries;
+        bool _migrateAsText;
+        bool _ignoreGeometries;
+        QHash<QString, QList<GeometryColumnInfo*> >geometryColumns;
 
 };
 

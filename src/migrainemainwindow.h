@@ -21,8 +21,8 @@
 
 
 class ConnectionDialog;
-//class SettingsDialog;
 class MigrationProgressWidget;
+class PostGISDialog;
 class QSettings;
 class QTableWidgetItem;
 class TableInfo;
@@ -72,7 +72,7 @@ Q_OBJECT
 
             TableInfoModel* buildTreeModel(QSqlDatabase db);
             ConnectionDialog *connDialog;
-    //        SettingsDialog *connDialog;
+            PostGISDialog *pgDialog;
             MigrationProgressWidget *progressWidget;
             DBAnalyst *analyst;
             DBMigrator *migrator;
