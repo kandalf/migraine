@@ -46,13 +46,15 @@ Q_PROPERTY(bool ignoreGeometries READ ignoreGeometries WRITE setIgnoreGeometries
 
     protected:
         void run();
-        QString constructSrcCopySQL(const TableInfo *table) const;
+        QString constructSrcCopySQL(const TableInfo *tableInfo) const;
         QString constructTgtCopySQL(const TableInfo *tableInfo, const QSqlQuery &srcQuery) const;
         QString constructSrcMigrationSQL(const MigrationTableMatch *migrationTable) const;
         QString constructTgtMigrationSQL(const MigrationTableMatch *migrationTable, const QSqlQuery &srcQuery) const;
         QString fixSqlSyntax(const QString &tableName, const QString &qType, const QString &value) const;
         QString fieldNamesForCreate(const TableInfo *tableInfo) const;
         QString fieldTypeForCreate(const QSqlField &field) const;
+        QString parsePostGISSrcFields(const TableInfo *tableInfo) const;
+        bool    shouldCreatePostGIS(const TableInfo *tableInfo) const;
 
     protected slots:
         void insertTransactionBatch(const QStringList &batch);

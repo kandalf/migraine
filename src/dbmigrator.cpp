@@ -195,10 +195,12 @@ QString DBMigrator::fieldTypeForCreate(const QSqlField &field) const
     }
 }
 
-QString DBMigrator::constructSrcCopySQL(const TableInfo *table) const
+QString DBMigrator::constructSrcCopySQL(const TableInfo *tableInfo) const
 {
     QString query("SELECT %1 FROM %2");
-    return query.arg(table->fieldNames().join(",")).arg(table->name());
+    if ( shouldCreatePostGIS(tableInfo) )
+        return query.arg(parsePostGISSrcFields(tableInfo)).arg(tableInfo->name());
+    return query.arg(tableInfo->fieldNames().join(",")).arg(tableInfo->name());
 }
 
 QString DBMigrator::constructSrcMigrationSQL(const MigrationTableMatch *migrationTable) const
@@ -258,21 +260,21 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
 
     foreach(QString sentence, batch)
     {
-        query = tgtDb.exec(sentence);
-
-        if (query.numRowsAffected() != 1) {
-            emit(migrationError(tr("Target DB %1 Error: %2. Aborted!").arg(tgtDb.databaseName()).arg(tgtDb.lastError().text())));
-            emit(migrationError(tr("Error executing: %1").arg(sentence)));
-            if (transactionValid)
-            {
-//                tgtDb.exec("ROLLBACK");
-                tgtDb.rollback();
-                emit(migrationError(tr("Rolled Back")));
-            }
-            return;
-        } else {
-            emit(insertProgress(batch.indexOf(sentence), batch.size()));
-        }
+//        query = tgtDb.exec(sentence);
+//
+//        if (query.numRowsAffected() != 1) {
+//            emit(migrationError(tr("Target DB %1 Error: %2. Aborted!").arg(tgtDb.databaseName()).arg(tgtDb.lastError().text())));
+//            emit(migrationError(tr("Error executing: %1").arg(sentence)));
+//            if (transactionValid)
+//            {
+////                tgtDb.exec("ROLLBACK");
+//                tgtDb.rollback();
+//                emit(migrationError(tr("Rolled Back")));
+//            }
+//            return;
+//        } else {
+//            emit(insertProgress(batch.indexOf(sentence), batch.size()));
+//        }
     }
     if (transactionValid) {
         if (query.isActive())
@@ -291,7 +293,6 @@ QString DBMigrator::fixSqlSyntax(const QString &tableName, const QString &qType,
 
     if (qType == "QString" )
     {
-        if (migrateGeometries() || migrateGeometriesAsText());
         return "'" + sqlValue.replace("'", "\\'") + "'";
     }
     else if(qType == "QDateTime")
@@ -392,3 +393,31 @@ void DBMigrator::findGeometryColumns()
         }
     }
 }
+
+
+QString DBMigrator::parsePostGISSrcFields(const TableInfo *tableInfo) const
+{
+    GeometryColumnInfo *column;
+    QStringList fields;
+    QString field;
+
+    foreach(field, tableInfo->fieldNames())
+    {
+        foreach(column, geometryColumns[tableInfo->name()])
+        {
+            if (field == column->columnName())
+                fields << QString("AsText(%1)").arg(field);
+            else
+                fields << field;
+        }
+    }
+//    qDebug(QString("%1:\n %2").arg(tableInfo->name()).arg(fields.join(", ")).toAscii());
+    return fields.join(", ");
+}
+
+bool DBMigrator::shouldCreatePostGIS(const TableInfo *tableInfo) const
+{
+    return (migrateGeometries() || migrateGeometriesAsText()) && geometryColumns.keys().contains(tableInfo->name());
+}
+
+

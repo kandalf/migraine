@@ -392,15 +392,15 @@ void MigraineMainWindow::resetMigration()
 
 void MigraineMainWindow::startMigration()
 {
-//    if (migrator->postGISOnSource() && migrator->postGISOnTarget())
-//    {
-//        pgDialog->exec() ;
-//    }
-//    else
-//    {
+    if (migrator->postGISOnSource() && migrator->postGISOnTarget())
+    {
+        pgDialog->exec() ;
+    }
+    else
+    {
         progressWidget->show();
         migrator->start();
-//    }
+    }
 
 }
 
