@@ -5,6 +5,7 @@
 #include <QSqlQuery>
 #include <QSqlField>
 #include <QHash>
+#include <QStringList>
 
 class DBAnalyst;
 class TableInfo;
@@ -53,7 +54,7 @@ Q_PROPERTY(bool ignoreGeometries READ ignoreGeometries WRITE setIgnoreGeometries
         QString fixSqlSyntax(const QString &tableName, const QString &qType, const QString &value) const;
         QString fieldNamesForCreate(const TableInfo *tableInfo) const;
         QString fieldTypeForCreate(const QSqlField &field) const;
-        QString parsePostGISSrcFields(const TableInfo *tableInfo) const;
+        QString parsePostGISSrcFields(const TableInfo *tableInfo, const bool &ignore) const;
         bool    shouldCreatePostGIS(const TableInfo *tableInfo) const;
 
     protected slots:
@@ -83,7 +84,8 @@ Q_PROPERTY(bool ignoreGeometries READ ignoreGeometries WRITE setIgnoreGeometries
         bool _migrateAsText;
         bool _ignoreGeometries;
         QHash<QString, QList<GeometryColumnInfo*> >geometryColumns;
-
+        QStringList geometryFields;
+        QStringList ignoredFields;
 };
 
 #endif // DBMIGRATOR_H

@@ -199,7 +199,7 @@ QString DBMigrator::constructSrcCopySQL(const TableInfo *tableInfo) const
 {
     QString query("SELECT %1 FROM %2");
     if ( shouldCreatePostGIS(tableInfo) )
-        return query.arg(parsePostGISSrcFields(tableInfo)).arg(tableInfo->name());
+        return query.arg(parsePostGISSrcFields(tableInfo, ignoreGeometries())).arg(tableInfo->name());
     return query.arg(tableInfo->fieldNames().join(",")).arg(tableInfo->name());
 }
 
@@ -255,8 +255,7 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
     QSqlDatabase tgtDb = QSqlDatabase::database(_tgtConnectionName, true);
     bool transactionValid = tgtDb.transaction();
 
-    QSqlQuery query; // = tgtDb.exec("BEGIN TRANSACTION;");
-    //transactionValid = (query.lastError().type() == QSqlError::NoError);
+    QSqlQuery query;
 
     foreach(QString sentence, batch)
     {
@@ -395,7 +394,7 @@ void DBMigrator::findGeometryColumns()
 }
 
 
-QString DBMigrator::parsePostGISSrcFields(const TableInfo *tableInfo) const
+QString DBMigrator::parsePostGISSrcFields(const TableInfo *tableInfo, const bool &ignore) const
 {
     GeometryColumnInfo *column;
     QStringList fields;
@@ -406,12 +405,25 @@ QString DBMigrator::parsePostGISSrcFields(const TableInfo *tableInfo) const
         foreach(column, geometryColumns[tableInfo->name()])
         {
             if (field == column->columnName())
-                fields << QString("AsText(%1)").arg(field);
+            {
+                if (!ignore)
+                {
+                    this->ignoredFields << field;
+                }
+                else
+                {
+                    fields << QString("AsText(%1)").arg(field);
+                    this->geometryFields << field;
+                }
+            }
             else
+            {
                 fields << field;
+            }
         }
     }
 //    qDebug(QString("%1:\n %2").arg(tableInfo->name()).arg(fields.join(", ")).toAscii());
+
     return fields.join(", ");
 }
 
