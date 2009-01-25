@@ -195,7 +195,7 @@ QString DBMigrator::fieldTypeForCreate(const QSqlField &field) const
     }
 }
 
-QString DBMigrator::constructSrcCopySQL(const TableInfo *tableInfo) const
+QString DBMigrator::constructSrcCopySQL(const TableInfo *tableInfo)
 {
     QString query("SELECT %1 FROM %2");
     if ( shouldCreatePostGIS(tableInfo) )
@@ -394,7 +394,7 @@ void DBMigrator::findGeometryColumns()
 }
 
 
-QString DBMigrator::parsePostGISSrcFields(const TableInfo *tableInfo, const bool &ignore) const
+QString DBMigrator::parsePostGISSrcFields(const TableInfo *tableInfo, const bool &ignore)
 {
     GeometryColumnInfo *column;
     QStringList fields;
