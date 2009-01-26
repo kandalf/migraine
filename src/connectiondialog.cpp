@@ -16,6 +16,7 @@ ConnectionDialog::ConnectionDialog(QWidget *parent, Qt::WFlags f) : QDialog(pare
     setupObjectConnections();
     setupDriversList();
     readSettings();
+    saveConnectionButton->setVisible(false);
     this->installEventFilter(this);
 }
 
