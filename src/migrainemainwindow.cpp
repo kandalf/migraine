@@ -92,11 +92,9 @@ void MigraineMainWindow::setupObjectConnections()
 
 void MigraineMainWindow::refreshConnections()
 {
-    for (int i = 0; i < dbSrcConnCombo->count(); i++)
-    {
-        dbSrcConnCombo->removeItem(i);
-        dbTgtConnCombo->removeItem(i);
-    }
+    dbSrcConnCombo->clear();
+    dbTgtConnCombo->clear();
+
     QString emptyOption(tr("Select a connection"));
     dbSrcConnCombo->addItem(emptyOption);
     dbTgtConnCombo->addItem(emptyOption);
@@ -107,8 +105,6 @@ void MigraineMainWindow::refreshConnections()
     if (dbSrcConnCombo->count() > 1)
             dbSrcConnCombo->showPopup();
 
-    if (dbTgtConnCombo->count() > 1)
-            dbTgtConnCombo->showPopup();
 }
 
 void MigraineMainWindow::srcConnectionSelected(const QString &name)
