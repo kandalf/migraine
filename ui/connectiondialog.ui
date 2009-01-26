@@ -28,7 +28,7 @@
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="" >
+     <widget class="QWidget" name="layoutWidget" >
       <layout class="QVBoxLayout" name="verticalLayout" >
        <item>
         <widget class="QLabel" name="label_6" >
@@ -106,7 +106,7 @@
             <item row="0" column="1" >
              <widget class="QLabel" name="connectionNameLabel" >
               <property name="text" >
-               <string>Conn Name</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -129,7 +129,7 @@
             <item row="1" column="1" >
              <widget class="QLabel" name="connectionDriverLabel" >
               <property name="text" >
-               <string>TextLabel</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -152,7 +152,7 @@
             <item row="2" column="1" >
              <widget class="QLabel" name="connectionDatabaseLabel" >
               <property name="text" >
-               <string>TextLabel</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -175,7 +175,7 @@
             <item row="3" column="1" >
              <widget class="QLabel" name="connectionHostnameLabel" >
               <property name="text" >
-               <string>TextLabel</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -198,7 +198,7 @@
             <item row="4" column="1" >
              <widget class="QLabel" name="connectionPortLabel" >
               <property name="text" >
-               <string>TextLabel</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -221,30 +221,7 @@
             <item row="5" column="1" >
              <widget class="QLabel" name="connectionUsernameLabel" >
               <property name="text" >
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0" >
-             <widget class="QLabel" name="label_12" >
-              <property name="font" >
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="text" >
-               <string>&amp;Password</string>
-              </property>
-              <property name="buddy" >
-               <cstring>passwordLineEdit</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1" >
-             <widget class="QLabel" name="connectionPasswordLabel" >
-              <property name="text" >
-               <string>TextLabel</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -361,6 +338,10 @@
             <property name="text" >
              <string>&amp;Add</string>
             </property>
+            <property name="icon" >
+             <iconset resource="../resource/migraine.qrc" >
+              <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+            </property>
            </widget>
           </item>
           <item row="2" column="1" >
@@ -445,6 +426,20 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>connListWidget</tabstop>
+  <tabstop>editConnectionButton</tabstop>
+  <tabstop>deleteConnectionButton</tabstop>
+  <tabstop>connectionsTabWidget</tabstop>
+  <tabstop>connectionNameLineEdit</tabstop>
+  <tabstop>driversComboBox</tabstop>
+  <tabstop>databaseLineEdit</tabstop>
+  <tabstop>browseButton</tabstop>
+  <tabstop>hostLineEdit</tabstop>
+  <tabstop>portLineEdit</tabstop>
+  <tabstop>userLineEdit</tabstop>
+  <tabstop>passwordLineEdit</tabstop>
+  <tabstop>addConnectionButton</tabstop>
+  <tabstop>saveConnectionButton</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
@@ -480,6 +475,118 @@
     <hint type="destinationlabel" >
      <x>285</x>
      <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>connectionNameLineEdit</sender>
+   <signal>lostFocus()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>525</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>databaseLineEdit</sender>
+   <signal>lostFocus()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>501</x>
+     <y>108</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hostLineEdit</sender>
+   <signal>lostFocus()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>525</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>userLineEdit</sender>
+   <signal>lostFocus()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>525</x>
+     <y>199</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>driversComboBox</sender>
+   <signal>activated(int)</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>525</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saveConnectionButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>saveConnection()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>639</x>
+     <y>487</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deleteConnectionButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>deleteConnection()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>198</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
     </hint>
    </hints>
   </connection>

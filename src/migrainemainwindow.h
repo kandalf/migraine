@@ -16,7 +16,7 @@
 #include "ui_migrainewindow.h"
 
 #ifndef CONFIG_FILE_PATH
-#define CONFIG_FILE_PATH QDir::currentPath() + "/conf/settings.ini"
+#define CONFIG_FILE_PATH  "conf/settings.ini"
 #endif
 
 
