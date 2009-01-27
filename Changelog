@@ -3,6 +3,9 @@
 #Last Update: 2008-01-11 by Leonardo Mateo
 
 Changelog
+[2009-01-26]
+- New connections dialog.
+- Bug fix on connection's combo boxes refresh.
 
 [2009-01-15]
 - Manage transactions slightly different

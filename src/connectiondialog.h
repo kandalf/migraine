@@ -32,13 +32,18 @@ class ConnectionDialog :
 		void addDbConnection(ConnectionSettings*);
                 void checkSelectedDriver(const QString &driverName);
                 void browseFiles();
+                void editConnection();
 		
 	private:
 		void setupObjectConnections();
                 void setupDriversList();
-                void findDriverInList(const QString &driverName);
+                bool eventFilter(QObject *watched, QEvent *event);
+                void restoreUIState();
+                void clearFields();
+
 
 		QHash<QString, QSqlDatabase>connectionHash;
+                QHash<QString, int> driversListIndexes;
 		bool saved;
 };
 

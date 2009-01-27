@@ -7,7 +7,7 @@ ConnectionListItem::ConnectionListItem(QString text, QListWidget *parent)
 }
 
 ConnectionListItem::ConnectionListItem(ConnectionSettings *settings, QListWidget *parent):
-	QListWidgetItem(settings->name + ": " + settings->driver, parent, QListWidgetItem::UserType)
+        QListWidgetItem(settings->name, parent, QListWidgetItem::UserType)
 {
 	_settings = settings;
 }
@@ -20,7 +20,10 @@ ConnectionListItem::~ConnectionListItem()
 
 QString ConnectionListItem::text()
 {
+    if (this->name().isEmpty() || this->name().isNull())
 	return _settings->host + "-" + _settings->name + "-" + _settings->driver;
+    else
+        return this->name();
 }
 
 QString ConnectionListItem::host()

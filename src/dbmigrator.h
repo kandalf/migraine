@@ -84,8 +84,8 @@ Q_PROPERTY(bool ignoreGeometries READ ignoreGeometries WRITE setIgnoreGeometries
         bool _migrateAsText;
         bool _ignoreGeometries;
         QHash<QString, QList<GeometryColumnInfo*> >geometryColumns;
-        QStringList geometryFields;
-        QStringList ignoredFields;
+        QHash<QString, QStringList> geometryFields;
+        QHash<QString, QStringList> ignoredFields;
 };
 
 #endif // DBMIGRATOR_H

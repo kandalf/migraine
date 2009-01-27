@@ -223,12 +223,25 @@ QString DBMigrator::constructTgtCopySQL(const TableInfo *tableInfo, const QSqlQu
 {
     QString insertQuery("INSERT INTO %1 (%2) VALUES (%3);");
     QStringList values;
+    QStringList fieldNames;
 
     for( int i = 0; i < tableInfo->fieldNames().count(); i++)
     {
-        values << this->fixSqlSyntax(tableInfo->name(), tableInfo->fieldType(i), srcQuery.value(i).toString());
+        if (!this->ignoredFields.contains(tableInfo->fieldName(i)))
+        {
+            fieldNames << tableInfo->fieldName(i);
+            if (this->geometryFields[tableInfo->name()].contains(tableInfo->fieldName(i)))
+            {
+                values << QString("GeomFromEWKT('%1')").arg(srcQuery.value(i).toString());
+            }
+            else
+            {
+                values << values << this->fixSqlSyntax(tableInfo->name(), tableInfo->fieldType(i), srcQuery.value(i).toString());
+            }
+        }
+        //values << this->fixSqlSyntax(tableInfo->name(), tableInfo->fieldType(i), srcQuery.value(i).toString());
     }
-
+    qDebug(insertQuery.arg(tableInfo->name()).arg(tableInfo->fieldNames().join(", ")).arg(values.join(", ")).toAscii());
     return insertQuery.arg(tableInfo->name()).arg(tableInfo->fieldNames().join(", ")).arg(values.join(", "));
 }
 
@@ -242,16 +255,26 @@ QString DBMigrator::constructTgtMigrationSQL(const MigrationTableMatch *migratio
     for( int i = 0; i < migrationTable->count(); i++)
     {
         currentMatch = migrationTable->getMatch(i);
-        fieldNames << currentMatch.second.name();
-        values << this->fixSqlSyntax(migrationTable->target()->name(), migrationTable->target()->fieldType(currentMatch.second.name()), srcQuery.value(i).toString());
+        if (!this->ignoredFields.contains(currentMatch.second.name()))
+        {
+            fieldNames << currentMatch.second.name();
+            if (this->geometryFields[migrationTable->source()->name()].contains(currentMatch.second.name()))
+            {
+                values << QString("GeomFromEWKT('%1')").arg(srcQuery.value(i).toString());
+            }
+            else
+            {
+                values << this->fixSqlSyntax(migrationTable->target()->name(), migrationTable->target()->fieldType(currentMatch.second.name()), srcQuery.value(i).toString());
+            }
+        }
     }
+    qDebug(insertQuery.arg(migrationTable->target()->name()).arg(fieldNames.join(", ")).arg(values.join(", ")).toAscii());
     return insertQuery.arg(migrationTable->target()->name()).arg(fieldNames.join(", ")).arg(values.join(", "));
 }
 
 
 void DBMigrator::insertTransactionBatch(const QStringList &batch)
 {
-//    emit(migrationError(QString("BATCH SIZE: %1").arg(batch.size())));
     QSqlDatabase tgtDb = QSqlDatabase::database(_tgtConnectionName, true);
     bool transactionValid = tgtDb.transaction();
 
@@ -266,7 +289,6 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
 //            emit(migrationError(tr("Error executing: %1").arg(sentence)));
 //            if (transactionValid)
 //            {
-////                tgtDb.exec("ROLLBACK");
 //                tgtDb.rollback();
 //                emit(migrationError(tr("Rolled Back")));
 //            }
@@ -280,7 +302,6 @@ void DBMigrator::insertTransactionBatch(const QStringList &batch)
             query.finish();
 
         tgtDb.commit();
-//        tgtDb.exec("COMMIT;");
     }
     emit(insertProgress(batch.size(), batch.size()));
 }
@@ -400,6 +421,7 @@ QString DBMigrator::parsePostGISSrcFields(const TableInfo *tableInfo, const bool
     QStringList fields;
     QString field;
 
+
     foreach(field, tableInfo->fieldNames())
     {
         foreach(column, geometryColumns[tableInfo->name()])
@@ -408,12 +430,12 @@ QString DBMigrator::parsePostGISSrcFields(const TableInfo *tableInfo, const bool
             {
                 if (!ignore)
                 {
-                    this->ignoredFields << field;
+                    this->ignoredFields[tableInfo->name()] << field;
                 }
                 else
                 {
                     fields << QString("AsText(%1)").arg(field);
-                    this->geometryFields << field;
+                    this->geometryFields[tableInfo->name()] << field;
                 }
             }
             else

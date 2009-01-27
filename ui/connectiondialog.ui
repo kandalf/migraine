@@ -6,156 +6,28 @@
     <x>0</x>
     <y>0</y>
     <width>694</width>
-    <height>365</height>
+    <height>542</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2" >
-   <item row="0" column="0" >
+  <layout class="QGridLayout" name="gridLayout_3" >
+   <item row="2" column="0" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" >
     <widget class="QSplitter" name="splitter" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="" >
-      <layout class="QVBoxLayout" name="verticalLayout_2" >
-       <item>
-        <layout class="QGridLayout" name="gridLayout" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label" >
-           <property name="text" >
-            <string>&amp;Driver</string>
-           </property>
-           <property name="buddy" >
-            <cstring>driversComboBox</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1" >
-          <widget class="QComboBox" name="driversComboBox" />
-         </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="label_3" >
-           <property name="text" >
-            <string>&amp;Database Name</string>
-           </property>
-           <property name="buddy" >
-            <cstring>databaseLineEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1" >
-          <layout class="QHBoxLayout" name="horizontalLayout_2" >
-           <item>
-            <widget class="QLineEdit" name="databaseLineEdit" >
-             <property name="text" >
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="browseButton" >
-             <property name="text" >
-              <string>...</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="2" column="0" >
-          <widget class="QLabel" name="label_2" >
-           <property name="text" >
-            <string>&amp;Hostname</string>
-           </property>
-           <property name="buddy" >
-            <cstring>hostLineEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1" >
-          <widget class="QLineEdit" name="hostLineEdit" >
-           <property name="text" >
-            <string>localhost</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0" >
-          <widget class="QLabel" name="label_7" >
-           <property name="text" >
-            <string>&amp;Port</string>
-           </property>
-           <property name="buddy" >
-            <cstring>portLineEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1" >
-          <widget class="QLineEdit" name="portLineEdit" />
-         </item>
-         <item row="4" column="0" >
-          <widget class="QLabel" name="label_4" >
-           <property name="text" >
-            <string>&amp;Username</string>
-           </property>
-           <property name="buddy" >
-            <cstring>userLineEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1" >
-          <widget class="QLineEdit" name="userLineEdit" />
-         </item>
-         <item row="5" column="0" >
-          <widget class="QLabel" name="label_5" >
-           <property name="text" >
-            <string>&amp;Password</string>
-           </property>
-           <property name="buddy" >
-            <cstring>passwordLineEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1" >
-          <widget class="QLineEdit" name="passwordLineEdit" />
-         </item>
-         <item row="6" column="1" >
-          <widget class="QPushButton" name="addConnectionButton" >
-           <property name="enabled" >
-            <bool>false</bool>
-           </property>
-           <property name="text" >
-            <string>&amp;Add</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacer" >
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QDialogButtonBox" name="buttonBox" >
-         <property name="orientation" >
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="standardButtons" >
-          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="layoutWidget" >
       <layout class="QVBoxLayout" name="verticalLayout" >
        <item>
@@ -169,27 +41,18 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout" >
+        <layout class="QHBoxLayout" name="horizontalLayout_3" >
          <item>
-          <spacer name="horizontalSpacer" >
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="saveConnectionButton" >
+          <widget class="QPushButton" name="editConnectionButton" >
            <property name="enabled" >
             <bool>false</bool>
            </property>
            <property name="text" >
-            <string>&amp;Save</string>
+            <string>Edit</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="../resource/migraine.qrc" >
+             <normaloff>:/icons/edit.png</normaloff>:/icons/edit.png</iconset>
            </property>
           </widget>
          </item>
@@ -201,6 +64,10 @@
            <property name="text" >
             <string>&amp;Delete</string>
            </property>
+           <property name="icon" >
+            <iconset resource="../resource/migraine.qrc" >
+             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+           </property>
           </widget>
          </item>
         </layout>
@@ -210,22 +77,374 @@
        </item>
       </layout>
      </widget>
+     <widget class="QTabWidget" name="connectionsTabWidget" >
+      <property name="currentIndex" >
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="connectionDataTab" >
+       <attribute name="title" >
+        <string>Connection Data</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_5" >
+        <item row="0" column="0" >
+         <layout class="QVBoxLayout" name="verticalLayout_2" >
+          <item>
+           <layout class="QGridLayout" name="gridLayout_4" >
+            <item row="0" column="0" >
+             <widget class="QLabel" name="label_15" >
+              <property name="font" >
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>Name</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" >
+             <widget class="QLabel" name="connectionNameLabel" >
+              <property name="text" >
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" >
+             <widget class="QLabel" name="label_9" >
+              <property name="font" >
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>&amp;Driver</string>
+              </property>
+              <property name="buddy" >
+               <cstring>driversComboBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" >
+             <widget class="QLabel" name="connectionDriverLabel" >
+              <property name="text" >
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" >
+             <widget class="QLabel" name="label_10" >
+              <property name="font" >
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>&amp;Database Name</string>
+              </property>
+              <property name="buddy" >
+               <cstring>databaseLineEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1" >
+             <widget class="QLabel" name="connectionDatabaseLabel" >
+              <property name="text" >
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" >
+             <widget class="QLabel" name="label_14" >
+              <property name="font" >
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>&amp;Hostname</string>
+              </property>
+              <property name="buddy" >
+               <cstring>hostLineEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" >
+             <widget class="QLabel" name="connectionHostnameLabel" >
+              <property name="text" >
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0" >
+             <widget class="QLabel" name="label_11" >
+              <property name="font" >
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>&amp;Port</string>
+              </property>
+              <property name="buddy" >
+               <cstring>portLineEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1" >
+             <widget class="QLabel" name="connectionPortLabel" >
+              <property name="text" >
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0" >
+             <widget class="QLabel" name="label_13" >
+              <property name="font" >
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text" >
+               <string>&amp;Username</string>
+              </property>
+              <property name="buddy" >
+               <cstring>userLineEdit</cstring>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1" >
+             <widget class="QLabel" name="connectionUsernameLabel" >
+              <property name="text" >
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2" >
+            <property name="orientation" >
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="newConnectionTab" >
+       <attribute name="title" >
+        <string>&amp;New Connection</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout" >
+        <item row="0" column="0" >
+         <layout class="QGridLayout" name="gridLayout_2" >
+          <item row="1" column="0" >
+           <widget class="QLabel" name="label" >
+            <property name="text" >
+             <string>&amp;Driver</string>
+            </property>
+            <property name="buddy" >
+             <cstring>driversComboBox</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" >
+           <widget class="QComboBox" name="driversComboBox" />
+          </item>
+          <item row="2" column="0" >
+           <widget class="QLabel" name="label_3" >
+            <property name="text" >
+             <string>&amp;Database Name</string>
+            </property>
+            <property name="buddy" >
+             <cstring>databaseLineEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" >
+           <widget class="QLabel" name="label_2" >
+            <property name="text" >
+             <string>&amp;Hostname</string>
+            </property>
+            <property name="buddy" >
+             <cstring>hostLineEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" >
+           <widget class="QLineEdit" name="hostLineEdit" >
+            <property name="text" >
+             <string>localhost</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" >
+           <widget class="QLabel" name="label_7" >
+            <property name="text" >
+             <string>&amp;Port</string>
+            </property>
+            <property name="buddy" >
+             <cstring>portLineEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1" >
+           <widget class="QLineEdit" name="portLineEdit" />
+          </item>
+          <item row="5" column="0" >
+           <widget class="QLabel" name="label_4" >
+            <property name="text" >
+             <string>&amp;Username</string>
+            </property>
+            <property name="buddy" >
+             <cstring>userLineEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1" >
+           <widget class="QLineEdit" name="userLineEdit" />
+          </item>
+          <item row="6" column="0" >
+           <widget class="QLabel" name="label_5" >
+            <property name="text" >
+             <string>&amp;Password</string>
+            </property>
+            <property name="buddy" >
+             <cstring>passwordLineEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1" >
+           <widget class="QLineEdit" name="passwordLineEdit" />
+          </item>
+          <item row="7" column="1" >
+           <widget class="QPushButton" name="addConnectionButton" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>&amp;Add</string>
+            </property>
+            <property name="icon" >
+             <iconset resource="../resource/migraine.qrc" >
+              <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1" >
+           <layout class="QHBoxLayout" name="horizontalLayout_2" >
+            <item>
+             <widget class="QLineEdit" name="databaseLineEdit" >
+              <property name="text" >
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="browseButton" >
+              <property name="text" >
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="0" >
+           <widget class="QLabel" name="label_8" >
+            <property name="text" >
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" >
+           <widget class="QLineEdit" name="connectionNameLineEdit" />
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0" >
+         <spacer name="verticalSpacer" >
+          <property name="orientation" >
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0" >
+           <size>
+            <width>408</width>
+            <height>190</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="0" >
+         <layout class="QHBoxLayout" name="horizontalLayout" >
+          <item>
+           <spacer name="horizontalSpacer" >
+            <property name="orientation" >
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0" >
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="saveConnectionButton" >
+            <property name="enabled" >
+             <bool>false</bool>
+            </property>
+            <property name="text" >
+             <string>&amp;Save</string>
+            </property>
+            <property name="icon" >
+             <iconset resource="../resource/migraine.qrc" >
+              <normaloff>:/icons/filesave.png</normaloff>:/icons/filesave.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </widget>
    </item>
   </layout>
  </widget>
  <tabstops>
+  <tabstop>connListWidget</tabstop>
+  <tabstop>editConnectionButton</tabstop>
+  <tabstop>deleteConnectionButton</tabstop>
+  <tabstop>connectionsTabWidget</tabstop>
+  <tabstop>connectionNameLineEdit</tabstop>
   <tabstop>driversComboBox</tabstop>
   <tabstop>databaseLineEdit</tabstop>
+  <tabstop>browseButton</tabstop>
   <tabstop>hostLineEdit</tabstop>
   <tabstop>portLineEdit</tabstop>
   <tabstop>userLineEdit</tabstop>
   <tabstop>passwordLineEdit</tabstop>
   <tabstop>addConnectionButton</tabstop>
+  <tabstop>saveConnectionButton</tabstop>
   <tabstop>buttonBox</tabstop>
-  <tabstop>connListWidget</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../resource/migraine.qrc" />
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
@@ -240,102 +459,6 @@
     <hint type="destinationlabel" >
      <x>286</x>
      <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>addConnectionButton</sender>
-   <signal>clicked()</signal>
-   <receiver>ConnectionDialog</receiver>
-   <slot>addConnection()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>186</x>
-     <y>172</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>285</x>
-     <y>124</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>databaseLineEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>ConnectionDialog</receiver>
-   <slot>checkConnectionFields()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>186</x>
-     <y>49</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>285</x>
-     <y>124</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>hostLineEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>ConnectionDialog</receiver>
-   <slot>checkConnectionFields()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>186</x>
-     <y>80</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>285</x>
-     <y>124</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>userLineEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>ConnectionDialog</receiver>
-   <slot>checkConnectionFields()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>186</x>
-     <y>111</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>285</x>
-     <y>124</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>passwordLineEdit</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>ConnectionDialog</receiver>
-   <slot>checkConnectionFields()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>186</x>
-     <y>142</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>285</x>
-     <y>124</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>driversComboBox</sender>
-   <signal>currentIndexChanged(QString)</signal>
-   <receiver>ConnectionDialog</receiver>
-   <slot>checkConnectionFields()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>186</x>
-     <y>18</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>285</x>
-     <y>124</y>
     </hint>
    </hints>
   </connection>
@@ -356,18 +479,98 @@
    </hints>
   </connection>
   <connection>
+   <sender>connectionNameLineEdit</sender>
+   <signal>lostFocus()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>525</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>databaseLineEdit</sender>
+   <signal>lostFocus()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>501</x>
+     <y>108</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>hostLineEdit</sender>
+   <signal>lostFocus()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>525</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>userLineEdit</sender>
+   <signal>lostFocus()</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>525</x>
+     <y>199</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>driversComboBox</sender>
+   <signal>activated(int)</signal>
+   <receiver>ConnectionDialog</receiver>
+   <slot>checkConnectionFields()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>525</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>346</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>saveConnectionButton</sender>
    <signal>clicked()</signal>
    <receiver>ConnectionDialog</receiver>
    <slot>saveConnection()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>462</x>
-     <y>38</y>
+     <x>639</x>
+     <y>487</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>285</x>
-     <y>137</y>
+     <x>346</x>
+     <y>270</y>
     </hint>
    </hints>
   </connection>
@@ -378,12 +581,12 @@
    <slot>deleteConnection()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>530</x>
+     <x>198</x>
      <y>38</y>
     </hint>
     <hint type="destinationlabel" >
-     <x>285</x>
-     <y>137</y>
+     <x>346</x>
+     <y>270</y>
     </hint>
    </hints>
   </connection>

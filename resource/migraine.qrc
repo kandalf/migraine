@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="/" >
     <file>assets/postgis_logo.png</file>
+    <file>icons/edit.png</file>
     <file>icons/output.png</file>
     <file>icons/preview.png</file>
     <file>icons/add.png</file>
